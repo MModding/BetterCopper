@@ -1,7 +1,6 @@
 package com.mmodding.better_copper.blocks;
 
 import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
-import com.mmodding.better_copper.init.Blocks;
 import com.mmodding.mmodding_lib.library.blocks.BlockRegistrable;
 import com.mmodding.mmodding_lib.library.blocks.BlockWithItem;
 import com.mmodding.mmodding_lib.library.blocks.CustomBlockWithEntity;
@@ -35,21 +34,31 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 	}
 
 	@Nullable
-	private BlockPos isLinkedTo(World world, BlockPos pos, Direction[] directions, int i) {
+	private BlockPos isLinkedTo(World world, BlockPos pos, int i) {
 		if (i >= 200) return null;
-		for (Direction dir : directions) {
+		for (Direction dir : Direction.values()) {
 			BlockPos otherPos = pos.offset(dir);
 			if (world.getBlockState(otherPos).getBlock() == this) return otherPos;
 			if (world.getBlockState(otherPos).getBlock() instanceof OxidizableBlock) {
-				return isLinkedTo(world, otherPos, directions, i + 6);
+				return isLinkedTo(world, otherPos, i + 6);
 			}
 		}
 		return null;
 	}
 
 	@Nullable
-	public BlockPos isLinkedTo(World world, BlockPos pos, Direction[] directions) {
-		return isLinkedTo(world, pos, directions, 0);
+	public BlockPos isLinkedTo(World world, BlockPos pos) {
+		return isLinkedTo(world, pos, 0);
+	}
+
+	public void addEnergyIfConnected(World world, BlockPos blockPos, int energy) {
+		BlockPos linkedPos = isLinkedTo(world, blockPos);
+		if (linkedPos != null) {
+			BlockEntity blockEntity = world.getBlockEntity(linkedPos);
+			if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
+				copperPowerBlockEntity.addEnergy(energy);
+			}
+		}
 	}
 
 	@Nullable
