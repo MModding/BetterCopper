@@ -1,6 +1,7 @@
 package com.mmodding.better_copper.blocks;
 
 import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
+import com.mmodding.better_copper.init.EnerGeneration;
 import com.mmodding.mmodding_lib.library.blocks.BlockRegistrable;
 import com.mmodding.mmodding_lib.library.blocks.BlockWithItem;
 import com.mmodding.mmodding_lib.library.blocks.CustomBlockWithEntity;
@@ -51,12 +52,12 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 		return isLinkedTo(world, pos, 0);
 	}
 
-	public void addEnergyIfConnected(World world, BlockPos blockPos, int energy) {
+	public void addEnergyIfConnected(World world, BlockPos blockPos, EnerGeneration energy) {
 		BlockPos linkedPos = isLinkedTo(world, blockPos);
 		if (linkedPos != null) {
 			BlockEntity blockEntity = world.getBlockEntity(linkedPos);
 			if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
-				copperPowerBlockEntity.addEnergy(energy);
+				copperPowerBlockEntity.addEnergy(energy.getPower());
 			}
 		}
 	}
