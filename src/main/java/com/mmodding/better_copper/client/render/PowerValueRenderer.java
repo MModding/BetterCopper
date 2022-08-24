@@ -2,7 +2,7 @@ package com.mmodding.better_copper.client.render;
 
 import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
 import com.mmodding.better_copper.client.BetterCopperClient;
-import com.mmodding.better_copper.mixin.AreaLowerCornerAccessor;
+import com.mmodding.better_copper.mixin.AreaHelperAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.text.LiteralText;
@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.dimension.AreaHelper;
 
 public abstract class PowerValueRenderer {
 
@@ -31,7 +32,10 @@ public abstract class PowerValueRenderer {
 		Direction face = blockHitResult.getSide();
 		if (!(world.getBlockEntity(blockPos) instanceof CopperPowerBlockEntity copperPowerBlockEntity)) return;
 
-		boolean highlight = target.getPos().subtract(Vec3d.of(AreaLowerCornerAccessor.invokeGetLowerCorner(blockPos))).distanceTo(OFFSET) < (.4f / 2);
+		AreaHelper areaHelper = new AreaHelper(world, blockPos, face.getAxis());
+		Vec3d vec3d = Vec3d.of(((AreaHelperAccessor) areaHelper).invokeGetLowerCorner(blockPos));
+
+		boolean highlight = target.getPos().subtract(vec3d).distanceTo(OFFSET) < (.4f / 2);
 		addBox(copperPowerBlockEntity, blockPos, face, highlight);
 	}
 

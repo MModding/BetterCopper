@@ -6,10 +6,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(AreaHelper.class)
-public interface AreaLowerCornerAccessor {
+public interface AreaHelperAccessor {
 
 	@Invoker("getLowerCorner")
-	static BlockPos invokeGetLowerCorner(BlockPos pos) {
-		throw new AssertionError();
-	}
+	BlockPos invokeGetLowerCorner(BlockPos pos);
 }
