@@ -7,6 +7,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.function.BiPredicate;
+
 public abstract class ValueBoxTransform {
 
 	protected float scale = getScale();
@@ -85,6 +87,25 @@ public abstract class ValueBoxTransform {
 
 		public Direction getSide() {
 			return direction;
+		}
+	}
+
+	public static class Centered extends ValueBoxTransform.Sided {
+
+		private final BiPredicate<BlockState, Direction> allowedDirections;
+
+		public Centered(BiPredicate<BlockState, Direction> allowedDirections) {
+			this.allowedDirections = allowedDirections;
+		}
+
+		@Override
+		protected Vec3d getSouthLocation() {
+			return Helper.voxelSpace(8, 8, 16);
+		}
+
+		@Override
+		protected boolean isSideActive(BlockState blockState, Direction direction) {
+			return allowedDirections.test(blockState, direction);
 		}
 	}
 }

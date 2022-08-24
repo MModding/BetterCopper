@@ -36,16 +36,13 @@ public abstract class PowerValueRenderer {
 	}
 
 	protected static void addBox(CopperPowerBlockEntity copperPowerBlockEntity, BlockPos blockPos, Direction face, boolean highlight) {
-		Box box = new Box(Vec3d.ZERO, Vec3d.ZERO).expand(.5f)
-				.contract(0, 0, -.5f)
-				.offset(0, 0, -.125f);
+		Box box = new Box(Vec3d.ZERO, Vec3d.ZERO).expand(.5f).contract(0, 0, -.5f).offset(0, 0, -.125f);
 		Text text = new LiteralText("" + copperPowerBlockEntity.getEnergy() + "");
+		ValueBoxTransform.Centered slot = new ValueBoxTransform.Centered((powerBlock, side) -> true);
 		ValueBox valueBox;
 
 		valueBox = new ValueBox.TextValueBox(text, box, blockPos, text);
 		valueBox.offsetLabel(Vec3d.ZERO.add(20, -10, 0)).withColors(0x5A5D5A, 0xB5B7B6).passive(!highlight);
-		// TODO: trouver un remplacement à slotPositioning...
-		// valueBox.transform(behaviour.slotPositioning)
-		BetterCopperClient.BOX_OUTLINE.showValueBox(blockPos, valueBox.transform()).lineWidth(1 / 64f).highlightedFace(face);
+		BetterCopperClient.BOX_OUTLINE.showValueBox(blockPos, valueBox.transform(slot)).lineWidth(1 / 64f).highlightFace(face);
 	}
 }

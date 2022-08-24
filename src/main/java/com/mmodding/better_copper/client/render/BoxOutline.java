@@ -14,6 +14,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Vec3d;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Optional;
 
@@ -235,6 +236,11 @@ public abstract class BoxOutline {
 
 		public OutlineParams colored(int color) {
 			rgb = new Color(color, false);
+			return this;
+		}
+
+		public OutlineParams highlightFace(@Nullable Direction face) {
+			highlightedFace = face;
 			return this;
 		}
 

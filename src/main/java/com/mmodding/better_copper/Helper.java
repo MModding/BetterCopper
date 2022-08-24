@@ -14,6 +14,10 @@ public class Helper {
 		return rotate(vec.subtract(shift), deg, axis).add(shift);
 	}
 
+	public static Vec3d voxelSpace(double x, double y, double z) {
+		return new Vec3d(x, y, z).multiply(1 / 16f);
+	}
+
 	public static float horizontalAngle(Direction facing) {
 		if (facing.getAxis().isVertical())
 			return 0;
