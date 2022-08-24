@@ -68,7 +68,7 @@ public abstract class ValueBoxTransform {
 		protected void rotate(BlockState state, MatrixStack ms) {
 			float yRot = Helper.horizontalAngle(getSide()) + 180;
 			float xRot = getSide() == Direction.UP ? 90 : getSide() == Direction.DOWN ? 270 : 0;
-			TransformStack.cast(ms).rotateY(yRot).rotateX(xRot);
+			// TransformStack.cast(ms).rotateY(yRot).rotateX(xRot);
 		}
 
 		@Override

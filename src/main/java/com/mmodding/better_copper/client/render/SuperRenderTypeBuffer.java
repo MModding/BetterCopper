@@ -31,7 +31,6 @@ public class SuperRenderTypeBuffer implements VertexConsumerProvider {
 
 	private static class SuperRenderTypeBufferPhase {
 
-		// Visible clones from RenderBuffers
 		private final BlockBufferBuilderStorage fixedBufferPack = new BlockBufferBuilderStorage();
 		private final SortedMap<RenderLayer, BufferBuilder> fixedBuffers = Util.make(new Object2ObjectLinkedOpenHashMap<>(), map -> {
 			map.put(TexturedRenderLayers.getEntitySolid(), fixedBufferPack.get(RenderLayer.getSolid()));

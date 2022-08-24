@@ -124,8 +124,7 @@ public class ValueBox extends BoxOutline {
 				MathHelper.lerp(pt, current.maxY, target.maxY), MathHelper.lerp(pt, current.maxZ, target.maxZ));
 	}
 
-	public void renderContents(MatrixStack ms, VertexConsumerProvider buffer) {
-	}
+	public void renderContents(MatrixStack ms, VertexConsumerProvider buffer) {}
 
 	public static class TextValueBox extends ValueBox {
 		Text text;

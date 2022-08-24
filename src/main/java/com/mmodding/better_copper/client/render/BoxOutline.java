@@ -33,8 +33,7 @@ public abstract class BoxOutline {
 		renderBB(ms, buffer, box);
 	}
 
-	public void tick() {
-	}
+	public void tick() {}
 
 	public OutlineParams getParams() {
 		return params;
@@ -175,8 +174,7 @@ public abstract class BoxOutline {
 		putQuadUV(ms, builder, v1, v2, v3, v4, 0, 0, 1, 1, normal);
 	}
 
-	public void putQuadUV(MatrixStack ms, VertexConsumer builder, Vec3d v1, Vec3d v2, Vec3d v3, Vec3d v4, float minU,
-						  float minV, float maxU, float maxV, Direction normal) {
+	public void putQuadUV(MatrixStack ms, VertexConsumer builder, Vec3d v1, Vec3d v2, Vec3d v3, Vec3d v4, float minU, float minV, float maxU, float maxV, Direction normal) {
 		putVertex(ms, builder, v1, minU, minV, normal);
 		putVertex(ms, builder, v2, maxU, minV, normal);
 		putVertex(ms, builder, v3, maxU, maxV, normal);
@@ -204,11 +202,8 @@ public abstract class BoxOutline {
 
 		builder.vertex(pose.peek().getModel(), x, y, z)
 				.color(rgb.getRed(), rgb.getGreen(), rgb.getBlue(), rgb.getAlpha() * params.alpha)
-				.texture(u, v)
-				.overlay(OverlayTexture.DEFAULT_UV)
-				.light(params.lightMap)
-				.normal(pose.peek().getNormal(), xOffset, yOffset, zOffset)
-				.next();
+				.texture(u, v).overlay(OverlayTexture.DEFAULT_UV).light(params.lightMap)
+				.normal(pose.peek().getNormal(), xOffset, yOffset, zOffset).next();
 
 		transformNormals = null;
 	}
