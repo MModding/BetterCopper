@@ -1,7 +1,6 @@
 package com.mmodding.better_copper.init;
 
 import com.mmodding.better_copper.Utils;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.util.Identifier;
 
 public enum SpecialTextures {
@@ -18,10 +17,6 @@ public enum SpecialTextures {
 
 	SpecialTextures(String filename) {
 		location = Utils.newIdentifier(ASSET_PATH + filename);
-	}
-
-	public void bind() {
-		RenderSystem.setShaderTexture(0, location);
 	}
 
 	public Identifier getLocation() {
