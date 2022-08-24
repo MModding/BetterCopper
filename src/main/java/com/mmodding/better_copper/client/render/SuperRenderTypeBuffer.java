@@ -12,18 +12,12 @@ public class SuperRenderTypeBuffer implements VertexConsumerProvider {
 
 	public static final SuperRenderTypeBuffer INSTANCE = new SuperRenderTypeBuffer();
 
-	private final SuperRenderTypeBufferPhase earlyBuffer;
 	private final SuperRenderTypeBufferPhase defaultBuffer;
 	private final SuperRenderTypeBufferPhase lateBuffer;
 
 	public SuperRenderTypeBuffer() {
-		earlyBuffer = new SuperRenderTypeBufferPhase();
 		defaultBuffer = new SuperRenderTypeBufferPhase();
 		lateBuffer = new SuperRenderTypeBufferPhase();
-	}
-
-	public VertexConsumer getEarlyBuffer(RenderLayer type) {
-		return earlyBuffer.bufferSource.getBuffer(type);
 	}
 
 	@Override
@@ -33,18 +27,6 @@ public class SuperRenderTypeBuffer implements VertexConsumerProvider {
 
 	public VertexConsumer getLateBuffer(RenderLayer type) {
 		return lateBuffer.bufferSource.getBuffer(type);
-	}
-
-	public void draw() {
-		earlyBuffer.bufferSource.draw();
-		defaultBuffer.bufferSource.draw();
-		lateBuffer.bufferSource.draw();
-	}
-
-	public void draw(RenderLayer type) {
-		earlyBuffer.bufferSource.getBuffer(type);
-		defaultBuffer.bufferSource.getBuffer(type);
-		lateBuffer.bufferSource.getBuffer(type);
 	}
 
 	private static class SuperRenderTypeBufferPhase {

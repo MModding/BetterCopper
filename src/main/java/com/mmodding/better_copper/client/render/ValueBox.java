@@ -1,5 +1,6 @@
 package com.mmodding.better_copper.client.render;
 
+import com.mmodding.better_copper.Helper;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -45,10 +46,6 @@ public class ValueBox extends BoxOutline {
 		this.box = box;
 	}
 
-	public void target(Box target) {
-		targetBox = target;
-	}
-
 	public ValueBox transform(ValueBoxTransform transform) {
 		this.transform = transform;
 		return this;
@@ -56,16 +53,6 @@ public class ValueBox extends BoxOutline {
 
 	public ValueBox offsetLabel(Vec3d offset) {
 		this.labelOffset = offset;
-		return this;
-	}
-
-	public ValueBox subLabel(Text sublabel) {
-		this.sublabel = sublabel;
-		return this;
-	}
-
-	public ValueBox scrollTooltip(Text scrollTip) {
-		this.scrollTooltip = scrollTip;
 		return this;
 	}
 
@@ -99,9 +86,7 @@ public class ValueBox extends BoxOutline {
 		ms.translate(pos.getX(), pos.getY(), pos.getZ());
 		if (hasTransform)
 			transform.transform(blockState, ms);
-		transformNormals = ms.peek()
-				.getNormal()
-				.copy();
+		transformNormals = ms.peek().getNormal().copy();
 		params.colored(isPassive ? passiveColor : highlightColor);
 		super.render(ms, buffer, pt);
 
@@ -134,10 +119,9 @@ public class ValueBox extends BoxOutline {
 	}
 
 	private static Box interpolateBBs(Box current, Box target, float pt) {
-		return new Box(MathHelper.lerp(pt, current.minX, target.minX),
-				MathHelper.lerp(pt, current.minY, target.minY), MathHelper.lerp(pt, current.minZ, target.minZ),
-				MathHelper.lerp(pt, current.maxX, target.maxX), MathHelper.lerp(pt, current.maxY, target.maxY),
-				MathHelper.lerp(pt, current.maxZ, target.maxZ));
+		return new Box(MathHelper.lerp(pt, current.minX, target.minX), MathHelper.lerp(pt, current.minY, target.minY),
+				MathHelper.lerp(pt, current.minZ, target.minZ), MathHelper.lerp(pt, current.maxX, target.maxX),
+				MathHelper.lerp(pt, current.maxY, target.maxY), MathHelper.lerp(pt, current.maxZ, target.maxZ));
 	}
 
 	public void renderContents(MatrixStack ms, VertexConsumerProvider buffer) {
@@ -162,8 +146,7 @@ public class ValueBox extends BoxOutline {
 			int stringWidth = font.getWidth(text);
 			float numberScale = (float) font.fontHeight / stringWidth;
 			boolean singleDigit = stringWidth < 10;
-			if (singleDigit)
-				numberScale = numberScale / 2;
+			if (singleDigit) numberScale = numberScale / 2;
 			float verticalMargin = (stringWidth - font.fontHeight) / 2f;
 
 			ms.scale(numberScale, numberScale, numberScale);
@@ -174,8 +157,7 @@ public class ValueBox extends BoxOutline {
 	}
 
 	protected void renderHoveringText(MatrixStack ms, VertexConsumerProvider buffer, Text text) {
-		// Color#micColors n'a pas d'équivalent sur Quilt ??
-		renderHoveringText(ms, buffer, text, highlightColor, Color.mixColors(passiveColor, 0, 0.75f));
+		renderHoveringText(ms, buffer, text, highlightColor, Helper.mixColors(passiveColor, 0, 0.75f));
 	}
 
 	protected void renderHoveringText(MatrixStack ms, VertexConsumerProvider buffer, Text text, int color, int shadowColor) {

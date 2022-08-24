@@ -14,7 +14,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Vec3d;
 
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Optional;
 
@@ -108,18 +107,6 @@ public abstract class BoxOutline {
 		params.alpha = alphaBefore;
 	}
 
-	// TODO: Cette méthode est-elle nécessaire ? Surtouut que TransformStack est issu de la librairie FlyWheel...
-	public void renderCuboidLine(MatrixStack ms, SuperRenderTypeBuffer buffer, Vec3d start, Vec3d end) {
-		Vec3d diff = end.subtract(start);
-		float hAngle = Helper.deg(Math.atan2(diff.x, diff.z));
-		float hDistance = (float) diff.multiply(1, 0, 1).length();
-		float vAngle = Helper.deg(Math.atan2(hDistance, diff.y)) - 90;
-		ms.push();
-		TransformStack.cast(ms).translate(start).rotateY(hAngle).rotateX(vAngle);
-		renderAACuboidLine(ms, buffer, Vec3d.ZERO, new Vec3d(0, 0, diff.length()));
-		ms.pop();
-	}
-
 	public void renderAACuboidLine(MatrixStack ms, SuperRenderTypeBuffer buffer, Vec3d start, Vec3d end) {
 		float lineWidth = params.getLineWidth();
 		if (lineWidth == 0)
@@ -196,7 +183,7 @@ public abstract class BoxOutline {
 	}
 
 	protected void putVertex(MatrixStack ms, VertexConsumer builder, Vec3d pos, float u, float v, Direction normal) {
-		putVertex(ms.last(), builder, (float) pos.x, (float) pos.y, (float) pos.z, u, v, normal);
+		putVertex(ms, builder, (float) pos.x, (float) pos.y, (float) pos.z, u, v, normal);
 	}
 
 	protected void putVertex(MatrixStack pose, VertexConsumer builder, float x, float y, float z, float u, float v, Direction normal) {
@@ -246,55 +233,13 @@ public abstract class BoxOutline {
 			lightMap = LightmapTextureManager.MAX_LIGHT_COORDINATE;
 		}
 
-		// builder
-
 		public OutlineParams colored(int color) {
 			rgb = new Color(color, false);
 			return this;
 		}
 
-		public OutlineParams colored(Color c) {
-			rgb = c.copy(); // TODO: Qu'est-il arrivé à la classe Color et ses méthodes ?
-			return this;
-		}
-
-		public OutlineParams lightMap(int light) {
-			lightMap = light;
-			return this;
-		}
-
 		public OutlineParams lineWidth(float width) {
 			this.lineWidth = width;
-			return this;
-		}
-
-		public OutlineParams withFaceTexture(SpecialTextures texture) {
-			this.faceTexture = Optional.ofNullable(texture);
-			return this;
-		}
-
-		public OutlineParams clearTextures() {
-			return this.withFaceTextures(null, null);
-		}
-
-		public OutlineParams withFaceTextures(SpecialTextures texture, SpecialTextures highlightTexture) {
-			this.faceTexture = Optional.ofNullable(texture);
-			this.hightlightedFaceTexture = Optional.ofNullable(highlightTexture);
-			return this;
-		}
-
-		public OutlineParams highlightFace(@Nullable Direction face) {
-			highlightedFace = face;
-			return this;
-		}
-
-		public OutlineParams disableNormals() {
-			disableNormals = true;
-			return this;
-		}
-
-		public OutlineParams disableCull() {
-			disableCull = true;
 			return this;
 		}
 

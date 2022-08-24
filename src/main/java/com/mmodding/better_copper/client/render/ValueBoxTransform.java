@@ -6,9 +6,6 @@ import net.minecraft.block.Material;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.function.Function;
 
 public abstract class ValueBoxTransform {
 
@@ -46,31 +43,6 @@ public abstract class ValueBoxTransform {
 		return 1 / 64f;
 	}
 
-	public static abstract class Dual extends ValueBoxTransform {
-
-		protected boolean first;
-
-		public Dual(boolean first) {
-			this.first = first;
-		}
-
-		public boolean isFirst() {
-			return first;
-		}
-
-		public static Pair<ValueBoxTransform, ValueBoxTransform> makeSlots(Function<Boolean, ? extends Dual> factory) {
-			return Pair.of(factory.apply(true), factory.apply(false));
-		}
-
-		public boolean testHit(BlockState state, Vec3d localHit) {
-			Vec3d offset = getLocalOffset(state);
-			if (offset == null)
-				return false;
-			return localHit.distanceTo(offset) < scale / 3.5f;
-		}
-
-	}
-
 	public static abstract class Sided extends ValueBoxTransform {
 
 		protected Direction direction = Direction.UP;
@@ -90,7 +62,6 @@ public abstract class ValueBoxTransform {
 
 		protected abstract Vec3d getSouthLocation();
 
-		// TODO: Méthode utile ? Surtout que TransformStack est issu de la librarie FlyWheel...
 		@Override
 		protected void rotate(BlockState state, MatrixStack ms) {
 			float yRot = Helper.horizontalAngle(getSide()) + 180;
