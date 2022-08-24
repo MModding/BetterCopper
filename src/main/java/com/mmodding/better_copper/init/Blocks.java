@@ -17,6 +17,5 @@ public class Blocks implements ElementsInitializer, ClientElementsInitializer {
 	}
 
 	@Override
-	public void registerClient() {
-	}
+	public void registerClient() {}
 }
