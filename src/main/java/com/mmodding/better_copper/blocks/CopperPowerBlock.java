@@ -6,6 +6,7 @@ import com.mmodding.mmodding_lib.library.blocks.BlockRegistrable;
 import com.mmodding.mmodding_lib.library.blocks.BlockWithItem;
 import com.mmodding.mmodding_lib.library.blocks.CustomBlockWithEntity;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OxidizableBlock;
 import net.minecraft.block.entity.BlockEntity;
@@ -24,6 +25,11 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 
 	private final AtomicBoolean registered = new AtomicBoolean(false);
 	private BlockItem item = null;
+
+	@Override
+	public BlockRenderType getRenderType(BlockState state) {
+		return BlockRenderType.MODEL;
+	}
 
 	public CopperPowerBlock(AbstractBlock.Settings settings, boolean hasItem, ItemGroup itemGroup) {
 		this(settings, hasItem, itemGroup != null ? new QuiltItemSettings().group(itemGroup) : new QuiltItemSettings());
