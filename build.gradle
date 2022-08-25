@@ -9,6 +9,7 @@ group = project.maven_group
 
 repositories {
 	maven { url 'https://jitpack.io' }
+	maven { url 'https://maven.terraformersmc.com/releases/' }
 }
 
 // All the dependencies are declared at gradle/libs.version.toml and referenced with "libs.<id>"
