@@ -33,9 +33,10 @@ public abstract class PowerValueRenderer {
 		if (!(world.getBlockEntity(blockPos) instanceof CopperPowerBlockEntity copperPowerBlockEntity)) return;
 
 		AreaHelper areaHelper = new AreaHelper(world, blockPos, face.getAxis());
-		Vec3d vec3d = Vec3d.of(((AreaHelperAccessor) areaHelper).invokeGetLowerCorner(blockPos));
+		BlockPos lowerCorner = ((AreaHelperAccessor) areaHelper).invokeGetLowerCorner(blockPos);
 
-		boolean highlight = target.getPos().subtract(vec3d).distanceTo(OFFSET) < (.4f / 2);
+		boolean highlight = (lowerCorner == null ? target.getPos().distanceTo(OFFSET)
+				: target.getPos().subtract(Vec3d.of(lowerCorner)).distanceTo(OFFSET)) < (.4f / 2);
 		addBox(copperPowerBlockEntity, blockPos, face, highlight);
 	}
 
