@@ -1,5 +1,8 @@
 package com.mmodding.better_copper;
 
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -18,5 +21,13 @@ public class Utils {
 
 	public static BlockPos getOpenScreenPos() {
 		return openScreenPos;
+	}
+
+	public static MutableText literal(String str) {
+		return new LiteralText(str);
+	}
+
+	public static MutableText translatable(String key) {
+		return new TranslatableText(modIdentifier + "." + key);
 	}
 }

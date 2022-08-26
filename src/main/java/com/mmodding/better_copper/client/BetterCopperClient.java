@@ -1,5 +1,6 @@
 package com.mmodding.better_copper.client;
 
+import com.mmodding.better_copper.Utils;
 import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
 import com.mmodding.better_copper.client.render.Outliner;
 import com.mmodding.better_copper.client.render.ValueBox;
@@ -12,8 +13,7 @@ import com.mmodding.mmodding_lib.library.initializers.ClientElementsInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
+import net.minecraft.text.MutableText;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -74,12 +74,13 @@ public class BetterCopperClient implements MModdingClientModInitializer {
 
 	protected void addBox(CopperPowerBlockEntity copperPowerBlockEntity, BlockPos blockPos, Direction face, boolean highlight) {
 		Box box = new Box(Vec3d.ZERO, Vec3d.ZERO).expand(.5f).contract(0, 0, -.5f).offset(0, 0, -.125f);
-		Text text = new LiteralText("" + copperPowerBlockEntity.getEnergy() + "");
+		MutableText genericEnergy = Utils.translatable("generic.energy");
+		MutableText energy = Utils.literal(copperPowerBlockEntity.formatEnergy());
 
 		ValueBoxTransform.Centered slot = new ValueBoxTransform.Centered((powerBlock, side)
 				-> (side.getAxis() == Direction.Axis.X) || (side.getAxis() == Direction.Axis.Z));
-		ValueBox valueBox = new ValueBox.TextValueBox(text, box, blockPos, text).offsetLabel(Vec3d.ZERO.add(20, -10, 0))
-				.withColors(0x5A5D5A, 0xB5B7B6).passive(!highlight);
+		ValueBox valueBox = new ValueBox.TextValueBox(genericEnergy, box, blockPos, energy)
+				.offsetLabel(Vec3d.ZERO.add(20, -10, 0)).withColors(0x5A5D5A, 0xB5B7B6).passive(!highlight);
 		BOX_OUTLINE.showValueBox(blockPos, valueBox.transform(slot)).lineWidth(1 / 64f).highlightFace(face);
 	}
 }

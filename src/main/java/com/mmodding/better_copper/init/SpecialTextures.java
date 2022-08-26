@@ -5,14 +5,9 @@ import net.minecraft.util.Identifier;
 
 public enum SpecialTextures {
 
-	BLANK("blank.png"),
-	CHECKERED("checkerboard.png"),
-	THIN_CHECKERED("thin_checkerboard.png"),
-	CUTOUT_CHECKERED("cutout_checkerboard.png"),
-	HIGHLIGHT_CHECKERED("highlighted_checkerboard.png"),
-	SELECTION("selection.png");
+	BLANK("blank.png");
 
-	public static final String ASSET_PATH = "textures/special/";
+	public static final String ASSET_PATH = "textures/";
 	private final Identifier location;
 
 	SpecialTextures(String filename) {

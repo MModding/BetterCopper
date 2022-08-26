@@ -6,8 +6,11 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.function.Function;
+
 public class CopperPowerBlockEntity extends BlockEntity {
 
+	private final Function<Integer, String> formatter = i -> Integer.toString(i);
 	private int energy;
 
 	public CopperPowerBlockEntity(BlockPos blockPos, BlockState blockState) {
@@ -24,6 +27,10 @@ public class CopperPowerBlockEntity extends BlockEntity {
 
 	public void setEnergy(int energy) {
 		this.energy = energy;
+	}
+
+	public String formatEnergy() {
+		return formatter.apply(getEnergy());
 	}
 
 	@Override
