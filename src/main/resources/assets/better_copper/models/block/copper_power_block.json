@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "all": "better_copper:block/copper_power_block"
+    "top": "minecraft:block/copper_block",
+    "bottom": "minecraft:block/copper_block",
+    "side": "better_copper:block/copper_power_block"
   }
 }
