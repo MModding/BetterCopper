@@ -50,24 +50,21 @@ public class BetterCopperClient implements MModdingClientModInitializer {
 	@Override
 	public void onInitializeClient(ModContainer modContainer) {
 		MModdingClientModInitializer.super.onInitializeClient(modContainer);
-		ClientTickEvents.END.register(BetterCopperClient::onTick);
+		ClientTickEvents.END.register(this::onTick);
 	}
 
-	protected static boolean isGameActive(MinecraftClient minecraftClient) {
-		return !(minecraftClient.world == null || minecraftClient.player == null);
-	}
+	public void onTick(MinecraftClient minecraftClient) {
+		if (minecraftClient.world == null || minecraftClient.player == null) return;
 
-	public static void onTick(MinecraftClient client) {
-		if (!isGameActive(client)) return;
-
-		HitResult target = client.crosshairTarget;
+		HitResult target = minecraftClient.crosshairTarget;
 		if (!(target instanceof BlockHitResult blockHitResult)) return;
 
 		BlockPos blockPos = blockHitResult.getBlockPos();
 		Direction face = blockHitResult.getSide();
-		if (!(client.world.getBlockEntity(blockPos) instanceof CopperPowerBlockEntity copperPowerBlockEntity)) return;
+		if (!(minecraftClient.world.getBlockEntity(blockPos) instanceof CopperPowerBlockEntity copperPowerBlockEntity))
+			return;
 
-		AreaHelper areaHelper = new AreaHelper(client.world, blockPos, face.getAxis());
+		AreaHelper areaHelper = new AreaHelper(minecraftClient.world, blockPos, face.getAxis());
 		BlockPos lowerCorner = ((AreaHelperAccessor) areaHelper).invokeGetLowerCorner(blockPos);
 
 		boolean highlight = (lowerCorner == null ? target.getPos().distanceTo(OFFSET)
@@ -75,7 +72,7 @@ public class BetterCopperClient implements MModdingClientModInitializer {
 		addBox(copperPowerBlockEntity, blockPos, face, highlight);
 	}
 
-	protected static void addBox(CopperPowerBlockEntity copperPowerBlockEntity, BlockPos blockPos, Direction face, boolean highlight) {
+	protected void addBox(CopperPowerBlockEntity copperPowerBlockEntity, BlockPos blockPos, Direction face, boolean highlight) {
 		Box box = new Box(Vec3d.ZERO, Vec3d.ZERO).expand(.5f).contract(0, 0, -.5f).offset(0, 0, -.125f);
 		Text text = new LiteralText("" + copperPowerBlockEntity.getEnergy() + "");
 
