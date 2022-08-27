@@ -8,6 +8,9 @@ import net.minecraft.util.Util;
 
 import java.util.SortedMap;
 
+/**
+ * Credit: Create
+ */
 public class SuperRenderTypeBuffer implements VertexConsumerProvider {
 
 	public static final SuperRenderTypeBuffer INSTANCE = new SuperRenderTypeBuffer();

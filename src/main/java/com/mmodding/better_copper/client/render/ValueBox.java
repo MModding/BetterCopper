@@ -14,6 +14,9 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
+/**
+ * Credit: Create
+ */
 public class ValueBox extends BoxOutline {
 
 	Box targetBox;

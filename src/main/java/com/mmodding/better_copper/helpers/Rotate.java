@@ -3,6 +3,9 @@ package com.mmodding.better_copper.helpers;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 
+/**
+ * Credit: FlyWheel
+ */
 public interface Rotate<Self> {
 	Self multiply(Quaternion quaternion);
 

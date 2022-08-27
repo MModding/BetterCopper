@@ -18,6 +18,9 @@ import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Optional;
 
+/**
+ * Credit: Create
+ */
 public abstract class BoxOutline {
 
 	protected OutlineParams params;

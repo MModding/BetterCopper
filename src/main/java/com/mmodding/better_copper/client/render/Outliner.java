@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Credit: Create
+ */
 public class Outliner {
 
 	private final Map<Object, OutlineEntry> outlines = Collections.synchronizedMap(new HashMap<>());

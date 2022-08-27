@@ -10,6 +10,9 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.function.BiPredicate;
 
+/**
+ * Credit: Create
+ */
 public abstract class ValueBoxTransform {
 
 	protected float scale = getScale();
