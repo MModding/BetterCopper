@@ -1,6 +1,7 @@
 package com.mmodding.better_copper.client.render;
 
-import com.mmodding.better_copper.Helper;
+import com.mmodding.better_copper.helpers.Helper;
+import com.mmodding.better_copper.helpers.TransformStack;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.client.util.math.MatrixStack;
@@ -68,7 +69,7 @@ public abstract class ValueBoxTransform {
 		protected void rotate(BlockState state, MatrixStack ms) {
 			float yRot = Helper.horizontalAngle(getSide()) + 180;
 			float xRot = getSide() == Direction.UP ? 90 : getSide() == Direction.DOWN ? 270 : 0;
-			// TransformStack.cast(ms).rotateY(yRot).rotateX(xRot);
+			TransformStack.cast(ms).rotateY(yRot).rotateX(xRot);
 		}
 
 		@Override
