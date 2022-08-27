@@ -1,6 +1,6 @@
 package com.mmodding.better_copper.client.render;
 
-import com.mmodding.better_copper.helpers.Helper;
+import com.mmodding.better_copper.Helper;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;

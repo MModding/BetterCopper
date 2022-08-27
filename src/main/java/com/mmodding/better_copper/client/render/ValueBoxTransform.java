@@ -1,12 +1,12 @@
 package com.mmodding.better_copper.client.render;
 
-import com.mmodding.better_copper.helpers.Helper;
-import com.mmodding.better_copper.helpers.TransformStack;
+import com.mmodding.better_copper.Helper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 
 import java.util.function.BiPredicate;
 
@@ -72,7 +72,8 @@ public abstract class ValueBoxTransform {
 		protected void rotate(BlockState state, MatrixStack ms) {
 			float yRot = Helper.horizontalAngle(getSide()) + 180;
 			float xRot = getSide() == Direction.UP ? 90 : getSide() == Direction.DOWN ? 270 : 0;
-			TransformStack.cast(ms).rotateY(yRot).rotateX(xRot);
+			ms.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(yRot));
+			ms.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(xRot));
 		}
 
 		@Override

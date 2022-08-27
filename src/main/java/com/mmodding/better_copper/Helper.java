@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.helpers;
+package com.mmodding.better_copper;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
