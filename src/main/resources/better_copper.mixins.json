@@ -5,8 +5,10 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AreaHelperAccessor",
-    "CraftingMixin",
-    "OpenCraftingTableMixin"
+    "generation.CraftingMixin",
+    "generation.FurnaceMixin",
+    "observing.OpenCraftingTableMixin",
+    "observing.OpenFurnaceMixin"
   ],
   "client": [],
   "injectors": {

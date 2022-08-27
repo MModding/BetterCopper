@@ -1,7 +1,8 @@
 package com.mmodding.better_copper.blocks;
 
+import com.mmodding.better_copper.Utils;
 import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
-import com.mmodding.better_copper.init.EnerGeneration;
+import com.mmodding.better_copper.init.GenerationSource;
 import com.mmodding.mmodding_lib.library.blocks.BlockRegistrable;
 import com.mmodding.mmodding_lib.library.blocks.BlockWithItem;
 import com.mmodding.mmodding_lib.library.blocks.CustomBlockWithEntity;
@@ -10,6 +11,7 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OxidizableBlock;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -58,14 +60,18 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 		return isLinkedTo(world, pos, 0);
 	}
 
-	public void addEnergyIfConnected(World world, BlockPos blockPos, EnerGeneration energy) {
+	public void addEnergyIfConnected(World world, BlockPos blockPos, GenerationSource generationSource) {
 		BlockPos linkedPos = isLinkedTo(world, blockPos);
 		if (linkedPos != null) {
 			BlockEntity blockEntity = world.getBlockEntity(linkedPos);
 			if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
-				copperPowerBlockEntity.addEnergy(energy.getPower());
+				copperPowerBlockEntity.addEnergy(generationSource.getPower());
 			}
 		}
+	}
+
+	public void addEnergyIfConnected(PlayerEntity player, GenerationSource generationSource) {
+		addEnergyIfConnected(player.world, Utils.getOpenScreenPos(), generationSource);
 	}
 
 	@Nullable

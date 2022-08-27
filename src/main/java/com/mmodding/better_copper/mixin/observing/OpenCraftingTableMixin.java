@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.mixin;
+package com.mmodding.better_copper.mixin.observing;
 
 import com.mmodding.better_copper.Utils;
 import net.minecraft.block.BlockState;

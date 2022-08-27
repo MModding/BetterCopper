@@ -1,12 +1,13 @@
 package com.mmodding.better_copper.init;
 
-public enum EnerGeneration {
+public enum GenerationSource {
 
-	CRAFTING(2);
+	SMELTING(2),
+	CRAFTING(3);
 
 	private final int power;
 
-	EnerGeneration(int power) {
+	GenerationSource(int power) {
 		this.power = power;
 	}
 
