@@ -3,6 +3,7 @@ package com.mmodding.better_copper.client;
 import com.mmodding.better_copper.Utils;
 import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
 import com.mmodding.better_copper.client.render.Outliner;
+import com.mmodding.better_copper.client.render.SuperRenderTypeBuffer;
 import com.mmodding.better_copper.client.render.ValueBox;
 import com.mmodding.better_copper.client.render.ValueBoxTransform;
 import com.mmodding.better_copper.init.Blocks;
@@ -10,9 +11,13 @@ import com.mmodding.better_copper.mixin.AreaHelperAccessor;
 import com.mmodding.mmodding_lib.library.base.MModdingClientModInitializer;
 import com.mmodding.mmodding_lib.library.config.Config;
 import com.mmodding.mmodding_lib.library.initializers.ClientElementsInitializer;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -51,9 +56,25 @@ public class BetterCopperClient implements MModdingClientModInitializer {
 	public void onInitializeClient(ModContainer modContainer) {
 		MModdingClientModInitializer.super.onInitializeClient(modContainer);
 		ClientTickEvents.END.register(this::onTick);
+		WorldRenderEvents.AFTER_TRANSLUCENT.register(this::onRenderWorld);
 	}
 
-	public void onTick(MinecraftClient minecraftClient) {
+	private void onRenderWorld(WorldRenderContext worldRenderContext) {
+		Vec3d cameraPos = MinecraftClient.getInstance().gameRenderer.getCamera().getPos();
+		float pt = MinecraftClient.getInstance().getTickDelta();
+		MatrixStack matrixStack = worldRenderContext.matrixStack();
+		matrixStack.push();
+		matrixStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
+		SuperRenderTypeBuffer buffer = SuperRenderTypeBuffer.INSTANCE;
+
+		BOX_OUTLINE.renderOutlines(matrixStack, buffer, pt);
+		buffer.draw();
+		RenderSystem.enableCull();
+		matrixStack.pop();
+	}
+
+	private void onTick(MinecraftClient minecraftClient) {
+		BOX_OUTLINE.tickOutlines();
 		if (minecraftClient.world == null || minecraftClient.player == null) return;
 
 		HitResult target = minecraftClient.crosshairTarget;
@@ -72,7 +93,7 @@ public class BetterCopperClient implements MModdingClientModInitializer {
 		addBox(copperPowerBlockEntity, blockPos, face, highlight);
 	}
 
-	protected void addBox(CopperPowerBlockEntity copperPowerBlockEntity, BlockPos blockPos, Direction face, boolean highlight) {
+	private void addBox(CopperPowerBlockEntity copperPowerBlockEntity, BlockPos blockPos, Direction face, boolean highlight) {
 		Box box = new Box(Vec3d.ZERO, Vec3d.ZERO).expand(.5f).contract(0, 0, -.5f).offset(0, 0, -.125f);
 		MutableText genericEnergy = Utils.translatable("generic.energy");
 		MutableText energy = Utils.literal(copperPowerBlockEntity.formatEnergy());

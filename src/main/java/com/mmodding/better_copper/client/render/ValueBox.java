@@ -78,7 +78,7 @@ public class ValueBox extends BoxOutline {
 
 	@Override
 	public void render(MatrixStack ms, SuperRenderTypeBuffer buffer, float pt) {
-		renderBB(ms, buffer, interpolateBBs(prevBox, box, pt));
+		renderBox(ms, buffer, interpolateBBs(prevBox, box, pt));
 		boolean hasTransform = transform != null;
 		if (transform instanceof ValueBoxTransform.Sided && params.getHighlightedFace() != null)
 			((ValueBoxTransform.Sided) transform).fromSide(params.getHighlightedFace());

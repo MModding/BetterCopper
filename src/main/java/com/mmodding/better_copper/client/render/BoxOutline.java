@@ -33,7 +33,7 @@ public abstract class BoxOutline {
 	}
 
 	public void render(MatrixStack ms, SuperRenderTypeBuffer buffer, float pt) {
-		renderBB(ms, buffer, box);
+		renderBox(ms, buffer, box);
 	}
 
 	public void tick() {}
@@ -46,7 +46,7 @@ public abstract class BoxOutline {
 		this.box = box;
 	}
 
-	public void renderBB(MatrixStack ms, SuperRenderTypeBuffer buffer, Box bb) {
+	public void renderBox(MatrixStack ms, SuperRenderTypeBuffer buffer, Box bb) {
 		Vec3d projectedView = MinecraftClient.getInstance().gameRenderer.getCamera().getPos();
 		boolean noCull = bb.contains(projectedView);
 		bb = bb.expand(noCull ? -1 / 128d : 1 / 128d);
@@ -62,24 +62,24 @@ public abstract class BoxOutline {
 		Vec3d XYZ = new Vec3d(bb.maxX, bb.maxY, bb.maxZ);
 
 		Vec3d start = xyz;
-		renderAACuboidLine(ms, buffer, start, Xyz);
-		renderAACuboidLine(ms, buffer, start, xYz);
-		renderAACuboidLine(ms, buffer, start, xyZ);
+		renderBoxCuboidLine(ms, buffer, start, Xyz);
+		renderBoxCuboidLine(ms, buffer, start, xYz);
+		renderBoxCuboidLine(ms, buffer, start, xyZ);
 
 		start = XyZ;
-		renderAACuboidLine(ms, buffer, start, xyZ);
-		renderAACuboidLine(ms, buffer, start, XYZ);
-		renderAACuboidLine(ms, buffer, start, Xyz);
+		renderBoxCuboidLine(ms, buffer, start, xyZ);
+		renderBoxCuboidLine(ms, buffer, start, XYZ);
+		renderBoxCuboidLine(ms, buffer, start, Xyz);
 
 		start = XYz;
-		renderAACuboidLine(ms, buffer, start, xYz);
-		renderAACuboidLine(ms, buffer, start, Xyz);
-		renderAACuboidLine(ms, buffer, start, XYZ);
+		renderBoxCuboidLine(ms, buffer, start, xYz);
+		renderBoxCuboidLine(ms, buffer, start, Xyz);
+		renderBoxCuboidLine(ms, buffer, start, XYZ);
 
 		start = xYZ;
-		renderAACuboidLine(ms, buffer, start, XYZ);
-		renderAACuboidLine(ms, buffer, start, xyZ);
-		renderAACuboidLine(ms, buffer, start, xYz);
+		renderBoxCuboidLine(ms, buffer, start, XYZ);
+		renderBoxCuboidLine(ms, buffer, start, xyZ);
+		renderBoxCuboidLine(ms, buffer, start, xYz);
 
 		renderFace(ms, buffer, Direction.NORTH, xYz, XYz, Xyz, xyz, noCull);
 		renderFace(ms, buffer, Direction.SOUTH, XYZ, xYZ, xyZ, XyZ, noCull);
@@ -110,7 +110,7 @@ public abstract class BoxOutline {
 		params.alpha = alphaBefore;
 	}
 
-	public void renderAACuboidLine(MatrixStack ms, SuperRenderTypeBuffer buffer, Vec3d start, Vec3d end) {
+	public void renderBoxCuboidLine(MatrixStack ms, SuperRenderTypeBuffer buffer, Vec3d start, Vec3d end) {
 		float lineWidth = params.getLineWidth();
 		if (lineWidth == 0)
 			return;
@@ -232,14 +232,12 @@ public abstract class BoxOutline {
 			lightMap = LightmapTextureManager.MAX_LIGHT_COORDINATE;
 		}
 
-		public OutlineParams colored(int color) {
+		public void colored(int color) {
 			rgb = new Color(color, false);
-			return this;
 		}
 
-		public OutlineParams highlightFace(@Nullable Direction face) {
+		public void highlightFace(@Nullable Direction face) {
 			highlightedFace = face;
-			return this;
 		}
 
 		public OutlineParams lineWidth(float width) {
