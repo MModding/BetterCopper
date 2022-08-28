@@ -5,8 +5,12 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AreaHelperAccessor",
+    "EntityAttributesAccessor",
+    "LightningEntityAccessor",
     "generation.CraftingMixin",
     "generation.FurnaceMixin",
+    "generation.LightningMixin",
+    "generation.LivingEntityMixin",
     "observing.OpenCraftingTableMixin",
     "observing.OpenFurnaceMixin"
   ],
