@@ -71,22 +71,28 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 		}
 	}
 
-	public void consumeEnergyIfConnected(World world, BlockPos blockPos, ConsumeSource consumeSource) {
+	public int consumeEnergyIfConnected(World world, BlockPos blockPos, ConsumeSource consumeSource) {
 		BlockPos linkedPos = isLinkedTo(world, blockPos);
 		if (linkedPos != null) {
 			BlockEntity blockEntity = world.getBlockEntity(linkedPos);
 			if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
 				copperPowerBlockEntity.removeEnergy(consumeSource.getPower());
+				return consumeSource.getPower();
 			}
 		}
+		return 0;
 	}
 
 	public void addEnergyIfConnected(PlayerEntity player, GenerationSource generationSource) {
 		addEnergyIfConnected(player.world, Utils.getOpenScreenPos(), generationSource);
 	}
 
-	public void consumeEnergyIfConnected(PlayerEntity player, BlockPos blockPos, ConsumeSource consumeSource) {
-		consumeEnergyIfConnected(player.world, blockPos, consumeSource);
+	public int consumeEnergyIfConnected(PlayerEntity player, BlockPos blockPos, ConsumeSource consumeSource) {
+		return consumeEnergyIfConnected(player.world, blockPos, consumeSource);
+	}
+
+	public int consumeEnergyIfConnected(PlayerEntity player, ConsumeSource consumeSource) {
+		return consumeEnergyIfConnected(player.world, player.getBlockPos(), consumeSource);
 	}
 
 	@Nullable
