@@ -1,73 +1,58 @@
 package com.mmodding.better_copper.items;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import com.mmodding.better_copper.armormaterials.CopperArmorMaterial;
-import com.mmodding.better_copper.charge.Charge;
 import com.mmodding.better_copper.charge.ConsumeSource;
 import com.mmodding.better_copper.init.Blocks;
-import com.mmodding.better_copper.init.EntityAttributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-import java.util.UUID;
-
-public class ChargedArmorItem extends ArmorItem implements Charge {
-
-	private static final UUID[] MODIFIERS = new UUID[]{
-			UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"),
-			UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"),
-			UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"),
-			UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")
-	};
-	private final ItemStack chargedArmorStack = new ItemStack(this);
-	public static ArmorMaterial copperArmorMaterial = new CopperArmorMaterial();
-	private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+public class ChargedArmorItem extends ArmorItem {
+	private ItemStack chargedArmorStack;
 
 	public ChargedArmorItem(EquipmentSlot equipmentSlot, Item.Settings settings) {
-		super(copperArmorMaterial, equipmentSlot, settings);
-
-		UUID uUID = MODIFIERS[equipmentSlot.getEntitySlotId()];
-		ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-		builder.put(
-				net.minecraft.entity.attribute.EntityAttributes.GENERIC_ARMOR,
-				new EntityAttributeModifier(uUID, "Armor modifier", getChargedProtectionAmount(equipmentSlot), EntityAttributeModifier.Operation.ADDITION)
-		);
-		builder.put(
-				net.minecraft.entity.attribute.EntityAttributes.GENERIC_ARMOR_TOUGHNESS,
-				new EntityAttributeModifier(uUID, "Armor toughness", copperArmorMaterial.getToughness(), EntityAttributeModifier.Operation.ADDITION)
-		);
-		builder.put(
-				EntityAttributes.GENERIC_ARMOR_CHARGE,
-				new EntityAttributeModifier(uUID, "Armor charge", getCharge(chargedArmorStack), EntityAttributeModifier.Operation.ADDITION)
-		);
-		this.attributeModifiers = builder.build();
-	}
-
-	@Override
-	public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
-		return slot == this.slot ? this.attributeModifiers : super.getAttributeModifiers(slot);
-	}
-
-	private int getChargedProtectionAmount(EquipmentSlot equipmentSlot) {
-		if (!isCharged(chargedArmorStack))
-			return copperArmorMaterial.getProtectionAmount(equipmentSlot);
-		return copperArmorMaterial.getProtectionAmount(equipmentSlot) * (getCharge(chargedArmorStack) / 50);
+		super(CopperArmorMaterial.getInstance(), equipmentSlot, settings);
 	}
 
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		if (!(entity instanceof LivingEntity livingEntity)) return;
 		if (this.slot.getType() != EquipmentSlot.Type.ARMOR) return;
+		this.chargedArmorStack = stack;
 		int harvestEnergy = Blocks.COPPER_POWER_BLOCK.consumeEnergyIfConnected(livingEntity.world, livingEntity.getBlockPos(), ConsumeSource.ARMOR_CHARGE);
-		charge(chargedArmorStack, harvestEnergy);
+		if (harvestEnergy != 0) {
+			System.out.println(harvestEnergy);
+		}
+		this.charge(this.chargedArmorStack, harvestEnergy);
+	}
+
+	@Override
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		user.sendMessage(Text.of(Integer.toString(this.getCharge(this.chargedArmorStack))), true);
+		return TypedActionResult.success(this.chargedArmorStack);
+	}
+
+	public void charge(ItemStack stack, int charge) {
+		stack.getOrCreateNbt().putInt("charge", this.getCharge(stack) + charge);
+	}
+
+	public int getCharge(ItemStack stack) {
+		return stack.getOrCreateNbt().getInt("charge");
+	}
+
+	public boolean isCharged(ItemStack stack) {
+		return this.getCharge(stack) != 0;
+	}
+
+	public ItemStack getStack() {
+		return this.chargedArmorStack;
 	}
 }
