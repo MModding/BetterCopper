@@ -1,8 +1,8 @@
 package com.mmodding.better_copper.mixin.generation;
 
+import com.mmodding.better_copper.charge.GenerationSource;
 import com.mmodding.better_copper.init.Blocks;
 import com.mmodding.better_copper.init.EntityAttributes;
-import com.mmodding.better_copper.charge.GenerationSource;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
