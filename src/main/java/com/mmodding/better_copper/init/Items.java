@@ -1,21 +1,20 @@
 package com.mmodding.better_copper.init;
 
 import com.mmodding.better_copper.Utils;
-import com.mmodding.better_copper.armormaterials.CopperArmorMaterial;
+import com.mmodding.better_copper.items.ChargedArmorItem;
 import com.mmodding.mmodding_lib.library.initializers.ElementsInitializer;
 import com.mmodding.mmodding_lib.library.utils.RegistrationUtils;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 
 public class Items implements ElementsInitializer {
 
-	public static final Item COPPER_HELMET = new ArmorItem(new CopperArmorMaterial(), EquipmentSlot.HEAD, new FabricItemSettings().group(ItemGroup.COMBAT));
-	public static final Item COPPER_CHESTPLATE = new ArmorItem(new CopperArmorMaterial(), EquipmentSlot.CHEST, new FabricItemSettings().group(ItemGroup.COMBAT));
-	public static final Item COPPER_LEGGINGS = new ArmorItem(new CopperArmorMaterial(), EquipmentSlot.LEGS, new FabricItemSettings().group(ItemGroup.COMBAT));
-	public static final Item COPPER_BOOTS = new ArmorItem(new CopperArmorMaterial(), EquipmentSlot.FEET, new FabricItemSettings().group(ItemGroup.COMBAT));
+	public static final Item COPPER_HELMET = new ChargedArmorItem(EquipmentSlot.HEAD, new FabricItemSettings().group(ItemGroup.COMBAT));
+	public static final Item COPPER_CHESTPLATE = new ChargedArmorItem(EquipmentSlot.CHEST, new FabricItemSettings().group(ItemGroup.COMBAT));
+	public static final Item COPPER_LEGGINGS = new ChargedArmorItem(EquipmentSlot.LEGS, new FabricItemSettings().group(ItemGroup.COMBAT));
+	public static final Item COPPER_BOOTS = new ChargedArmorItem(EquipmentSlot.FEET, new FabricItemSettings().group(ItemGroup.COMBAT));
 
 	@Override
 	public void register() {

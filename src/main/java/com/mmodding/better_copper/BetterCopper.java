@@ -2,6 +2,7 @@ package com.mmodding.better_copper;
 
 import com.mmodding.better_copper.init.BlockEntities;
 import com.mmodding.better_copper.init.Blocks;
+import com.mmodding.better_copper.init.EntityAttributes;
 import com.mmodding.better_copper.init.Items;
 import com.mmodding.mmodding_lib.library.base.MModdingModContainer;
 import com.mmodding.mmodding_lib.library.base.MModdingModInitializer;
@@ -23,6 +24,7 @@ public class BetterCopper implements MModdingModInitializer {
 		initializers.add(new Blocks());
 		initializers.add(new BlockEntities());
 		initializers.add(new Items());
+		initializers.add(new EntityAttributes());
 		return initializers;
 	}
 
