@@ -10,8 +10,10 @@ import net.minecraft.util.Lazy;
 
 public class CopperArmorMaterial implements ArmorMaterial {
 
+	private static final CopperArmorMaterial INSTANCE = new CopperArmorMaterial();
+
 	public static CopperArmorMaterial getInstance() {
-		return new CopperArmorMaterial();
+		return INSTANCE;
 	}
 
 	private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};

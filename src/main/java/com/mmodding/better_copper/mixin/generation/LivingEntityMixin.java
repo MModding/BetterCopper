@@ -23,6 +23,6 @@ public class LivingEntityMixin {
 	@Inject(method = "onDeath", at = @At("HEAD"))
 	private void onDeath(DamageSource source, CallbackInfo ci) {
 		LivingEntity livingEntity = ((LivingEntity) (Object) this);
-		Blocks.COPPER_POWER_BLOCK.addEnergyIfConnected(livingEntity.world, livingEntity.getBlockPos(), GenerationSource.DEATH);
+		Blocks.COPPER_POWER_BLOCK.addEnergyWithParticlesIfConnected(livingEntity.world, livingEntity.getBlockPos(), GenerationSource.DEATH, 1);
 	}
 }

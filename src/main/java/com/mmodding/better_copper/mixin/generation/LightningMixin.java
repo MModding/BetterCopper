@@ -16,6 +16,6 @@ public class LightningMixin {
 	private void tick(CallbackInfo ci) {
 		LightningEntity lightningEntity = (LightningEntity) (Object) this;
 		if (((LightningEntityAccessor) lightningEntity).getAmbientTick() == 2 && (!lightningEntity.world.isClient))
-			Blocks.COPPER_POWER_BLOCK.addEnergyIfConnected(lightningEntity.world, lightningEntity.getBlockPos(), GenerationSource.LIGHTNING_STRIKE);
+			Blocks.COPPER_POWER_BLOCK.addEnergyWithParticlesIfConnected(lightningEntity.world, lightningEntity.getBlockPos(), GenerationSource.LIGHTNING_STRIKE, 1, lightningEntity.getBlockPos().down());
 	}
 }

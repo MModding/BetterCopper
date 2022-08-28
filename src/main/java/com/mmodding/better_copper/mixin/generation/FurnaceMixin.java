@@ -1,5 +1,6 @@
 package com.mmodding.better_copper.mixin.generation;
 
+import com.mmodding.better_copper.Utils;
 import com.mmodding.better_copper.charge.GenerationSource;
 import com.mmodding.better_copper.init.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,6 +16,6 @@ public class FurnaceMixin {
 
 	@Inject(method = "onTakeItem", at = @At("HEAD"))
 	private void injected(PlayerEntity player, ItemStack stack, CallbackInfo ci) {
-		Blocks.COPPER_POWER_BLOCK.addEnergyIfConnected(player, GenerationSource.SMELTING, stack.getCount());
+		Blocks.COPPER_POWER_BLOCK.addEnergyWithParticlesIfConnected(player.world, Utils.getOpenScreenPos(), GenerationSource.SMELTING, stack.getCount());
 	}
 }

@@ -38,7 +38,7 @@ public class ChargedValueRenderer {
 	}
 
 	private static void addBox(CopperPowerBlockEntity copperPowerBlockEntity, BlockPos blockPos, Direction face, boolean highlight) {
-		Box box = new Box(Vec3d.ZERO, Vec3d.ZERO).expand(.5f).contract(0, 0, -.5f).offset(0, 0, -.125f);
+		Box box = new Box(Vec3d.ZERO, Vec3d.ZERO).expand(.5f).contract(0, 0, .6f);
 		MutableText genericEnergy = Utils.translatable("generic.energy");
 		MutableText energy = Utils.literal(copperPowerBlockEntity.formatEnergy());
 
