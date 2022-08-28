@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.init;
+package com.mmodding.better_copper.charge;
 
 public enum GenerationSource {
 

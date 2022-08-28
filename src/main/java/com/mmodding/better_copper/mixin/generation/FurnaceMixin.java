@@ -1,7 +1,7 @@
 package com.mmodding.better_copper.mixin.generation;
 
 import com.mmodding.better_copper.init.Blocks;
-import com.mmodding.better_copper.init.GenerationSource;
+import com.mmodding.better_copper.charge.GenerationSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.FurnaceOutputSlot;

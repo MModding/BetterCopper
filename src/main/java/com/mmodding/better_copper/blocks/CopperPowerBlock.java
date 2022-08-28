@@ -2,7 +2,8 @@ package com.mmodding.better_copper.blocks;
 
 import com.mmodding.better_copper.Utils;
 import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
-import com.mmodding.better_copper.init.GenerationSource;
+import com.mmodding.better_copper.charge.ConsumeSource;
+import com.mmodding.better_copper.charge.GenerationSource;
 import com.mmodding.mmodding_lib.library.blocks.BlockRegistrable;
 import com.mmodding.mmodding_lib.library.blocks.BlockWithItem;
 import com.mmodding.mmodding_lib.library.blocks.CustomBlockWithEntity;
@@ -70,8 +71,22 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 		}
 	}
 
+	public void consumeEnergyIfConnected(World world, BlockPos blockPos, ConsumeSource consumeSource) {
+		BlockPos linkedPos = isLinkedTo(world, blockPos);
+		if (linkedPos != null) {
+			BlockEntity blockEntity = world.getBlockEntity(linkedPos);
+			if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
+				copperPowerBlockEntity.removeEnergy(consumeSource.getPower());
+			}
+		}
+	}
+
 	public void addEnergyIfConnected(PlayerEntity player, GenerationSource generationSource) {
 		addEnergyIfConnected(player.world, Utils.getOpenScreenPos(), generationSource);
+	}
+
+	public void consumeEnergyIfConnected(PlayerEntity player, BlockPos blockPos, ConsumeSource consumeSource) {
+		consumeEnergyIfConnected(player.world, blockPos, consumeSource);
 	}
 
 	@Nullable
