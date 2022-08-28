@@ -2,6 +2,7 @@ package com.mmodding.better_copper.client.render;
 
 import com.mmodding.better_copper.Helper;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Material;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
@@ -9,10 +10,9 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
+
+import java.util.function.BiPredicate;
 
 /**
  * Credit: Create
@@ -32,7 +32,7 @@ public class ValueBox extends BoxOutline {
 	public boolean isPassive;
 
 	protected BlockPos pos;
-	protected ValueBoxTransform transform;
+	protected ValueBox.Transform transform;
 	protected BlockState blockState;
 
 	public ValueBox(Text label, Box box, BlockPos pos) {
@@ -49,7 +49,7 @@ public class ValueBox extends BoxOutline {
 		this.box = box;
 	}
 
-	public ValueBox transform(ValueBoxTransform transform) {
+	public ValueBox transform(ValueBox.Transform transform) {
 		this.transform = transform;
 		return this;
 	}
@@ -80,8 +80,8 @@ public class ValueBox extends BoxOutline {
 	public void render(MatrixStack ms, SuperRenderTypeBuffer buffer, float pt) {
 		renderBox(ms, buffer, interpolateBBs(prevBox, box, pt));
 		boolean hasTransform = transform != null;
-		if (transform instanceof ValueBoxTransform.Sided && params.getHighlightedFace() != null)
-			((ValueBoxTransform.Sided) transform).fromSide(params.getHighlightedFace());
+		if (transform instanceof ValueBox.Transform.Sided && params.getHighlightedFace() != null)
+			((ValueBox.Transform.Sided) transform).fromSide(params.getHighlightedFace());
 		if (hasTransform && !transform.shouldRender(blockState))
 			return;
 
@@ -173,5 +173,107 @@ public class ValueBox extends BoxOutline {
 	private static void drawString(MatrixStack ms, VertexConsumerProvider buffer, Text text, float x, float y, int color) {
 		MinecraftClient.getInstance().textRenderer.draw(text, x, y, color, false, ms.peek()
 				.getModel(), buffer, false, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE);
+	}
+
+	public static abstract class Transform {
+
+		protected float scale = getScale();
+
+		protected abstract Vec3d getLocalOffset(BlockState state);
+
+		protected abstract void rotate(BlockState state, MatrixStack ms);
+
+		public boolean testHit(BlockState state, Vec3d localHit) {
+			Vec3d offset = getLocalOffset(state);
+			if (offset == null)
+				return false;
+			return localHit.distanceTo(offset) < scale / 2;
+		}
+
+		public void transform(BlockState state, MatrixStack ms) {
+			Vec3d position = getLocalOffset(state);
+			if (position == null)
+				return;
+			ms.translate(position.x, position.y, position.z);
+			rotate(state, ms);
+			ms.scale(scale, scale, scale);
+		}
+
+		public boolean shouldRender(BlockState state) {
+			return state.getMaterial() != Material.AIR && getLocalOffset(state) != null;
+		}
+
+		protected float getScale() {
+			return .4f;
+		}
+
+		protected float getFontScale() {
+			return 1 / 64f;
+		}
+
+		public static abstract class Sided extends ValueBox.Transform {
+
+			protected Direction direction = Direction.UP;
+
+			public ValueBox.Transform.Sided fromSide(Direction direction) {
+				this.direction = direction;
+				return this;
+			}
+
+			@Override
+			protected Vec3d getLocalOffset(BlockState state) {
+				Vec3d location = getSouthLocation();
+				location = Helper.rotateCentered(location, Helper.horizontalAngle(getSide()), Direction.Axis.Y);
+				location = Helper.rotateCentered(location, Helper.verticalAngle(getSide()), Direction.Axis.X);
+				return location;
+			}
+
+			protected abstract Vec3d getSouthLocation();
+
+			@Override
+			protected void rotate(BlockState state, MatrixStack ms) {
+				float yRot = Helper.horizontalAngle(getSide()) + 180;
+				float xRot = getSide() == Direction.UP ? 90 : getSide() == Direction.DOWN ? 270 : 0;
+				ms.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(yRot));
+				ms.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(xRot));
+			}
+
+			@Override
+			public boolean shouldRender(BlockState state) {
+				return super.shouldRender(state) && isSideActive(state, getSide());
+			}
+
+			@Override
+			public boolean testHit(BlockState state, Vec3d localHit) {
+				return isSideActive(state, getSide()) && super.testHit(state, localHit);
+			}
+
+			protected boolean isSideActive(BlockState state, Direction direction) {
+				return true;
+			}
+
+			public Direction getSide() {
+				return direction;
+			}
+		}
+
+		public static class Centered extends ValueBox.Transform.Sided {
+
+			private final BiPredicate<BlockState, Direction> allowedDirections;
+
+			public Centered(BiPredicate<BlockState, Direction> allowedDirections) {
+				this.allowedDirections = allowedDirections;
+			}
+
+			@Override
+			protected Vec3d getSouthLocation() {
+				return Helper.voxelSpace(8, 8, 16);
+			}
+
+			@Override
+			protected boolean isSideActive(BlockState blockState, Direction direction) {
+				return allowedDirections.test(blockState, direction);
+			}
+		}
 	}
 }
