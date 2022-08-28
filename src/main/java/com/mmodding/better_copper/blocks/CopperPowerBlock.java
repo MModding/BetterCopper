@@ -61,12 +61,12 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 		return isLinkedTo(world, pos, 0);
 	}
 
-	public void addEnergyIfConnected(World world, BlockPos blockPos, GenerationSource generationSource) {
+	public void addEnergyIfConnected(World world, BlockPos blockPos, GenerationSource generationSource, int count) {
 		BlockPos linkedPos = isLinkedTo(world, blockPos);
 		if (linkedPos != null) {
 			BlockEntity blockEntity = world.getBlockEntity(linkedPos);
 			if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
-				copperPowerBlockEntity.addEnergy(generationSource.getPower());
+				copperPowerBlockEntity.addEnergy(generationSource.getPower() * count);
 			}
 		}
 	}
@@ -76,23 +76,18 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 		if (linkedPos != null) {
 			BlockEntity blockEntity = world.getBlockEntity(linkedPos);
 			if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
-				copperPowerBlockEntity.removeEnergy(consumeSource.getPower());
-				return consumeSource.getPower();
+				return copperPowerBlockEntity.removeEnergy(consumeSource.getPower());
 			}
 		}
 		return 0;
 	}
 
-	public void addEnergyIfConnected(PlayerEntity player, GenerationSource generationSource) {
-		addEnergyIfConnected(player.world, Utils.getOpenScreenPos(), generationSource);
+	public void addEnergyIfConnected(World world, BlockPos blockPos, GenerationSource generationSource) {
+		addEnergyIfConnected(world, blockPos, generationSource, 1);
 	}
 
-	public int consumeEnergyIfConnected(PlayerEntity player, BlockPos blockPos, ConsumeSource consumeSource) {
-		return consumeEnergyIfConnected(player.world, blockPos, consumeSource);
-	}
-
-	public int consumeEnergyIfConnected(PlayerEntity player, ConsumeSource consumeSource) {
-		return consumeEnergyIfConnected(player.world, player.getBlockPos(), consumeSource);
+	public void addEnergyIfConnected(PlayerEntity player, GenerationSource generationSource, int count) {
+		addEnergyIfConnected(player.world, Utils.getOpenScreenPos(), generationSource, count);
 	}
 
 	@Nullable

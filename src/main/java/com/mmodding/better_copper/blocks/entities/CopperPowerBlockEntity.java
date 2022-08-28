@@ -25,8 +25,14 @@ public class CopperPowerBlockEntity extends BlockEntity {
 		this.energy += energy;
 	}
 
-	public void removeEnergy(int energy) {
-		this.energy -= energy;
+	public int removeEnergy(int energy) {
+		int energyToReturn = this.energy;
+		if (this.energy == 0 || this.energy < energy) {
+			setEnergy(0);
+			return energyToReturn;
+		}
+		setEnergy(energy);
+		return energy;
 	}
 
 	public void setEnergy(int energy) {

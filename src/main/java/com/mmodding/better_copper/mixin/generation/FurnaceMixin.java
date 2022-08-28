@@ -15,6 +15,6 @@ public class FurnaceMixin {
 
 	@Inject(method = "onTakeItem", at = @At("HEAD"))
 	private void injected(PlayerEntity player, ItemStack stack, CallbackInfo ci) {
-		Blocks.COPPER_POWER_BLOCK.addEnergyIfConnected(player, GenerationSource.SMELTING);
+		Blocks.COPPER_POWER_BLOCK.addEnergyIfConnected(player, GenerationSource.SMELTING, stack.getCount());
 	}
 }
