@@ -4,6 +4,7 @@ import com.mmodding.better_copper.client.render.ChargedValueRenderer;
 import com.mmodding.better_copper.client.render.Outliner;
 import com.mmodding.better_copper.client.render.SuperRenderTypeBuffer;
 import com.mmodding.better_copper.init.Blocks;
+import com.mmodding.better_copper.init.RenderLayers;
 import com.mmodding.mmodding_lib.library.base.MModdingClientModInitializer;
 import com.mmodding.mmodding_lib.library.config.Config;
 import com.mmodding.mmodding_lib.library.initializers.ClientElementsInitializer;
@@ -31,6 +32,7 @@ public class BetterCopperClient implements MModdingClientModInitializer {
 	public List<ClientElementsInitializer> getClientElementsInitializers() {
 		List<ClientElementsInitializer> clientInitializers = new ArrayList<>();
 		clientInitializers.add(new Blocks());
+		clientInitializers.add(new RenderLayers());
 		return clientInitializers;
 	}
 

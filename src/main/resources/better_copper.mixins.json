@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ArmorItemMixin",
+    "ItemRenderContextMixin",
     "accessors.AreaHelperAccessor",
     "accessors.EntityAttributesAccessor",
     "accessors.LightningEntityAccessor",
@@ -15,7 +16,15 @@
     "observing.OpenCraftingTableMixin",
     "observing.OpenFurnaceMixin"
   ],
-  "client": [],
+  "client": [
+    "ArmorFeatureRendererMixin",
+    "ArmorRendererMixin",
+    "ElytraRendererMixin",
+    "ItemRendererMixin",
+    "WorldRendererMixin",
+    "accessors.RenderLayerAccessor",
+    "accessors.RenderPhaseAccessor"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

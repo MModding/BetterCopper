@@ -30,6 +30,10 @@ dependencies {
 	modImplementation libs.mmodding.lib
 }
 
+loom {
+	accessWidenerPath = file("src/main/resources/better_copper.accesswidener")
+}
+
 processResources {
 	inputs.property "version", version
 

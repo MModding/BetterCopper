@@ -42,5 +42,6 @@
 			}
 		]
 	},
+	"access_widener" : "better_copper.accesswidener",
 	"mixin": "better_copper.mixins.json"
 }
