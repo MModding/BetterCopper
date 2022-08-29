@@ -3,21 +3,25 @@ package com.mmodding.better_copper.blocks;
 import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
 import com.mmodding.better_copper.charge.ConsumeSource;
 import com.mmodding.better_copper.charge.GenerationSource;
+import com.mmodding.better_copper.init.Blocks;
 import com.mmodding.mmodding_lib.library.blocks.BlockRegistrable;
 import com.mmodding.mmodding_lib.library.blocks.BlockWithItem;
 import com.mmodding.mmodding_lib.library.blocks.CustomBlockWithEntity;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.OxidizableBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.tag.TagKey;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
@@ -26,6 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegistrable, BlockWithItem {
 
+	public static final TagKey<Block> COPPER_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier("c", "copper_blocks"));
 	private final AtomicBoolean registered = new AtomicBoolean(false);
 	private BlockItem item = null;
 
@@ -48,10 +53,9 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 		if (i >= 200) return null;
 		for (Direction dir : Direction.values()) {
 			BlockPos otherPos = pos.offset(dir);
-			if (world.getBlockState(otherPos).getBlock() == this) return otherPos;
-			if (world.getBlockState(otherPos).getBlock() instanceof OxidizableBlock) {
-				return isLinkedTo(world, otherPos, i + 6);
-			}
+			BlockState otherState = world.getBlockState(otherPos);
+			if (otherState.isOf(Blocks.COPPER_POWER_BLOCK)) return otherPos;
+			if (otherState.isIn(COPPER_BLOCKS)) return isLinkedTo(world, otherPos, i + 6);
 		}
 		return null;
 	}
