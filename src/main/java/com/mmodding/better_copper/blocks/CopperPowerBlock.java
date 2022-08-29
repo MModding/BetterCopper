@@ -115,7 +115,7 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 		double d = (double) pos.getX() + 0.5;
 		double e = (double) pos.getY() + 0.7;
 		double f = (double) pos.getZ() + 0.5;
-		world.addParticle(ParticleTypes.HAPPY_VILLAGER, d, e, f, 0.0, 0.0, 0.0);
+		world.addParticle(ParticleTypes.HAPPY_VILLAGER, d, e, f, 0.1, 0.3, 0.1);
 	}
 
 	@Nullable

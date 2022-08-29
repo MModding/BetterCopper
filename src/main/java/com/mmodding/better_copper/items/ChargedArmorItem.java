@@ -13,9 +13,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -69,6 +67,6 @@ public class ChargedArmorItem extends ArmorItem implements Charge {
 					stack.addAttributeModifier(EntityAttributes.GENERIC_ARMOR, modifier, equipmentSlot);
 				}
 			});
-		} catch(IllegalArgumentException ignored) {}
+		} catch (IllegalArgumentException ignored) {}
 	}
 }

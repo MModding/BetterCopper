@@ -54,7 +54,7 @@ public class BetterCopperClient implements MModdingClientModInitializer {
 			RenderLayerUtils.addEntityBuilder(RenderLayers.getClint());
 			RenderLayerUtils.addEntityBuilder(RenderLayers.getDirectClint());
 			RenderLayerUtils.addEntityBuilder(RenderLayers.getEntityClint());
-			RenderLayerUtils.addEntityBuilder(RenderLayers.getDirectClint());
+			RenderLayerUtils.addEntityBuilder(RenderLayers.getDirectEntityClint());
 		});
 		ClientTickEvents.END.register(this::onTick);
 		WorldRenderEvents.AFTER_TRANSLUCENT.register(this::onRenderWorld);
