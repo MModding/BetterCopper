@@ -85,6 +85,13 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 	}
 
 	@Nullable
+	public BlockPos addEnergyWithParticlesIfConnected(World world, BlockPos blockPos, GenerationSource generationSource, BlockPos particlePos) {
+		BlockPos foundPos = addEnergyIfConnected(world, blockPos, generationSource, 1);
+		if (foundPos != null) spawnEnergyParticles(world, particlePos);
+		return foundPos;
+	}
+
+	@Nullable
 	public BlockPos addEnergyWithParticlesIfConnected(World world, BlockPos blockPos, GenerationSource generationSource, int count) {
 		BlockPos foundPos = addEnergyIfConnected(world, blockPos, generationSource, count);
 		if (foundPos != null) spawnEnergyParticles(world, blockPos);

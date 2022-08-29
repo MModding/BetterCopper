@@ -13,6 +13,7 @@
     "generation.FurnaceMixin",
     "generation.LightningMixin",
     "generation.LivingEntityMixin",
+    "generation.SugarCaneMixin",
     "observing.OpenCraftingTableMixin",
     "observing.OpenFurnaceMixin"
   ],
