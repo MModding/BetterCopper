@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegistrable, BlockWithItem {
 
-	public static final TagKey<Block> COPPER_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier("c", "copper_blocks"));
+	public static final TagKey<Block> OXIDIZABLE_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier("mmodding_lib", "oxidizable"));
 	private final AtomicBoolean registered = new AtomicBoolean(false);
 	private BlockItem item = null;
 
@@ -55,7 +55,7 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 			BlockPos otherPos = pos.offset(dir);
 			BlockState otherState = world.getBlockState(otherPos);
 			if (otherState.isOf(Blocks.COPPER_POWER_BLOCK)) return otherPos;
-			if (otherState.isIn(COPPER_BLOCKS)) return isLinkedTo(world, otherPos, i + 6);
+			if (otherState.isIn(OXIDIZABLE_BLOCKS)) return isLinkedTo(world, otherPos, i + 6);
 		}
 		return null;
 	}
