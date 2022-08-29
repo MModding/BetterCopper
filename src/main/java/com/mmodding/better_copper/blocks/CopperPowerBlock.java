@@ -100,7 +100,7 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 
 	public Pair<Integer, BlockPos> consumeEnergyWithParticlesIfConnected(World world, BlockPos blockPos, ConsumeSource consumeSource, BlockPos particlePos) {
 		Pair<Integer, BlockPos> foundPos = consumeEnergyIfConnected(world, blockPos, consumeSource);
-		if (foundPos.getRight() != BlockPos.ORIGIN) spawnEnergyParticles(world, particlePos);
+		if (foundPos.getLeft() != 0) spawnEnergyParticles(world, particlePos);
 		return foundPos;
 	}
 
