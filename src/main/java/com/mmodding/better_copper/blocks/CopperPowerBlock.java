@@ -5,10 +5,10 @@ import com.mmodding.better_copper.charge.ConsumeSource;
 import com.mmodding.better_copper.charge.GenerationSource;
 import com.mmodding.better_copper.init.Blocks;
 import com.mmodding.mmodding_lib.library.blocks.BlockRegistrable;
+import com.mmodding.mmodding_lib.library.blocks.BlockTags;
 import com.mmodding.mmodding_lib.library.blocks.BlockWithItem;
 import com.mmodding.mmodding_lib.library.blocks.CustomBlockWithEntity;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -16,12 +16,9 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.tag.TagKey;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
@@ -29,8 +26,6 @@ import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegistrable, BlockWithItem {
-
-	public static final TagKey<Block> OXIDIZABLE_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier("mmodding_lib", "oxidizable"));
 	private final AtomicBoolean registered = new AtomicBoolean(false);
 	private BlockItem item = null;
 
@@ -55,7 +50,7 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 			BlockPos otherPos = pos.offset(dir);
 			BlockState otherState = world.getBlockState(otherPos);
 			if (otherState.isOf(Blocks.COPPER_POWER_BLOCK)) return otherPos;
-			if (otherState.isIn(OXIDIZABLE_BLOCKS)) return isLinkedTo(world, otherPos, i + 6);
+			if (otherState.isIn(BlockTags.OXIDIZABLE)) return isLinkedTo(world, otherPos, i + 6);
 		}
 		return null;
 	}
