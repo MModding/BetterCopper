@@ -26,6 +26,7 @@ import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegistrable, BlockWithItem {
+
 	private final AtomicBoolean registered = new AtomicBoolean(false);
 	private BlockItem item = null;
 

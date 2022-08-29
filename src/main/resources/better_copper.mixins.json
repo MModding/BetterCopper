@@ -5,11 +5,13 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ArmorItemMixin",
+    "EntityMixin",
     "ItemRenderContextMixin",
     "accessors.AreaHelperAccessor",
     "accessors.EntityAttributesAccessor",
     "accessors.LightningEntityAccessor",
     "generation.CraftingMixin",
+    "generation.FallingBlockEntityMixin",
     "generation.FurnaceMixin",
     "generation.LightningMixin",
     "generation.LivingEntityMixin",

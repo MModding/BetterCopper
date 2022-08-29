@@ -6,7 +6,8 @@ public enum GenerationSource {
 	CRAFTING(3),
 	GROTH(4),
 	DEATH(5),
-	LIGHTNING_STRIKE(10);
+	LIGHTNING_STRIKE(10),
+	FALLING(20);
 
 	private final int power;
 
