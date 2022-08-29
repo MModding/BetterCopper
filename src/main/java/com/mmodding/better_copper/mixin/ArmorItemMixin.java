@@ -28,6 +28,7 @@ public abstract class ArmorItemMixin {
 	@Final
 	private static UUID[] MODIFIERS;
 
+/*
 	@Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableMultimap$Builder;build()Lcom/google/common/collect/ImmutableMultimap;", shift = At.Shift.BEFORE), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
 	private void injectAttributes(ArmorMaterial armorMaterial, EquipmentSlot equipmentSlot, Item.Settings settings, CallbackInfo ci, ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder) {
 		if (Objects.equals(armorMaterial, CopperArmorMaterial.getInstance())) {
@@ -37,4 +38,6 @@ public abstract class ArmorItemMixin {
 			}
 		}
 	}
+*/
+
 }

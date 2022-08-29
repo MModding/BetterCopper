@@ -14,7 +14,10 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,21 +51,24 @@ public class ChargedArmorItem extends ArmorItem implements Charge {
 
 	@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(Text.of("Charge : " + this.getCharge(stack)));
+		tooltip.add(new LiteralText("Charge : " + this.getCharge(stack)).formatted(Formatting.ITALIC, Formatting.GRAY));
 	}
 
 	public void changeProtection(ItemStack stack, int slot) {
-		float charge = (float) this.getCharge(stack) / 50;
-		this.protection = (int) (this.getProtection() * charge);
-		EquipmentSlot equipmentSlot = EquipmentSlot.fromTypeIndex(EquipmentSlot.Type.ARMOR, slot);
-		Collection<EntityAttributeModifier> entityAttributeModifiers = this.getAttributeModifiers(equipmentSlot).get(net.minecraft.entity.attribute.EntityAttributes.GENERIC_ARMOR);
-		entityAttributeModifiers.forEach(entityAttributeModifier -> {
-			UUID uUID = entityAttributeModifier.getId();
-			String name = entityAttributeModifier.getName();
-			if (name.equals("Armor modifier")) {
-				EntityAttributeModifier modifier = new EntityAttributeModifier(uUID, name, this.protection, EntityAttributeModifier.Operation.ADDITION);
-				stack.addAttributeModifier(EntityAttributes.GENERIC_ARMOR, modifier, equipmentSlot);
-			}
-		});
+		try {
+			float multiplier = (float) this.getCharge(stack) / 50;
+			this.protection = (int) (this.getProtection() * multiplier);
+			EquipmentSlot equipmentSlot = EquipmentSlot.fromTypeIndex(EquipmentSlot.Type.ARMOR, slot);
+			Collection<EntityAttributeModifier> entityAttributeModifiers = this.getAttributeModifiers(equipmentSlot).get(EntityAttributes.GENERIC_ARMOR);
+			entityAttributeModifiers.forEach(entityAttributeModifier -> {
+				UUID uUID = entityAttributeModifier.getId();
+				String name = entityAttributeModifier.getName();
+				double value = entityAttributeModifier.getValue();
+				if (name.equals("Armor modifier")) {
+					EntityAttributeModifier modifier = new EntityAttributeModifier(uUID, name, this.protection, EntityAttributeModifier.Operation.ADDITION);
+					stack.addAttributeModifier(EntityAttributes.GENERIC_ARMOR, modifier, equipmentSlot);
+				}
+			});
+		} catch(IllegalArgumentException ignored) {}
 	}
 }

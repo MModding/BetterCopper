@@ -15,10 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
 
+/*
 	@Inject(method = "createLivingAttributes", at = @At("RETURN"), cancellable = true)
 	private static void addLivingEntityAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
 		cir.setReturnValue(cir.getReturnValue().add(EntityAttributes.GENERIC_ARMOR_CHARGE));
 	}
+*/
 
 	@Inject(method = "onDeath", at = @At("HEAD"))
 	private void onDeath(DamageSource source, CallbackInfo ci) {

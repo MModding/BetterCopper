@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 public interface Charge {
 
 	default void charge(ItemStack stack, int charge) {
-		stack.getOrCreateNbt().putInt("charge", charge);
+		stack.getOrCreateNbt().putInt("charge", this.getCharge(stack) + charge);
 	}
 
 	default int getCharge(ItemStack stack) {

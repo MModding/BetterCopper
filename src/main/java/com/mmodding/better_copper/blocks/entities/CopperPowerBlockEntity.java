@@ -32,7 +32,7 @@ public class CopperPowerBlockEntity extends BlockEntity {
 			return energyToReturn;
 		}
 		this.energy -= energyToRemove;
-		return energy;
+		return energyToRemove;
 	}
 
 	public void setEnergy(int energy) {
