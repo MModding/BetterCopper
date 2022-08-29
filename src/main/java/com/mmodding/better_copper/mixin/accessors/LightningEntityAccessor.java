@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.mixin;
+package com.mmodding.better_copper.mixin.accessors;
 
 import net.minecraft.entity.LightningEntity;
 import org.spongepowered.asm.mixin.Mixin;

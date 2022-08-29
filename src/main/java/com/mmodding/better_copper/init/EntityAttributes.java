@@ -1,6 +1,6 @@
 package com.mmodding.better_copper.init;
 
-import com.mmodding.better_copper.mixin.EntityAttributesAccessor;
+import com.mmodding.better_copper.mixin.accessors.EntityAttributesAccessor;
 import com.mmodding.mmodding_lib.library.initializers.ElementsInitializer;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttribute;

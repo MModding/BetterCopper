@@ -3,7 +3,7 @@ package com.mmodding.better_copper.client.render;
 import com.mmodding.better_copper.Utils;
 import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
 import com.mmodding.better_copper.client.BetterCopperClient;
-import com.mmodding.better_copper.mixin.AreaHelperAccessor;
+import com.mmodding.better_copper.mixin.accessors.AreaHelperAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.hit.BlockHitResult;

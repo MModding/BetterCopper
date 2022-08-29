@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.mixin;
+package com.mmodding.better_copper.mixin.accessors;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.AreaHelper;

@@ -2,7 +2,7 @@ package com.mmodding.better_copper.mixin.generation;
 
 import com.mmodding.better_copper.charge.GenerationSource;
 import com.mmodding.better_copper.init.Blocks;
-import com.mmodding.better_copper.mixin.LightningEntityAccessor;
+import com.mmodding.better_copper.mixin.accessors.LightningEntityAccessor;
 import net.minecraft.entity.LightningEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

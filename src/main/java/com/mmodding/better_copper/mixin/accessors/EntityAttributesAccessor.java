@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.mixin;
+package com.mmodding.better_copper.mixin.accessors;
 
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
