@@ -21,3 +21,7 @@ accessible class net/minecraft/client/render/RenderPhase$Texturing
 accessible class net/minecraft/client/render/RenderPhase$Transparency
 
 accessible class net/minecraft/client/render/RenderPhase$WriteMaskState
+
+accessible field net/minecraft/item/ArmorItem protection I
+
+mutable field net/minecraft/item/ArmorItem protection I

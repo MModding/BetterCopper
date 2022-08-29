@@ -4,6 +4,7 @@ import com.mmodding.better_copper.mixin.accessors.RenderLayerAccessor;
 import com.mmodding.better_copper.mixin.accessors.RenderPhaseAccessor;
 import com.mmodding.mmodding_lib.library.initializers.ClientElementsInitializer;
 import com.mmodding.mmodding_lib.library.initializers.ElementsInitializer;
+import com.mmodding.mmodding_lib.library.utils.RenderLayerUtils;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
@@ -199,7 +200,7 @@ public class RenderLayers implements ElementsInitializer, ClientElementsInitiali
 		canvas.render(matrices, baseSprite.getSprite().getTextureSpecificVertexConsumer(getDirectItemClintConsumer(vertexConsumers, baseSprite.getRenderLayer(RenderLayer::getEntitySolid), true, glint, clint)), light, overlay);
 
 		for (int i = 0; i < 17 && i < patterns.size(); ++i) {
-			Pair<BannerPattern, DyeColor> pair = (Pair) patterns.get(i);
+			Pair<BannerPattern, DyeColor> pair = patterns.get(i);
 			float[] fs = pair.getSecond().getColorComponents();
 			BannerPattern bannerPattern = pair.getFirst();
 			SpriteIdentifier spriteIdentifier = isBanner

@@ -18,7 +18,7 @@ public class WorldRendererMixin {
 	@Final
 	private BufferBuilderStorage bufferBuilders;
 
-	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;draw(Lnet/minecraft/client/render/RenderLayer;)V", shift = At.Shift.BY, by = 16))
+	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;draw(Lnet/minecraft/client/render/RenderLayer;)V", ordinal = 16))
 	private void injected(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo ci) {
 		VertexConsumerProvider.Immediate immediate = bufferBuilders.getEntityVertexConsumers();
 		immediate.draw(RenderLayers.getArmorClint());
