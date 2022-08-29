@@ -19,6 +19,7 @@
   "client": [
     "ArmorFeatureRendererMixin",
     "ArmorRendererMixin",
+    "BuiltinModelItemRendererMixin",
     "ElytraRendererMixin",
     "ItemRendererMixin",
     "WorldRendererMixin",

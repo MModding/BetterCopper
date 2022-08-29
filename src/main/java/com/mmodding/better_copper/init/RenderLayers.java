@@ -188,10 +188,8 @@ public class RenderLayers implements ElementsInitializer, ClientElementsInitiali
 	}
 
 	@Override
-	public void register() {
-	}
+	public void register() {}
 
 	@Override
-	public void registerClient() {
-	}
+	public void registerClient() {}
 }
