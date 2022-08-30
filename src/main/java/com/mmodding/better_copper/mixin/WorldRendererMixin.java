@@ -1,6 +1,7 @@
 package com.mmodding.better_copper.mixin;
 
 import com.mmodding.better_copper.init.RenderLayers;
+import com.mmodding.better_copper.magneticfield.LoopAreaHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -40,15 +41,19 @@ public class WorldRendererMixin {
 		immediate.draw(RenderLayers.getDirectEntityClint());
 	}
 
-	/*
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;renderWorldBorder(Lnet/minecraft/client/render/Camera;)V", ordinal = 0))
 	private void injectRenderWB1(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo ci) {
-		new MagneticField(this.client, camera, FORCEFIELD);
+		renderAllMagneticFields(this.client, camera, FORCEFIELD);
 	}
 
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;renderWorldBorder(Lnet/minecraft/client/render/Camera;)V", ordinal = 1))
 	private void injectRenderWB2(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo ci) {
-		new MagneticField(this.client, camera, FORCEFIELD);
+		renderAllMagneticFields(this.client, camera, FORCEFIELD);
 	}
-	 */
+
+	private void renderAllMagneticFields(MinecraftClient minecraftClient, Camera camera, Identifier identifier) {
+		LoopAreaHelper.FIELDS.forEach(magneticField -> {
+			magneticField.render(minecraftClient, camera, identifier);
+		});
+	}
 }
