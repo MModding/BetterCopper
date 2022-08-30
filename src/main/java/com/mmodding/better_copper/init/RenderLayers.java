@@ -18,7 +18,7 @@ import java.util.List;
 
 public class RenderLayers implements ElementsInitializer, ClientElementsInitializer {
 
-	public static final Identifier CHARGED_ITEM_GLINT = new Identifier("textures/misc/forcefield.png");
+	public static final Identifier CHARGED_ITEM_GLINT = new Identifier("textures/misc/enchanted_item_glint.png");
 
 	private static final RenderLayer ARMOR_CLINT = RenderLayerAccessor.of(
 			"armor_clint",
