@@ -4,6 +4,7 @@ import com.mmodding.better_copper.armormaterials.CopperArmorMaterial;
 import com.mmodding.better_copper.charge.Charge;
 import com.mmodding.better_copper.charge.ConsumeSource;
 import com.mmodding.better_copper.init.Blocks;
+import com.mmodding.mmodding_lib.library.utils.TickOperations;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -22,11 +23,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class ChargedArmorItem extends ArmorItem implements Charge {
+public class ChargedArmorItem extends ArmorItem implements Charge, TickOperations {
 
-	private final AtomicInteger tick = new AtomicInteger(0);
+	private int tick = 0;
 
 	public ChargedArmorItem(EquipmentSlot equipmentSlot, Item.Settings settings) {
 		super(CopperArmorMaterial.getInstance(), equipmentSlot, settings);
@@ -34,17 +34,14 @@ public class ChargedArmorItem extends ArmorItem implements Charge {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-		if (this.tick.get() < 20) {
-			this.tick.set(this.tick.get() + 1);
-		} else {
+		this.checkTickForOperation(20, () -> {
 			if (!(entity instanceof LivingEntity livingEntity)) return;
 			if (this.slot.getType() != EquipmentSlot.Type.ARMOR) return;
 			this.charge(stack, Blocks.COPPER_POWER_BLOCK.consumeEnergyWithParticlesIfConnected(livingEntity.world, livingEntity.getBlockPos(), ConsumeSource.ARMOR_CHARGE, livingEntity.getBlockPos()).getLeft());
 			if (this.isCharged(stack)) {
 				this.changeProtection(stack, slot);
 			}
-			this.tick.set(0);
-		}
+		});
 	}
 
 	@Override
@@ -68,5 +65,15 @@ public class ChargedArmorItem extends ArmorItem implements Charge {
 				}
 			});
 		} catch (IllegalArgumentException ignored) {}
+	}
+
+	@Override
+	public int getTickValue() {
+		return this.tick;
+	}
+
+	@Override
+	public void setTickValue(int tickValue) {
+		this.tick = tickValue;
 	}
 }
