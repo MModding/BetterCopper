@@ -7,12 +7,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(Entity.class)
-public class EntityMixin {
+public abstract class EntityMixin {
 
 	@Shadow
-	public BlockPos getBlockPos() {
-		return null;
-	}
+	abstract public BlockPos getBlockPos();
 
 	@Shadow
 	public World world;

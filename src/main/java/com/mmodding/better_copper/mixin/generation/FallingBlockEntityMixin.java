@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FallingBlockEntity.class)
-public class FallingBlockEntityMixin extends EntityMixin implements TickOperations {
+public abstract class FallingBlockEntityMixin extends EntityMixin implements TickOperations {
 
 	@Shadow
 	private BlockState block;
