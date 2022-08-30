@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ArmorItemMixin",
+    "BlockMixin",
     "EntityMixin",
     "ItemRenderContextMixin",
     "accessors.AreaHelperAccessor",
@@ -27,7 +28,8 @@
     "ItemRendererMixin",
     "WorldRendererMixin",
     "accessors.RenderLayerAccessor",
-    "accessors.RenderPhaseAccessor"
+    "accessors.RenderPhaseAccessor",
+    "accessors.WorldRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
