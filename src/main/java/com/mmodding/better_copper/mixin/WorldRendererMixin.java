@@ -44,16 +44,10 @@ public class WorldRendererMixin {
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;renderWorldBorder(Lnet/minecraft/client/render/Camera;)V", ordinal = 0))
 	private void injectRenderWB1(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo ci) {
 		LoopAreaHelper.setRenderCamera(camera);
-		renderAllMagneticFields(this.client, camera, FORCEFIELD);
 	}
 
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;renderWorldBorder(Lnet/minecraft/client/render/Camera;)V", ordinal = 1))
 	private void injectRenderWB2(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo ci) {
 		LoopAreaHelper.setRenderCamera(camera);
-		renderAllMagneticFields(this.client, camera, FORCEFIELD);
-	}
-
-	private void renderAllMagneticFields(MinecraftClient minecraftClient, Camera camera, Identifier identifier) {
-		LoopAreaHelper.FIELDS.forEach(magneticField -> magneticField.render(minecraftClient, camera, identifier));
 	}
 }

@@ -13,9 +13,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockLocating;
 import net.minecraft.world.WorldAccess;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -24,7 +22,6 @@ import java.util.function.Predicate;
  */
 public class LoopAreaHelper {
 
-	public static List<MagneticField> FIELDS = new ArrayList<>();
 	private static Camera CAMERA;
 	protected HashSet<Block> VALID_LOOP = null;
 	public BlockPos lowerCorner;

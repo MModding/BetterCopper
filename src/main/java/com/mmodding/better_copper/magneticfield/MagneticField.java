@@ -28,7 +28,6 @@ public class MagneticField extends WorldBorder {
 				setCenter(center.getX(), center.getZ());
 				setSize(loopAreaHelper.xSize);
 				setDamagePerBlock(0);
-				LoopAreaHelper.FIELDS.add(this);
 				render(minecraftClient, LoopAreaHelper.getRenderCamera(), WorldRendererAccessor.getFORCEFIELD());
 			}
 		}
