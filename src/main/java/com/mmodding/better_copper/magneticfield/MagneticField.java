@@ -1,6 +1,7 @@
 package com.mmodding.better_copper.magneticfield;
 
 import com.mmodding.better_copper.init.Blocks;
+import com.mmodding.better_copper.mixin.accessors.WorldRendererAccessor;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
@@ -18,7 +19,7 @@ import java.util.Optional;
 
 public class MagneticField extends WorldBorder {
 
-	public MagneticField(World world, BlockPos blockPos, MinecraftClient minecraftClient, Camera camera, Identifier fieldTexture) {
+	public MagneticField(World world, BlockPos blockPos, MinecraftClient minecraftClient) {
 		Optional<LoopAreaHelper> loop = new LoopAreaHelper().getNewLoop(world, blockPos, Direction.Axis.X, Blocks.NETHERITE_COATED_GOLD_BLOCK);
 		if (loop.isPresent()) {
 			LoopAreaHelper loopAreaHelper = loop.get();
@@ -28,6 +29,7 @@ public class MagneticField extends WorldBorder {
 				setSize(loopAreaHelper.xSize);
 				setDamagePerBlock(0);
 				LoopAreaHelper.FIELDS.add(this);
+				render(minecraftClient, LoopAreaHelper.getRenderCamera(), WorldRendererAccessor.getFORCEFIELD());
 			}
 		}
 	}

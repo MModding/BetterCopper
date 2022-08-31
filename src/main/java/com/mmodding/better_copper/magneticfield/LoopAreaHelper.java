@@ -3,6 +3,7 @@ package com.mmodding.better_copper.magneticfield;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.util.math.BlockPos;
@@ -24,6 +25,7 @@ import java.util.function.Predicate;
 public class LoopAreaHelper {
 
 	public static List<MagneticField> FIELDS = new ArrayList<>();
+	private static Camera CAMERA;
 	protected HashSet<Block> VALID_LOOP = null;
 	public BlockPos lowerCorner;
 	protected WorldAccess world;
@@ -32,7 +34,14 @@ public class LoopAreaHelper {
 	protected final int maxXSize = 21;
 	protected final int maxZSize = 21;
 
-	public LoopAreaHelper() {
+	public LoopAreaHelper() {}
+
+	public static void setRenderCamera(Camera camera) {
+		CAMERA = camera;
+	}
+
+	public static Camera getRenderCamera() {
+		return CAMERA;
 	}
 
 	public LoopAreaHelper init(WorldAccess world, BlockPos blockPos, Direction.Axis axis, Block... foundations) {
