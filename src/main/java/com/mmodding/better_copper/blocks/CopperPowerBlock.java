@@ -46,6 +46,7 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements BlockRegi
 
 	@Nullable
 	private BlockPos isLinkedTo(World world, BlockPos pos, int i) {
+		if (pos == null) return null;
 		if (i >= 200) return null;
 		for (Direction dir : Direction.values()) {
 			BlockPos otherPos = pos.offset(dir);
