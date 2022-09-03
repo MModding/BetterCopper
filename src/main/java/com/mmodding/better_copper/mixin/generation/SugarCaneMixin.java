@@ -18,6 +18,6 @@ public class SugarCaneMixin {
 
 	@Inject(method = "randomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)Z", shift = At.Shift.BY, by = 1))
 	private void inject(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-		Blocks.COPPER_POWER_BLOCK.addEnergyWithParticlesIfConnected(world, pos.up(), GenerationSource.GROTH, pos.up().up());
+		Blocks.COPPER_POWER_BLOCK.addEnergyIfConnected(world, pos.up(), GenerationSource.GROTH, pos.up().up());
 	}
 }

@@ -22,6 +22,6 @@ public class LightningMixin {
 		if (blockState.isOf(Blocks.LIGHTNING_ROD)) {
 			particlePos = pos.offset(blockState.get(LightningRodBlock.FACING));
 		}
-		com.mmodding.better_copper.init.Blocks.COPPER_POWER_BLOCK.addEnergyWithParticlesIfConnected(world, pos, GenerationSource.LIGHTNING_STRIKE, particlePos);
+		com.mmodding.better_copper.init.Blocks.COPPER_POWER_BLOCK.addEnergyIfConnected(world, pos, GenerationSource.LIGHTNING_STRIKE, particlePos);
 	}
 }

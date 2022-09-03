@@ -22,6 +22,6 @@ public class LivingEntityMixin {
 	@Inject(method = "onDeath", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setPose(Lnet/minecraft/entity/EntityPose;)V", shift = At.Shift.AFTER))
 	private void onDeath(DamageSource source, CallbackInfo ci) {
 		LivingEntity livingEntity = ((LivingEntity) (Object) this);
-		Blocks.COPPER_POWER_BLOCK.addEnergyWithParticlesIfConnected(livingEntity.world, livingEntity.getBlockPos(), GenerationSource.DEATH, 1);
+		Blocks.COPPER_POWER_BLOCK.addEnergyIfConnected(livingEntity.world, livingEntity.getBlockPos(), GenerationSource.DEATH);
 	}
 }

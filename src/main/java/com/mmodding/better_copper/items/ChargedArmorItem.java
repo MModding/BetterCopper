@@ -37,7 +37,7 @@ public class ChargedArmorItem extends ArmorItem implements Charge, TickOperation
 		this.checkTickForOperation(20, () -> {
 			if (!(entity instanceof LivingEntity livingEntity)) return;
 			if (this.slot.getType() != EquipmentSlot.Type.ARMOR) return;
-			this.charge(stack, Blocks.COPPER_POWER_BLOCK.consumeEnergyWithParticlesIfConnected(livingEntity.world, livingEntity.getBlockPos(), ConsumeSource.ARMOR_CHARGE, livingEntity.getBlockPos()).getLeft());
+			this.charge(stack, Blocks.COPPER_POWER_BLOCK.consumeEnergyIfConnected(livingEntity.world, livingEntity.getBlockPos(), ConsumeSource.ARMOR_CHARGE, 1, livingEntity.getBlockPos()).getLeft());
 			if (this.isCharged(stack)) {
 				this.changeProtection(stack, slot);
 			}

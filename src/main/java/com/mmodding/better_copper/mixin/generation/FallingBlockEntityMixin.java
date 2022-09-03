@@ -23,7 +23,7 @@ public abstract class FallingBlockEntityMixin extends EntityMixin implements Tic
 	@Inject(method = "tick", at = @At("HEAD"))
 	private void injectTick(CallbackInfo ci) {
 		if (this.block.getBlock() == Blocks.NETHERITE_COATED_GOLD_BLOCK) {
-			this.checkTickForOperation(20, () -> Blocks.COPPER_POWER_BLOCK.addEnergyWithParticlesIfConnected(
+			this.checkTickForOperation(20, () -> Blocks.COPPER_POWER_BLOCK.addEnergyIfConnected(
 					this.world, this.getBlockPos(), GenerationSource.FALLING, this.getBlockPos().up()
 			));
 		}
