@@ -1,3 +1,6 @@
 {
-  "parent": "better_copper:block/netherite_coated_gold_block"
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "better_copper:block/netherite_coated_gold_block"
+  }
 }

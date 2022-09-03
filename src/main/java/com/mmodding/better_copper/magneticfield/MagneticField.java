@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MagneticField extends WorldBorder {
 
@@ -23,11 +24,17 @@ public class MagneticField extends WorldBorder {
 		Optional<LoopAreaHelper> loop = new LoopAreaHelper().getNewLoop(world, blockPos, Direction.Axis.X, Blocks.NETHERITE_COATED_GOLD_BLOCK);
 		if (loop.isPresent()) {
 			LoopAreaHelper loopAreaHelper = loop.get();
-			if (loopAreaHelper.xSize == loopAreaHelper.zSize) {
-				BlockPos center = loopAreaHelper.lowerCorner.offset(Direction.Axis.X, (loopAreaHelper.xSize - 1) / 2).offset(Direction.Axis.Z, (loopAreaHelper.zSize - 1) / 2);
+			AtomicBoolean flag = new AtomicBoolean(true);
+			BlockPos center = loopAreaHelper.lowerCorner.offset(Direction.Axis.X, (loopAreaHelper.xSize - 1) / 2).offset(Direction.Axis.Z, (loopAreaHelper.zSize - 1) / 2);
+			LoopAreaHelper.FIELDS.forEach(magneticFields -> {
+				if (magneticFields.getCenterX() == center.getX() && magneticFields.getCenterZ() == center.getZ())
+					flag.set(false);
+			});
+			if (loopAreaHelper.xSize == loopAreaHelper.zSize && flag.get()) {
 				setCenter(center.getX(), center.getZ());
 				setSize(loopAreaHelper.xSize);
 				setDamagePerBlock(0);
+				LoopAreaHelper.FIELDS.add(this);
 				render(minecraftClient, LoopAreaHelper.getRenderCamera(), WorldRendererAccessor.getFORCEFIELD());
 			}
 		}

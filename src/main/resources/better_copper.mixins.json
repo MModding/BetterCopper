@@ -10,6 +10,7 @@
     "accessors.AreaHelperAccessor",
     "accessors.EntityAttributesAccessor",
     "accessors.LightningEntityAccessor",
+    "accessors.WorldAccessAccessor",
     "generation.CraftingMixin",
     "generation.FallingBlockEntityMixin",
     "generation.FurnaceMixin",

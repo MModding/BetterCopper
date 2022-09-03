@@ -1,8 +1,7 @@
 package com.mmodding.better_copper.blocks;
 
-import com.mmodding.better_copper.magneticfield.LoopAreaHelper;
+import com.mmodding.better_copper.ducks.WorldAccessAccess;
 import com.mmodding.better_copper.magneticfield.MagneticField;
-import com.mmodding.better_copper.mixin.accessors.WorldRendererAccessor;
 import com.mmodding.mmodding_lib.library.blocks.CustomFallingBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockRenderType;
@@ -42,13 +41,13 @@ public class NetheriteCoatedGoldBlock extends CustomFallingBlock {
 	@Override
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
 		super.onBlockAdded(state, world, pos, oldState, notify);
-		this.magneticField = new MagneticField(world, pos, MinecraftClient.getInstance());
+		world.getBlockTickScheduler().scheduleTick(((WorldAccessAccess) world).better_copper$callCreateTick(pos, this, 2));
 	}
 
 	@Override
 	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		super.scheduledTick(state, world, pos, random);
-		this.magneticField.render(MinecraftClient.getInstance(), LoopAreaHelper.getRenderCamera(), WorldRendererAccessor.getFORCEFIELD());
+		if (this.magneticField == null) new MagneticField(world, pos, MinecraftClient.getInstance());
 	}
 
 	@Override

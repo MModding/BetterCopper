@@ -5,6 +5,8 @@ import com.mmodding.better_copper.client.render.Outliner;
 import com.mmodding.better_copper.client.render.SuperRenderTypeBuffer;
 import com.mmodding.better_copper.init.Blocks;
 import com.mmodding.better_copper.init.RenderLayers;
+import com.mmodding.better_copper.magneticfield.LoopAreaHelper;
+import com.mmodding.better_copper.mixin.accessors.WorldRendererAccessor;
 import com.mmodding.mmodding_lib.library.base.MModdingClientModInitializer;
 import com.mmodding.mmodding_lib.library.config.Config;
 import com.mmodding.mmodding_lib.library.initializers.ClientElementsInitializer;
@@ -75,6 +77,8 @@ public class BetterCopperClient implements MModdingClientModInitializer {
 	}
 
 	private void onTick(MinecraftClient minecraftClient) {
+		if (LoopAreaHelper.FIELDS != null && !LoopAreaHelper.FIELDS.isEmpty())
+			LoopAreaHelper.FIELDS.forEach(magneticField -> magneticField.render(minecraftClient, LoopAreaHelper.getRenderCamera(), WorldRendererAccessor.getFORCEFIELD()));
 		BOX_OUTLINE.tickOutlines();
 		ChargedValueRenderer.tick(minecraftClient);
 	}

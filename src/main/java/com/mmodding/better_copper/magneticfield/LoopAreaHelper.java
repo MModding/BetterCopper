@@ -14,6 +14,7 @@ import net.minecraft.world.BlockLocating;
 import net.minecraft.world.WorldAccess;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -23,6 +24,7 @@ import java.util.function.Predicate;
 public class LoopAreaHelper {
 
 	private static Camera CAMERA;
+	public static List<MagneticField> FIELDS;
 	protected HashSet<Block> VALID_LOOP = null;
 	public BlockPos lowerCorner;
 	protected WorldAccess world;
