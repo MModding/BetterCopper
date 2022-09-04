@@ -1,5 +1,6 @@
 package com.mmodding.better_copper.mixin;
 
+import com.mmodding.better_copper.charge.Charge;
 import com.mmodding.better_copper.init.RenderLayers;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -19,6 +20,6 @@ public class ElytraRendererMixin {
 	@Redirect(method = "Lnet/minecraft/client/render/entity/feature/ElytraFeatureRenderer;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/LivingEntity;FFFFFF)V",
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;getArmorGlintConsumer(Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/client/render/RenderLayer;ZZ)Lnet/minecraft/client/render/VertexConsumer;"))
 	private VertexConsumer redirect(VertexConsumerProvider provider, RenderLayer layer, boolean solid, boolean glint, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, LivingEntity livingEntity) {
-		return RenderLayers.getArmorClintConsumer(provider, layer, solid, glint, livingEntity.getEquippedStack(EquipmentSlot.CHEST).getOrCreateNbt().getInt("charge") != 0);
+		return RenderLayers.getArmorClintConsumer(provider, layer, solid, glint, Charge.isStackCharged(livingEntity.getEquippedStack(EquipmentSlot.CHEST)));
 	}
 }

@@ -1,5 +1,6 @@
 package com.mmodding.better_copper.mixin;
 
+import com.mmodding.better_copper.charge.Charge;
 import com.mmodding.better_copper.init.RenderLayers;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -38,21 +39,21 @@ public abstract class ArmorFeatureRendererMixin {
 		float f = (float) (i >> 16 & 0xFF) / 255.0F;
 		float g = (float) (i >> 8 & 0xFF) / 255.0F;
 		float h = (float) (i & 0xFF) / 255.0F;
-		renderArmorParts(matrices, vertexConsumers, light, armorItem, itemStack.hasGlint(), model, this.usesSecondLayer(armorSlot), f, g, h, null, itemStack.getOrCreateNbt().getInt("charge") != 0);
+		renderArmorParts(matrices, vertexConsumers, light, armorItem, itemStack.hasGlint(), model, this.usesSecondLayer(armorSlot), f, g, h, null, Charge.isStackCharged(itemStack));
 	}
 
 	// Redirecting "renderArmorParts" #2
 	@Redirect(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;renderArmorParts(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/item/ArmorItem;ZLnet/minecraft/client/render/entity/model/BipedEntityModel;ZFFFLjava/lang/String;)V", ordinal = 1))
 	private void redirectRenderArmor2(ArmorFeatureRenderer instance, MatrixStack matrixStack, VertexConsumerProvider providers, int light, ArmorItem item, boolean usesSecondLayer, BipedEntityModel model, boolean legs, float red, float green, float blue, @Nullable String overlay, MatrixStack matrices, VertexConsumerProvider vertexConsumers, LivingEntity entity, EquipmentSlot armorSlot) {
 		ItemStack itemStack = entity.getEquippedStack(armorSlot);
-		renderArmorParts(matrices, vertexConsumers, light, (ArmorItem) itemStack.getItem(), itemStack.hasGlint(), model, this.usesSecondLayer(armorSlot), 1.0F, 1.0F, 1.0F, "overlay", itemStack.getOrCreateNbt().getInt("charge") != 0);
+		renderArmorParts(matrices, vertexConsumers, light, (ArmorItem) itemStack.getItem(), itemStack.hasGlint(), model, this.usesSecondLayer(armorSlot), 1.0F, 1.0F, 1.0F, "overlay", Charge.isStackCharged(itemStack));
 	}
 
 	// Redirecting "renderArmorParts" #3
 	@Redirect(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;renderArmorParts(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/item/ArmorItem;ZLnet/minecraft/client/render/entity/model/BipedEntityModel;ZFFFLjava/lang/String;)V", ordinal = 2))
 	private void redirectRenderArmor3(ArmorFeatureRenderer instance, MatrixStack matrixStack, VertexConsumerProvider providers, int light, ArmorItem item, boolean usesSecondLayer, BipedEntityModel model, boolean legs, float red, float green, float blue, @Nullable String overlay, MatrixStack matrices, VertexConsumerProvider vertexConsumers, LivingEntity entity, EquipmentSlot armorSlot) {
 		ItemStack itemStack = entity.getEquippedStack(armorSlot);
-		renderArmorParts(matrices, vertexConsumers, light, (ArmorItem) itemStack.getItem(), itemStack.hasGlint(), model, this.usesSecondLayer(armorSlot), 1.0F, 1.0F, 1.0F, null, itemStack.getOrCreateNbt().getInt("charge") != 0);
+		renderArmorParts(matrices, vertexConsumers, light, (ArmorItem) itemStack.getItem(), itemStack.hasGlint(), model, this.usesSecondLayer(armorSlot), 1.0F, 1.0F, 1.0F, null, Charge.isStackCharged(itemStack));
 	}
 
 	private void renderArmorParts(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ArmorItem item, boolean isGlint, BipedEntityModel model, boolean legs, float red, float green, float blue, @Nullable String overlay, boolean isCharged) {

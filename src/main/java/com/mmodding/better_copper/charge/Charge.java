@@ -21,11 +21,18 @@ public interface Charge {
 	}
 
 	default int getCharge(ItemStack stack) {
+		if (stack.getNbt() == null) return 0;
 		return stack.getOrCreateNbt().getInt("charge");
 	}
 
+	static boolean isStackCharged(ItemStack stack) {
+		if (stack.getNbt() == null) return false;
+		return stack.getNbt().getInt("charge") != 0;
+	}
+
 	default boolean isCharged(ItemStack stack) {
-		return getCharge(stack) != 0;
+		if (stack.getNbt() == null) return false;
+		return stack.getNbt().getInt("charge") != 0;
 	}
 
 	@Nullable
