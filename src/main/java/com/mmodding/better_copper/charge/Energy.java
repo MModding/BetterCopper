@@ -9,41 +9,33 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Energy {
 
-	private static BlockPos powerBlockPos = BlockPos.ORIGIN;
-	private static List<BlockPos> visitedPos = new ArrayList<>();
-
-	private static boolean hasFoundPowerBlock() {
-		return powerBlockPos != BlockPos.ORIGIN;
-	}
-
-	private static void populatePowerBlocks(World world, BlockPos blockPos, int i) {
-		if (hasFoundPowerBlock() || blockPos == null || i >= 200) return;
+	@Nullable
+	private static BlockPos populatePowerBlocks(World world, BlockPos blockPos, int i, Set<BlockPos> visitedPos) {
+		if (blockPos == null || i >= 200) return null;
 		for (Direction dir : Direction.values()) {
 			BlockPos otherPos = blockPos.offset(dir);
 			if (!visitedPos.contains(otherPos)) {
 				visitedPos.add(otherPos);
 				if (world.getBlockState(otherPos).isOf(Blocks.COPPER_POWER_BLOCK)) {
-					powerBlockPos = otherPos;
-					return;
+					return otherPos;
 				}
-				if (hasFoundPowerBlock()) return;
 				if (world.getBlockState(otherPos).isIn(BlockTags.OXIDIZABLE))
-					populatePowerBlocks(world, otherPos, i + 6);
+					return populatePowerBlocks(world, otherPos, i + 6, visitedPos);
 
 			}
 		}
+		return null;
 	}
 
 	public static void addEnergyToPowerBlock(World world, BlockPos blockPos, GenerationSource generationSource, int count, BlockPos particlePos) {
-		visitedPos.clear();
-		powerBlockPos = BlockPos.ORIGIN;
-		populatePowerBlocks(world, blockPos, 0);
-		if (!hasFoundPowerBlock()) return;
+		BlockPos powerBlockPos = populatePowerBlocks(world, blockPos, 0, new HashSet<>());
+		if (powerBlockPos == null) return;
 		BlockEntity blockEntity = world.getBlockEntity(powerBlockPos);
 		if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
 			copperPowerBlockEntity.addEnergy(generationSource.getPower() * count);
