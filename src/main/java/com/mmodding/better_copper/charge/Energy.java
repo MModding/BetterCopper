@@ -14,28 +14,37 @@ import java.util.List;
 
 public class Energy {
 
-	private static final List<BlockPos> powerBlocks = new ArrayList<>();
+	private static BlockPos powerBlockPos = BlockPos.ORIGIN;
+	private static List<BlockPos> visitedPos = new ArrayList<>();
+
+	private static boolean hasFoundPowerBlock() {
+		return powerBlockPos != BlockPos.ORIGIN;
+	}
 
 	private static void populatePowerBlocks(World world, BlockPos blockPos, int i) {
-		if (!powerBlocks.isEmpty()) return;
-		if (blockPos == null) return;
-		if (i >= 200) return;
+		if (hasFoundPowerBlock() || blockPos == null || i >= 200) return;
 		for (Direction dir : Direction.values()) {
 			BlockPos otherPos = blockPos.offset(dir);
-			if (world.getBlockState(otherPos).isOf(Blocks.COPPER_POWER_BLOCK)) {
-				powerBlocks.add(otherPos);
-				return;
+			if (!visitedPos.contains(otherPos)) {
+				visitedPos.add(otherPos);
+				if (world.getBlockState(otherPos).isOf(Blocks.COPPER_POWER_BLOCK)) {
+					powerBlockPos = otherPos;
+					return;
+				}
+				if (hasFoundPowerBlock()) return;
+				if (world.getBlockState(otherPos).isIn(BlockTags.OXIDIZABLE))
+					populatePowerBlocks(world, otherPos, i + 6);
+
 			}
-			if (!powerBlocks.isEmpty()) return;
-			if (world.getBlockState(otherPos).isIn(BlockTags.OXIDIZABLE)) populatePowerBlocks(world, blockPos, i + 6);
 		}
 	}
 
 	public static void addEnergyToPowerBlock(World world, BlockPos blockPos, GenerationSource generationSource, int count, BlockPos particlePos) {
-		powerBlocks.clear();
+		visitedPos.clear();
+		powerBlockPos = BlockPos.ORIGIN;
 		populatePowerBlocks(world, blockPos, 0);
-		if (powerBlocks.isEmpty()) return;
-		BlockEntity blockEntity = world.getBlockEntity(powerBlocks.get(0));
+		if (!hasFoundPowerBlock()) return;
+		BlockEntity blockEntity = world.getBlockEntity(powerBlockPos);
 		if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
 			copperPowerBlockEntity.addEnergy(generationSource.getPower() * count);
 			spawnEnergyParticles(world, particlePos);
