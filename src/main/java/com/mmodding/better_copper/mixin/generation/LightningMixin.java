@@ -1,5 +1,6 @@
 package com.mmodding.better_copper.mixin.generation;
 
+import com.mmodding.better_copper.charge.Energy;
 import com.mmodding.better_copper.charge.GenerationSource;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -22,6 +23,6 @@ public class LightningMixin {
 		if (blockState.isOf(Blocks.LIGHTNING_ROD)) {
 			particlePos = pos.offset(blockState.get(LightningRodBlock.FACING));
 		}
-		com.mmodding.better_copper.init.Blocks.COPPER_POWER_BLOCK.addEnergyIfConnected(world, pos, GenerationSource.LIGHTNING_STRIKE, particlePos);
+		Energy.addEnergyToPowerBlock(world, pos, GenerationSource.LIGHTNING_STRIKE, particlePos);
 	}
 }

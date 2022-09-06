@@ -2,7 +2,7 @@ package com.mmodding.better_copper.items;
 
 import com.mmodding.better_copper.charge.Charge;
 import com.mmodding.better_copper.charge.ConsumeSource;
-import com.mmodding.better_copper.init.Blocks;
+import com.mmodding.better_copper.charge.Energy;
 import com.mmodding.better_copper.materials.CopperArmorMaterial;
 import com.mmodding.mmodding_lib.library.utils.TickOperations;
 import net.minecraft.client.item.TooltipContext;
@@ -37,7 +37,7 @@ public class ChargedArmorItem extends ArmorItem implements Charge, TickOperation
 		this.checkTickForOperation(20, () -> {
 			if (!(entity instanceof LivingEntity livingEntity)) return;
 			if (this.slot.getType() != EquipmentSlot.Type.ARMOR) return;
-			this.charge(stack, Blocks.COPPER_POWER_BLOCK.consumeEnergyIfConnected(livingEntity.world, livingEntity.getBlockPos(), ConsumeSource.ARMOR_CHARGE, 1, livingEntity.getBlockPos()).getLeft());
+			this.charge(stack, Energy.removeEnergyFromPowerBlock(livingEntity.world, livingEntity.getBlockPos(), ConsumeSource.ARMOR_CHARGE, livingEntity.getBlockPos()));
 			if (this.isCharged(stack)) {
 				this.changeProtection(stack, slot);
 			}

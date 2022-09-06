@@ -16,7 +16,7 @@ import java.util.Set;
 public class Energy {
 
 	@Nullable
-	private static BlockPos populatePowerBlocks(World world, BlockPos blockPos, int i, Set<BlockPos> visitedPos) {
+	private static BlockPos getNearestPowerBlockPos(World world, BlockPos blockPos, int i, Set<BlockPos> visitedPos) {
 		if (blockPos == null || i >= 200) return null;
 		for (Direction dir : Direction.values()) {
 			BlockPos otherPos = blockPos.offset(dir);
@@ -26,7 +26,7 @@ public class Energy {
 					return otherPos;
 				}
 				if (world.getBlockState(otherPos).isIn(BlockTags.OXIDIZABLE))
-					return populatePowerBlocks(world, otherPos, i + 6, visitedPos);
+					return getNearestPowerBlockPos(world, otherPos, i + 6, visitedPos);
 
 			}
 		}
@@ -34,7 +34,7 @@ public class Energy {
 	}
 
 	public static void addEnergyToPowerBlock(World world, BlockPos blockPos, GenerationSource generationSource, int count, BlockPos particlePos) {
-		BlockPos powerBlockPos = populatePowerBlocks(world, blockPos, 0, new HashSet<>());
+		BlockPos powerBlockPos = getNearestPowerBlockPos(world, blockPos, 0, new HashSet<>());
 		if (powerBlockPos == null) return;
 		BlockEntity blockEntity = world.getBlockEntity(powerBlockPos);
 		if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
@@ -53,6 +53,21 @@ public class Energy {
 
 	public static void addEnergyToPowerBlock(World world, BlockPos blockPos, GenerationSource generationSource) {
 		addEnergyToPowerBlock(world, blockPos, generationSource, 1, blockPos);
+	}
+
+	public static int removeEnergyFromPowerBlock(World world, BlockPos blockPos, ConsumeSource consumeSource, int count, BlockPos particlePos) {
+		BlockPos powerBlockPos = getNearestPowerBlockPos(world, blockPos, 0, new HashSet<>());
+		if (powerBlockPos == null) return 0;
+		BlockEntity blockEntity = world.getBlockEntity(powerBlockPos);
+		if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
+			spawnEnergyParticles(world, particlePos);
+			return copperPowerBlockEntity.removeEnergy(consumeSource.getPower() * count);
+		}
+		return 0;
+	}
+
+	public static int removeEnergyFromPowerBlock(World world, BlockPos blockPos, ConsumeSource consumeSource, BlockPos particlePos) {
+		return removeEnergyFromPowerBlock(world, blockPos, consumeSource, 1, particlePos);
 	}
 
 	public static void spawnEnergyParticles(World world, BlockPos pos) {

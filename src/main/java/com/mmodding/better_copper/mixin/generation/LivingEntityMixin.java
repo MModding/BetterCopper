@@ -1,7 +1,7 @@
 package com.mmodding.better_copper.mixin.generation;
 
+import com.mmodding.better_copper.charge.Energy;
 import com.mmodding.better_copper.charge.GenerationSource;
-import com.mmodding.better_copper.init.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,6 +22,6 @@ public class LivingEntityMixin {
 	@Inject(method = "onDeath", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setPose(Lnet/minecraft/entity/EntityPose;)V", shift = At.Shift.AFTER))
 	private void onDeath(DamageSource source, CallbackInfo ci) {
 		LivingEntity livingEntity = ((LivingEntity) (Object) this);
-		Blocks.COPPER_POWER_BLOCK.addEnergyIfConnected(livingEntity.world, livingEntity.getBlockPos(), GenerationSource.DEATH);
+		Energy.addEnergyToPowerBlock(livingEntity.world, livingEntity.getBlockPos(), GenerationSource.DEATH);
 	}
 }

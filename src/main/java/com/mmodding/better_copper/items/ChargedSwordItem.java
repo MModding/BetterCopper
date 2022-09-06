@@ -2,7 +2,7 @@ package com.mmodding.better_copper.items;
 
 import com.mmodding.better_copper.charge.Charge;
 import com.mmodding.better_copper.charge.ConsumeSource;
-import com.mmodding.better_copper.init.Blocks;
+import com.mmodding.better_copper.charge.Energy;
 import com.mmodding.better_copper.materials.CopperToolsMaterial;
 import com.mmodding.mmodding_lib.library.utils.TickOperations;
 import net.minecraft.client.item.TooltipContext;
@@ -36,7 +36,7 @@ public class ChargedSwordItem extends SwordItem implements Charge, TickOperation
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		this.checkTickForOperation(20, () -> {
 			if (!(entity instanceof LivingEntity livingEntity)) return;
-			this.charge(stack, Blocks.COPPER_POWER_BLOCK.consumeEnergyIfConnected(livingEntity.world, livingEntity.getBlockPos(), ConsumeSource.ARMOR_CHARGE, 1, livingEntity.getBlockPos()).getLeft());
+			this.charge(stack, Energy.removeEnergyFromPowerBlock(livingEntity.world, livingEntity.getBlockPos(), ConsumeSource.ARMOR_CHARGE, livingEntity.getBlockPos()));
 			if (this.isCharged(stack)) {
 				this.changeAttributes(stack, slot);
 			}
@@ -63,8 +63,7 @@ public class ChargedSwordItem extends SwordItem implements Charge, TickOperation
 					stack.addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, modifier, equipmentSlot);
 				}
 			});
-		} catch (IllegalArgumentException ignored) {
-		}
+		} catch (IllegalArgumentException ignored) {}
 	}
 
 	@Override
