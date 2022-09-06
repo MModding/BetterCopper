@@ -9,11 +9,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Energy {
 
-	private static List<BlockPos> powerBlocks;
+	private static final List<BlockPos> powerBlocks = new ArrayList<>();
 
 	private static void populatePowerBlocks(World world, BlockPos blockPos, int i) {
 		if (blockPos == null) return;
@@ -29,9 +30,9 @@ public class Energy {
 	}
 
 	public static void addEnergyToPowerBlock(World world, BlockPos blockPos, GenerationSource generationSource, int count, BlockPos particlePos) {
-		if (powerBlocks != null) powerBlocks.clear();
+		powerBlocks.clear();
 		populatePowerBlocks(world, blockPos, 0);
-		if (powerBlocks == null || powerBlocks.isEmpty()) return;
+		if (powerBlocks.isEmpty()) return;
 		BlockEntity blockEntity = world.getBlockEntity(powerBlocks.get(0));
 		if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
 			copperPowerBlockEntity.addEnergy(generationSource.getPower() * count);

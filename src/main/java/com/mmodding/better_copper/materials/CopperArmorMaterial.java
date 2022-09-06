@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.armormaterials;
+package com.mmodding.better_copper.materials;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
