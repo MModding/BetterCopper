@@ -17,6 +17,7 @@ public class Energy {
 	private static final List<BlockPos> powerBlocks = new ArrayList<>();
 
 	private static void populatePowerBlocks(World world, BlockPos blockPos, int i) {
+		if (!powerBlocks.isEmpty()) return;
 		if (blockPos == null) return;
 		if (i >= 200) return;
 		for (Direction dir : Direction.values()) {
@@ -25,6 +26,7 @@ public class Energy {
 				powerBlocks.add(otherPos);
 				return;
 			}
+			if (!powerBlocks.isEmpty()) return;
 			if (world.getBlockState(otherPos).isIn(BlockTags.OXIDIZABLE)) populatePowerBlocks(world, blockPos, i + 6);
 		}
 	}
