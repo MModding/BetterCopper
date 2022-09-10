@@ -18,10 +18,10 @@ public class Energy {
 	@Nullable
 	private static BlockPos getNearestPowerBlockPos(World world, BlockPos blockPos, int i, Set<BlockPos> visitedPos) {
 		if (blockPos == null || i >= 200) return null;
+		visitedPos.add(blockPos);
 		for (Direction dir : Direction.values()) {
 			BlockPos otherPos = blockPos.offset(dir);
 			if (!visitedPos.contains(otherPos)) {
-				visitedPos.add(otherPos);
 				if (world.getBlockState(otherPos).isOf(Blocks.COPPER_POWER_BLOCK)) {
 					return otherPos;
 				}
