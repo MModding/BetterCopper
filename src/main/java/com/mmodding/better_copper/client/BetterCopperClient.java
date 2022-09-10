@@ -77,8 +77,8 @@ public class BetterCopperClient implements MModdingClientModInitializer {
 	}
 
 	private void onTick(MinecraftClient minecraftClient) {
-		if (LoopAreaHelper.FIELDS != null && !LoopAreaHelper.FIELDS.isEmpty())
-			LoopAreaHelper.FIELDS.forEach(magneticField -> magneticField.render(minecraftClient, LoopAreaHelper.getRenderCamera(), WorldRendererAccessor.getFORCEFIELD()));
+		if (!LoopAreaHelper.getInstance().FIELDS.isEmpty())
+			LoopAreaHelper.getInstance().FIELDS.forEach(magneticField -> magneticField.render(minecraftClient, LoopAreaHelper.getInstance().getRenderCamera(), WorldRendererAccessor.getFORCEFIELD()));
 		BOX_OUTLINE.tickOutlines();
 		ChargedValueRenderer.tick(minecraftClient);
 	}

@@ -6,16 +6,15 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.BlockLocating;
 import net.minecraft.world.WorldAccess;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 /**
@@ -23,8 +22,11 @@ import java.util.function.Predicate;
  */
 public class LoopAreaHelper {
 
-	private static Camera CAMERA;
-	public static List<MagneticField> FIELDS;
+	private static final LoopAreaHelper INSTANCE = new LoopAreaHelper();
+
+	private Camera CAMERA;
+	public List<MagneticField> FIELDS = new ArrayList<>();
+
 	protected HashSet<Block> VALID_LOOP = null;
 	public BlockPos lowerCorner;
 	protected WorldAccess world;
@@ -33,14 +35,26 @@ public class LoopAreaHelper {
 	protected final int maxXSize = 21;
 	protected final int maxZSize = 21;
 
-	public LoopAreaHelper() {}
+	public static LoopAreaHelper getInstance() {
+		return INSTANCE;
+	}
 
-	public static void setRenderCamera(Camera camera) {
+	public void setRenderCamera(Camera camera) {
 		CAMERA = camera;
 	}
 
-	public static Camera getRenderCamera() {
+	public Camera getRenderCamera() {
 		return CAMERA;
+	}
+
+	public boolean isPlayerInField(Box boundingBox) {
+		AtomicBoolean bl = new AtomicBoolean(false);
+		FIELDS.forEach(magneticField -> {
+			if (magneticField.contains(boundingBox)) {
+				bl.set(true);
+			}
+		});
+		return bl.get();
 	}
 
 	public LoopAreaHelper init(WorldAccess world, BlockPos blockPos, Direction.Axis axis, Block... foundations) {
@@ -68,7 +82,7 @@ public class LoopAreaHelper {
 	}
 
 	public Optional<LoopAreaHelper> getOrEmpty(WorldAccess worldAccess, BlockPos blockPos, Predicate<LoopAreaHelper> predicate, Direction.Axis axis, Block... foundations) {
-		return Optional.of(new LoopAreaHelper().init(worldAccess, blockPos, axis, foundations)).filter(predicate);
+		return Optional.of(init(worldAccess, blockPos, axis, foundations)).filter(predicate);
 	}
 
 	public boolean isValidLoop() {
