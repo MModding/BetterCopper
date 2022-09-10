@@ -35,7 +35,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
 	@Inject(method = "onDeath", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setPose(Lnet/minecraft/entity/EntityPose;)V", shift = At.Shift.AFTER))
 	private void onDeath(DamageSource source, CallbackInfo ci) {
 		LivingEntity livingEntity = ((LivingEntity) (Object) this);
-		Energy.addEnergyToPowerBlock(livingEntity.world, livingEntity.getBlockPos().down(), GenerationSource.DEATH);
+		Energy.addEnergyToPowerBlock(livingEntity.world, livingEntity.getBlockPos().down(), GenerationSource.DEATH, livingEntity.getBlockPos());
 	}
 
 	@Inject(method = "baseTick", at = @At("HEAD"))

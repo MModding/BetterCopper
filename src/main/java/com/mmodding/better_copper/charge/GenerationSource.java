@@ -6,6 +6,8 @@ public enum GenerationSource {
 	CRAFTING(3),
 	GROTH(4),
 	DEATH(5),
+	FORGE(7),
+	SMITHING(9),
 	LIGHTNING_STRIKE(10),
 	FALLING(20);
 

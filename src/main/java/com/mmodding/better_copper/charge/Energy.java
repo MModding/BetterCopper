@@ -22,12 +22,11 @@ public class Energy {
 		for (Direction dir : Direction.values()) {
 			BlockPos otherPos = blockPos.offset(dir);
 			if (!visitedPos.contains(otherPos)) {
-				if (world.getBlockState(otherPos).isOf(Blocks.COPPER_POWER_BLOCK)) {
-					return otherPos;
+				if (world.getBlockState(otherPos).isOf(Blocks.COPPER_POWER_BLOCK)) return otherPos;
+				if (world.getBlockState(otherPos).isIn(BlockTags.OXIDIZABLE)) {
+					BlockPos contPos = getNearestPowerBlockPos(world, otherPos, i + 6, visitedPos);
+					if (contPos != null) return contPos;
 				}
-				if (world.getBlockState(otherPos).isIn(BlockTags.OXIDIZABLE))
-					return getNearestPowerBlockPos(world, otherPos, i + 6, visitedPos);
-
 			}
 		}
 		return null;
