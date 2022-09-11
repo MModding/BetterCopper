@@ -3,29 +3,23 @@ package com.mmodding.better_copper.magneticfield;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockLocating;
 import net.minecraft.world.WorldAccess;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 /**
  * Credit: CustomPortalAPI
  */
 public class LoopAreaHelper {
-
-	private static final LoopAreaHelper INSTANCE = new LoopAreaHelper();
-
-	private Camera CAMERA;
-	public List<MagneticField> FIELDS = new ArrayList<>();
 
 	protected HashSet<Block> VALID_LOOP = null;
 	public BlockPos lowerCorner;
@@ -35,27 +29,7 @@ public class LoopAreaHelper {
 	protected final int maxXSize = 21;
 	protected final int maxZSize = 21;
 
-	public static LoopAreaHelper getInstance() {
-		return INSTANCE;
-	}
-
-	public void setRenderCamera(Camera camera) {
-		CAMERA = camera;
-	}
-
-	public Camera getRenderCamera() {
-		return CAMERA;
-	}
-
-	public boolean isPlayerInField(Box boundingBox) {
-		AtomicBoolean bl = new AtomicBoolean(false);
-		FIELDS.forEach(magneticField -> {
-			if (magneticField.contains(boundingBox)) {
-				bl.set(true);
-			}
-		});
-		return bl.get();
-	}
+	public LoopAreaHelper() {}
 
 	public LoopAreaHelper init(WorldAccess world, BlockPos blockPos, Direction.Axis axis, Block... foundations) {
 		VALID_LOOP = Sets.newHashSet(foundations);

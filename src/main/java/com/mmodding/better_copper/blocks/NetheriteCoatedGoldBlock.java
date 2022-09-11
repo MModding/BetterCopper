@@ -6,7 +6,6 @@ import com.mmodding.mmodding_lib.library.blocks.CustomFallingBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -47,7 +46,7 @@ public class NetheriteCoatedGoldBlock extends CustomFallingBlock {
 	@Override
 	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		super.scheduledTick(state, world, pos, random);
-		if (this.magneticField == null) new MagneticField(world, pos, MinecraftClient.getInstance());
+		if (this.magneticField == null) this.magneticField = new MagneticField(world, pos);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package com.mmodding.better_copper.magneticfield;
 
+import com.mmodding.better_copper.Utils;
 import com.mmodding.better_copper.init.Blocks;
-import com.mmodding.better_copper.mixin.accessors.WorldRendererAccessor;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
@@ -20,20 +20,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MagneticField extends WorldBorder {
 
-	public MagneticField(World world, BlockPos blockPos, MinecraftClient minecraftClient) {
-		Optional<LoopAreaHelper> loop = LoopAreaHelper.getInstance().getNewLoop(world, blockPos, Direction.Axis.X, Blocks.NETHERITE_COATED_GOLD_BLOCK);
-		Optional<LoopAreaHelper> loopZ = LoopAreaHelper.getInstance().getNewLoop(world, blockPos, Direction.Axis.Z, Blocks.NETHERITE_COATED_GOLD_BLOCK);
-		if (loop.isPresent()) {
-			init(loop.get(), Direction.Axis.X, minecraftClient);
-		} else loopZ.ifPresent(loopAreaHelper -> init(loopAreaHelper, Direction.Axis.Z, minecraftClient));
+	public MagneticField(World world, BlockPos blockPos) {
+		Optional<LoopAreaHelper> loopX = Utils.LAH.getNewLoop(world, blockPos, Direction.Axis.X, Blocks.NETHERITE_COATED_GOLD_BLOCK);
+		Optional<LoopAreaHelper> loopZ = Utils.LAH.getNewLoop(world, blockPos, Direction.Axis.Z, Blocks.NETHERITE_COATED_GOLD_BLOCK);
+		if (loopX.isPresent()) {
+			init(loopX.get(), Direction.Axis.X);
+		} else loopZ.ifPresent(loopAreaHelperZ -> init(loopAreaHelperZ, Direction.Axis.Z));
 	}
 
-	public void init(LoopAreaHelper loopAreaHelper, Direction.Axis axis, MinecraftClient minecraftClient) {
+	public void init(LoopAreaHelper loopAreaHelper, Direction.Axis axis) {
 		AtomicBoolean flag = new AtomicBoolean(true);
 		BlockPos center = Direction.Axis.X == axis ?
 				loopAreaHelper.lowerCorner.offset(Direction.Axis.X, (loopAreaHelper.xSize - 1) / 2).offset(Direction.Axis.Z, (loopAreaHelper.zSize - 1) / 2)
 				: loopAreaHelper.lowerCorner.offset(Direction.Axis.Z, (loopAreaHelper.zSize - 1) / 2).offset(Direction.Axis.X, (loopAreaHelper.xSize - 1) / 2);
-		LoopAreaHelper.getInstance().FIELDS.forEach(magneticFields -> {
+		Utils.FIELDS.forEach(magneticFields -> {
 			if (magneticFields.getCenterX() == center.getX() && magneticFields.getCenterZ() == center.getZ())
 				flag.set(false);
 		});
@@ -41,8 +41,7 @@ public class MagneticField extends WorldBorder {
 			setCenter(center.getX(), center.getZ());
 			setSize(loopAreaHelper.xSize);
 			setDamagePerBlock(0);
-			LoopAreaHelper.getInstance().FIELDS.add(this);
-			render(minecraftClient, LoopAreaHelper.getInstance().getRenderCamera(), WorldRendererAccessor.getFORCEFIELD());
+			Utils.FIELDS.add(this);
 		}
 	}
 

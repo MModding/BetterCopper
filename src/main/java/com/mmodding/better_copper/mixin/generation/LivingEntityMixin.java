@@ -1,13 +1,14 @@
 package com.mmodding.better_copper.mixin.generation;
 
+import com.mmodding.better_copper.Utils;
 import com.mmodding.better_copper.charge.Energy;
 import com.mmodding.better_copper.charge.GenerationSource;
-import com.mmodding.better_copper.magneticfield.LoopAreaHelper;
 import com.mmodding.better_copper.mixin.EntityMixin;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.math.Box;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends EntityMixin {
@@ -41,7 +43,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
 	@Inject(method = "baseTick", at = @At("HEAD"))
 	private void injectBaseTick(CallbackInfo ci) {
 		LivingEntity livingEntity = ((LivingEntity) (Object) this);
-		if (this.isAlive() && !this.isInsideWall() && LoopAreaHelper.getInstance().isPlayerInField(this.getBoundingBox())) {
+		if (this.isAlive() && !this.isInsideWall() && isPlayerInField(this.getBoundingBox())) {
 			if (isEntityWearing(livingEntity, new ArrayList<>(Arrays.asList(Items.IRON_HELMET.getDefaultStack(),
 					Items.IRON_CHESTPLATE.getDefaultStack(), Items.IRON_LEGGINGS.getDefaultStack(), Items.IRON_BOOTS.getDefaultStack())))) {
 				livingEntity.addVelocity(0D, 0.5D, 0D);
@@ -53,6 +55,16 @@ public abstract class LivingEntityMixin extends EntityMixin {
 				livingEntity.addVelocity(0D, 1.5D, 0D);
 			}
 		}
+	}
+
+	public boolean isPlayerInField(Box boundingBox) {
+		AtomicBoolean bl = new AtomicBoolean(false);
+		Utils.FIELDS.forEach(magneticField -> {
+			if (magneticField.contains(boundingBox)) {
+				bl.set(true);
+			}
+		});
+		return bl.get();
 	}
 
 	private boolean isEntityWearing(LivingEntity livingEntity, List<ItemStack> itemsEquipped) {

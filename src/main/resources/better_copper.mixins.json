@@ -35,8 +35,7 @@
     "ItemRendererMixin",
     "WorldRendererMixin",
     "accessors.RenderLayerAccessor",
-    "accessors.RenderPhaseAccessor",
-    "accessors.WorldRendererAccessor"
+    "accessors.RenderPhaseAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
