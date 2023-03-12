@@ -2,9 +2,9 @@ package com.mmodding.better_copper.mixin;
 
 import com.mmodding.better_copper.charge.Charge;
 import com.mmodding.better_copper.init.RenderLayers;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;

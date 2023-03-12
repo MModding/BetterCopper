@@ -4,6 +4,10 @@ import com.mmodding.better_copper.mixin.accessors.RenderLayerAccessor;
 import com.mmodding.better_copper.mixin.accessors.RenderPhaseAccessor;
 import com.mmodding.mmodding_lib.library.initializers.ClientElementsInitializer;
 import com.mmodding.mmodding_lib.library.initializers.ElementsInitializer;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexConsumers;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormats;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
@@ -12,7 +16,10 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.DyeColor;
+import net.minecraft.util.Holder;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 
 import java.util.List;
 
@@ -195,16 +202,16 @@ public class RenderLayers implements ElementsInitializer, ClientElementsInitiali
 		return provider.getBuffer(layer);
 	}
 
-	public static void renderCanvas(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ModelPart canvas, SpriteIdentifier baseSprite, boolean isBanner, List<Pair<BannerPattern, DyeColor>> patterns, boolean glint, boolean clint) {
+	public static void renderCanvas(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ModelPart canvas, SpriteIdentifier baseSprite, boolean isBanner, List<Pair<Holder<BannerPattern>, DyeColor>> patterns, boolean glint, boolean clint) {
 		canvas.render(matrices, baseSprite.getSprite().getTextureSpecificVertexConsumer(getDirectItemClintConsumer(vertexConsumers, baseSprite.getRenderLayer(RenderLayer::getEntitySolid), true, glint, clint)), light, overlay);
 
 		for (int i = 0; i < 17 && i < patterns.size(); ++i) {
-			Pair<BannerPattern, DyeColor> pair = patterns.get(i);
+			Pair<Holder<BannerPattern>, DyeColor> pair = patterns.get(i);
 			float[] fs = pair.getSecond().getColorComponents();
-			BannerPattern bannerPattern = pair.getFirst();
+			BannerPattern bannerPattern = pair.getFirst().value();
 			SpriteIdentifier spriteIdentifier = isBanner
-					? TexturedRenderLayers.getBannerPatternTextureId(bannerPattern)
-					: TexturedRenderLayers.getShieldPatternTextureId(bannerPattern);
+					? TexturedRenderLayers.getBannerPatternTextureId(RegistryKey.of(Registry.BANNER_PATTERN_KEY, new Identifier(bannerPattern.getId())))
+					: TexturedRenderLayers.getShieldPatternTextureId(RegistryKey.of(Registry.BANNER_PATTERN_KEY, new Identifier(bannerPattern.getId())));
 			canvas.render(matrices, spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline), light, overlay, fs[0], fs[1], fs[2], 1.0F);
 		}
 	}

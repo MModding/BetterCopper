@@ -8,7 +8,6 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.*;
 
@@ -23,8 +22,8 @@ public class ValueBox extends BoxOutline {
 	Box prevBox;
 
 	protected Text label;
-	protected Text sublabel = LiteralText.EMPTY;
-	protected Text scrollTooltip = LiteralText.EMPTY;
+	protected Text sublabel = Text.empty();
+	protected Text scrollTooltip = Text.empty();
 	protected Vec3d labelOffset = Vec3d.ZERO;
 
 	protected int passiveColor;

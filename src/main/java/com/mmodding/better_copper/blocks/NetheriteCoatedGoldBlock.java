@@ -11,10 +11,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.world.World;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NetheriteCoatedGoldBlock extends CustomFallingBlock {
@@ -44,7 +44,7 @@ public class NetheriteCoatedGoldBlock extends CustomFallingBlock {
 	}
 
 	@Override
-	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, RandomGenerator random) {
 		super.scheduledTick(state, world, pos, random);
 		if (this.magneticField == null) this.magneticField = new MagneticField(world, pos);
 	}

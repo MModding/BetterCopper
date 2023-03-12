@@ -2,19 +2,19 @@ package com.mmodding.better_copper.client.render;
 
 import com.mmodding.better_copper.Helper;
 import com.mmodding.better_copper.init.SpecialTextures;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Optional;
 
@@ -205,7 +205,7 @@ public abstract class BoxOutline {
 
 		builder.vertex(pose.peek().getModel(), x, y, z)
 				.color(rgb.getRed(), rgb.getGreen(), rgb.getBlue(), rgb.getAlpha() * params.alpha)
-				.texture(u, v).overlay(OverlayTexture.DEFAULT_UV).light(params.lightMap)
+				.uv(u, v).overlay(OverlayTexture.DEFAULT_UV).light(params.lightMap)
 				.normal(pose.peek().getNormal(), xOffset, yOffset, zOffset).next();
 
 		transformNormals = null;

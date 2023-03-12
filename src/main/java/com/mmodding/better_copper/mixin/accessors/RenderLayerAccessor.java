@@ -1,7 +1,7 @@
 package com.mmodding.better_copper.mixin.accessors;
 
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexFormat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 

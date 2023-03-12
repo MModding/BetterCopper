@@ -1,6 +1,8 @@
 package com.mmodding.better_copper.client.render;
 
 import com.mmodding.better_copper.init.RenderLayers;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.chunk.BlockBufferBuilderStorage;

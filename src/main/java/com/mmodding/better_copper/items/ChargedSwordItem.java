@@ -14,12 +14,11 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +44,7 @@ public class ChargedSwordItem extends SwordItem implements Charge, TickOperation
 
 	@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new LiteralText("Charge : " + this.getCharge(stack)).formatted(Formatting.ITALIC, Formatting.GRAY));
+		tooltip.add(Text.literal("Charge : " + this.getCharge(stack)).formatted(Formatting.ITALIC, Formatting.GRAY));
 	}
 
 	public void changeAttributes(ItemStack stack, int slot) {

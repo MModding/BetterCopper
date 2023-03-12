@@ -4,6 +4,7 @@ import com.mmodding.better_copper.Utils;
 import com.mmodding.better_copper.init.Blocks;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -46,8 +47,8 @@ public class MagneticField extends WorldBorder {
 	}
 
 	public void render(MinecraftClient minecraftClient, Camera camera, Identifier texture) {
-		BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-		double d = minecraftClient.options.method_38521() * 16;
+		BufferBuilder bufferBuilder = Tessellator.getInstance().getBufferBuilder();
+		double d = minecraftClient.options.getEffectiveViewDistance() * 16;
 		if (!(camera.getPos().x < getBoundEast() - d)
 				|| !(camera.getPos().x > getBoundWest() + d)
 				|| !(camera.getPos().z < getBoundSouth() - d)
@@ -57,11 +58,11 @@ public class MagneticField extends WorldBorder {
 			e = MathHelper.clamp(e, 0.0, 1.0);
 			double f = camera.getPos().x;
 			double g = camera.getPos().z;
-			double h = minecraftClient.gameRenderer.method_32796();
+			double h = minecraftClient.gameRenderer.getFarDepth();
 			RenderSystem.enableBlend();
 			RenderSystem.enableDepthTest();
 			RenderSystem.blendFuncSeparate(
-					GlStateManager.class_4535.SRC_ALPHA, GlStateManager.class_4534.ONE, GlStateManager.class_4535.ONE, GlStateManager.class_4534.ZERO
+					GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO
 			);
 			RenderSystem.setShaderTexture(0, texture);
 			RenderSystem.depthMask(MinecraftClient.isFabulousGraphicsOrBetter());
@@ -90,10 +91,10 @@ public class MagneticField extends WorldBorder {
 				for (double t = q; t < r; s += 0.5F) {
 					double u = Math.min(1.0, r - t);
 					float v = (float) u * 0.5F;
-					bufferBuilder.vertex(getBoundEast() - f, -h, t - g).texture(m - s, m + p).next();
-					bufferBuilder.vertex(getBoundEast() - f, -h, t + u - g).texture(m - (v + s), m + p).next();
-					bufferBuilder.vertex(getBoundEast() - f, h, t + u - g).texture(m - (v + s), m + 0.0F).next();
-					bufferBuilder.vertex(getBoundEast() - f, h, t - g).texture(m - s, m + 0.0F).next();
+					bufferBuilder.vertex(getBoundEast() - f, -h, t - g).uv(m - s, m + p).next();
+					bufferBuilder.vertex(getBoundEast() - f, -h, t + u - g).uv(m - (v + s), m + p).next();
+					bufferBuilder.vertex(getBoundEast() - f, h, t + u - g).uv(m - (v + s), m + 0.0F).next();
+					bufferBuilder.vertex(getBoundEast() - f, h, t - g).uv(m - s, m + 0.0F).next();
 					++t;
 				}
 			}
@@ -104,10 +105,10 @@ public class MagneticField extends WorldBorder {
 				for (double t = q; t < r; s += 0.5F) {
 					double u = Math.min(1.0, r - t);
 					float v = (float) u * 0.5F;
-					bufferBuilder.vertex(getBoundWest() - f, -h, t - g).texture(m + s, m + p).next();
-					bufferBuilder.vertex(getBoundWest() - f, -h, t + u - g).texture(m + v + s, m + p).next();
-					bufferBuilder.vertex(getBoundWest() - f, h, t + u - g).texture(m + v + s, m + 0.0F).next();
-					bufferBuilder.vertex(getBoundWest() - f, h, t - g).texture(m + s, m + 0.0F).next();
+					bufferBuilder.vertex(getBoundWest() - f, -h, t - g).uv(m + s, m + p).next();
+					bufferBuilder.vertex(getBoundWest() - f, -h, t + u - g).uv(m + v + s, m + p).next();
+					bufferBuilder.vertex(getBoundWest() - f, h, t + u - g).uv(m + v + s, m + 0.0F).next();
+					bufferBuilder.vertex(getBoundWest() - f, h, t - g).uv(m + s, m + 0.0F).next();
 					++t;
 				}
 			}
@@ -120,10 +121,10 @@ public class MagneticField extends WorldBorder {
 				for (double t = q; t < r; s += 0.5F) {
 					double u = Math.min(1.0, r - t);
 					float v = (float) u * 0.5F;
-					bufferBuilder.vertex(t - f, -h, getBoundSouth() - g).texture(m + s, m + p).next();
-					bufferBuilder.vertex(t + u - f, -h, getBoundSouth() - g).texture(m + v + s, m + p).next();
-					bufferBuilder.vertex(t + u - f, h, getBoundSouth() - g).texture(m + v + s, m + 0.0F).next();
-					bufferBuilder.vertex(t - f, h, getBoundSouth() - g).texture(m + s, m + 0.0F).next();
+					bufferBuilder.vertex(t - f, -h, getBoundSouth() - g).uv(m + s, m + p).next();
+					bufferBuilder.vertex(t + u - f, -h, getBoundSouth() - g).uv(m + v + s, m + p).next();
+					bufferBuilder.vertex(t + u - f, h, getBoundSouth() - g).uv(m + v + s, m + 0.0F).next();
+					bufferBuilder.vertex(t - f, h, getBoundSouth() - g).uv(m + s, m + 0.0F).next();
 					++t;
 				}
 			}
@@ -134,16 +135,15 @@ public class MagneticField extends WorldBorder {
 				for (double t = q; t < r; s += 0.5F) {
 					double u = Math.min(1.0, r - t);
 					float v = (float) u * 0.5F;
-					bufferBuilder.vertex(t - f, -h, getBoundNorth() - g).texture(m - s, m + p).next();
-					bufferBuilder.vertex(t + u - f, -h, getBoundNorth() - g).texture(m - (v + s), m + p).next();
-					bufferBuilder.vertex(t + u - f, h, getBoundNorth() - g).texture(m - (v + s), m + 0.0F).next();
-					bufferBuilder.vertex(t - f, h, getBoundNorth() - g).texture(m - s, m + 0.0F).next();
+					bufferBuilder.vertex(t - f, -h, getBoundNorth() - g).uv(m - s, m + p).next();
+					bufferBuilder.vertex(t + u - f, -h, getBoundNorth() - g).uv(m - (v + s), m + p).next();
+					bufferBuilder.vertex(t + u - f, h, getBoundNorth() - g).uv(m - (v + s), m + 0.0F).next();
+					bufferBuilder.vertex(t - f, h, getBoundNorth() - g).uv(m - s, m + 0.0F).next();
 					++t;
 				}
 			}
 
-			bufferBuilder.end();
-			BufferRenderer.draw(bufferBuilder);
+			BufferRenderer.draw(bufferBuilder.end());
 			RenderSystem.enableCull();
 			RenderSystem.polygonOffset(0.0F, 0.0F);
 			RenderSystem.disablePolygonOffset();
