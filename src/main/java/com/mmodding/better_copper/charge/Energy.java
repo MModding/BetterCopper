@@ -38,7 +38,7 @@ public class Energy {
 		BlockEntity blockEntity = world.getBlockEntity(powerBlockPos);
 		if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
 			copperPowerBlockEntity.addEnergy(generationSource.getPower() * count);
-			spawnEnergyParticles(world, particlePos);
+			if (world.isClient) spawnEnergyParticles(world, particlePos);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class Energy {
 		BlockEntity blockEntity = world.getBlockEntity(powerBlockPos);
 		if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
 			int energyConsumed = copperPowerBlockEntity.removeEnergy(consumeSource.getPower() * count);
-			if (energyConsumed > 0)
+			if (energyConsumed > 0 && world.isClient)
 				spawnEnergyParticles(world, particlePos);
 			return energyConsumed;
 		}
