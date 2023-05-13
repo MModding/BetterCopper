@@ -122,8 +122,8 @@ public class ValueBox extends BoxOutline {
 
 	private static Box interpolateBBs(Box current, Box target, float pt) {
 		return new Box(MathHelper.lerp(pt, current.minX, target.minX), MathHelper.lerp(pt, current.minY, target.minY),
-				MathHelper.lerp(pt, current.minZ, target.minZ), MathHelper.lerp(pt, current.maxX, target.maxX),
-				MathHelper.lerp(pt, current.maxY, target.maxY), MathHelper.lerp(pt, current.maxZ, target.maxZ));
+			MathHelper.lerp(pt, current.minZ, target.minZ), MathHelper.lerp(pt, current.maxX, target.maxX),
+			MathHelper.lerp(pt, current.maxY, target.maxY), MathHelper.lerp(pt, current.maxZ, target.maxZ));
 	}
 
 	public void renderContents(MatrixStack ms, VertexConsumerProvider buffer) {}
@@ -171,7 +171,7 @@ public class ValueBox extends BoxOutline {
 
 	private static void drawString(MatrixStack ms, VertexConsumerProvider buffer, Text text, float x, float y, int color) {
 		MinecraftClient.getInstance().textRenderer.draw(text, x, y, color, false, ms.peek()
-				.getModel(), buffer, false, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE);
+			.getModel(), buffer, false, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE);
 	}
 
 	public static abstract class Transform {

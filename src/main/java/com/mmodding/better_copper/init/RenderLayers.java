@@ -12,7 +12,10 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderPhase;
+import net.minecraft.client.render.TexturedRenderLayers;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.DyeColor;
@@ -28,119 +31,119 @@ public class RenderLayers implements ElementsInitializer, ClientElementsInitiali
 	public static final Identifier CHARGED_ITEM_GLINT = new Identifier("textures/misc/enchanted_item_glint.png");
 
 	private static final RenderLayer ARMOR_CLINT = RenderLayerAccessor.of(
-			"armor_clint",
-			VertexFormats.POSITION_TEXTURE,
-			VertexFormat.DrawMode.QUADS,
-			256,
-			RenderLayer.MultiPhaseParameters.builder()
-					.shader(RenderPhaseAccessor.getARMOR_GLINT_SHADER())
-					.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
-					.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
-					.cull(RenderPhaseAccessor.getDISABLE_CULLING())
-					.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
-					.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
-					.texturing(RenderPhaseAccessor.getGLINT_TEXTURING())
-					.layering(RenderPhaseAccessor.getVIEW_OFFSET_Z_LAYERING())
-					.build(false)
+		"armor_clint",
+		VertexFormats.POSITION_TEXTURE,
+		VertexFormat.DrawMode.QUADS,
+		256,
+		RenderLayer.MultiPhaseParameters.builder()
+			.shader(RenderPhaseAccessor.getARMOR_GLINT_SHADER())
+			.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
+			.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
+			.cull(RenderPhaseAccessor.getDISABLE_CULLING())
+			.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
+			.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
+			.texturing(RenderPhaseAccessor.getGLINT_TEXTURING())
+			.layering(RenderPhaseAccessor.getVIEW_OFFSET_Z_LAYERING())
+			.build(false)
 	);
 
 	private static final RenderLayer ARMOR_ENTITY_CLINT = RenderLayerAccessor.of(
-			"armor_entity_clint",
-			VertexFormats.POSITION_TEXTURE,
-			VertexFormat.DrawMode.QUADS,
-			256,
-			RenderLayer.MultiPhaseParameters.builder()
-					.shader(RenderPhaseAccessor.getARMOR_ENTITY_GLINT_SHADER())
-					.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
-					.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
-					.cull(RenderPhaseAccessor.getDISABLE_CULLING())
-					.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
-					.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
-					.texturing(RenderPhaseAccessor.getENTITY_GLINT_TEXTURING())
-					.layering(RenderPhaseAccessor.getVIEW_OFFSET_Z_LAYERING())
-					.build(false)
+		"armor_entity_clint",
+		VertexFormats.POSITION_TEXTURE,
+		VertexFormat.DrawMode.QUADS,
+		256,
+		RenderLayer.MultiPhaseParameters.builder()
+			.shader(RenderPhaseAccessor.getARMOR_ENTITY_GLINT_SHADER())
+			.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
+			.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
+			.cull(RenderPhaseAccessor.getDISABLE_CULLING())
+			.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
+			.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
+			.texturing(RenderPhaseAccessor.getENTITY_GLINT_TEXTURING())
+			.layering(RenderPhaseAccessor.getVIEW_OFFSET_Z_LAYERING())
+			.build(false)
 	);
 
 	private static final RenderLayer CLINT_TRANSLUCENT = RenderLayerAccessor.of(
-			"clint_translucent",
-			VertexFormats.POSITION_TEXTURE,
-			VertexFormat.DrawMode.QUADS,
-			256,
-			RenderLayer.MultiPhaseParameters.builder()
-					.shader(RenderPhaseAccessor.getTRANSLUCENT_GLINT_SHADER())
-					.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
-					.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
-					.cull(RenderPhaseAccessor.getDISABLE_CULLING())
-					.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
-					.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
-					.texturing(RenderPhaseAccessor.getGLINT_TEXTURING())
-					.target(RenderPhaseAccessor.getITEM_TARGET())
-					.build(false)
+		"clint_translucent",
+		VertexFormats.POSITION_TEXTURE,
+		VertexFormat.DrawMode.QUADS,
+		256,
+		RenderLayer.MultiPhaseParameters.builder()
+			.shader(RenderPhaseAccessor.getTRANSLUCENT_GLINT_SHADER())
+			.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
+			.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
+			.cull(RenderPhaseAccessor.getDISABLE_CULLING())
+			.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
+			.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
+			.texturing(RenderPhaseAccessor.getGLINT_TEXTURING())
+			.target(RenderPhaseAccessor.getITEM_TARGET())
+			.build(false)
 	);
 
 	private static final RenderLayer CLINT = RenderLayerAccessor.of(
-			"clint",
-			VertexFormats.POSITION_TEXTURE,
-			VertexFormat.DrawMode.QUADS,
-			256,
-			RenderLayer.MultiPhaseParameters.builder()
-					.shader(RenderPhaseAccessor.getGLINT_SHADER())
-					.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
-					.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
-					.cull(RenderPhaseAccessor.getDISABLE_CULLING())
-					.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
-					.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
-					.texturing(RenderPhaseAccessor.getGLINT_TEXTURING())
-					.build(false)
+		"clint",
+		VertexFormats.POSITION_TEXTURE,
+		VertexFormat.DrawMode.QUADS,
+		256,
+		RenderLayer.MultiPhaseParameters.builder()
+			.shader(RenderPhaseAccessor.getGLINT_SHADER())
+			.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
+			.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
+			.cull(RenderPhaseAccessor.getDISABLE_CULLING())
+			.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
+			.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
+			.texturing(RenderPhaseAccessor.getGLINT_TEXTURING())
+			.build(false)
 	);
 
 	private static final RenderLayer DIRECT_CLINT = RenderLayerAccessor.of(
-			"clint_direct",
-			VertexFormats.POSITION_TEXTURE,
-			VertexFormat.DrawMode.QUADS,
-			256,
-			RenderLayer.MultiPhaseParameters.builder()
-					.shader(RenderPhaseAccessor.getDIRECT_GLINT_SHADER())
-					.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
-					.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
-					.cull(RenderPhaseAccessor.getDISABLE_CULLING())
-					.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
-					.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
-					.texturing(RenderPhaseAccessor.getGLINT_TEXTURING())
-					.build(false)
+		"clint_direct",
+		VertexFormats.POSITION_TEXTURE,
+		VertexFormat.DrawMode.QUADS,
+		256,
+		RenderLayer.MultiPhaseParameters.builder()
+			.shader(RenderPhaseAccessor.getDIRECT_GLINT_SHADER())
+			.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
+			.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
+			.cull(RenderPhaseAccessor.getDISABLE_CULLING())
+			.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
+			.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
+			.texturing(RenderPhaseAccessor.getGLINT_TEXTURING())
+			.build(false)
 	);
 
 	private static final RenderLayer ENTITY_CLINT = RenderLayerAccessor.of(
-			"entity_clint",
-			VertexFormats.POSITION_TEXTURE,
-			VertexFormat.DrawMode.QUADS,
-			256,
-			RenderLayer.MultiPhaseParameters.builder()
-					.shader(RenderPhaseAccessor.getENTITY_GLINT_SHADER())
-					.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
-					.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
-					.cull(RenderPhaseAccessor.getDISABLE_CULLING())
-					.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
-					.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
-					.target(RenderPhaseAccessor.getITEM_TARGET())
-					.texturing(RenderPhaseAccessor.getENTITY_GLINT_TEXTURING())
-					.build(false)
+		"entity_clint",
+		VertexFormats.POSITION_TEXTURE,
+		VertexFormat.DrawMode.QUADS,
+		256,
+		RenderLayer.MultiPhaseParameters.builder()
+			.shader(RenderPhaseAccessor.getENTITY_GLINT_SHADER())
+			.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
+			.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
+			.cull(RenderPhaseAccessor.getDISABLE_CULLING())
+			.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
+			.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
+			.target(RenderPhaseAccessor.getITEM_TARGET())
+			.texturing(RenderPhaseAccessor.getENTITY_GLINT_TEXTURING())
+			.build(false)
 	);
 
 	private static final RenderLayer DIRECT_ENTITY_CLINT = RenderLayerAccessor.of(
-			"entity_clint_direct",
-			VertexFormats.POSITION_TEXTURE,
-			VertexFormat.DrawMode.QUADS,
-			256,
-			RenderLayer.MultiPhaseParameters.builder()
-					.shader(RenderPhaseAccessor.getDIRECT_ENTITY_GLINT_SHADER())
-					.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
-					.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
-					.cull(RenderPhaseAccessor.getDISABLE_CULLING())
-					.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
-					.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
-					.texturing(RenderPhaseAccessor.getENTITY_GLINT_TEXTURING())
-					.build(false)
+		"entity_clint_direct",
+		VertexFormats.POSITION_TEXTURE,
+		VertexFormat.DrawMode.QUADS,
+		256,
+		RenderLayer.MultiPhaseParameters.builder()
+			.shader(RenderPhaseAccessor.getDIRECT_ENTITY_GLINT_SHADER())
+			.texture(new RenderPhase.Texture(CHARGED_ITEM_GLINT, true, false))
+			.writeMaskState(RenderPhaseAccessor.getCOLOR_MASK())
+			.cull(RenderPhaseAccessor.getDISABLE_CULLING())
+			.depthTest(RenderPhaseAccessor.getEQUAL_DEPTH_TEST())
+			.transparency(RenderPhaseAccessor.getGLINT_TRANSPARENCY())
+			.texturing(RenderPhaseAccessor.getENTITY_GLINT_TEXTURING())
+			.build(false)
 	);
 
 	public static RenderLayer getArmorClint() {
@@ -183,12 +186,12 @@ public class RenderLayers implements ElementsInitializer, ClientElementsInitiali
 	public static VertexConsumer getItemClintConsumer(VertexConsumerProvider vertexConsumers, RenderLayer layer, boolean solid, boolean glint, boolean clint) {
 		if (glint) {
 			return MinecraftClient.isFabulousGraphicsOrBetter() && layer == TexturedRenderLayers.getItemEntityTranslucentCull()
-					? VertexConsumers.union(vertexConsumers.getBuffer(RenderLayer.getGlintTranslucent()), vertexConsumers.getBuffer(layer))
-					: VertexConsumers.union(vertexConsumers.getBuffer(solid ? RenderLayer.getGlint() : RenderLayer.getEntityGlint()), vertexConsumers.getBuffer(layer));
+				? VertexConsumers.union(vertexConsumers.getBuffer(RenderLayer.getGlintTranslucent()), vertexConsumers.getBuffer(layer))
+				: VertexConsumers.union(vertexConsumers.getBuffer(solid ? RenderLayer.getGlint() : RenderLayer.getEntityGlint()), vertexConsumers.getBuffer(layer));
 		} else if (clint) {
 			return MinecraftClient.isFabulousGraphicsOrBetter() && layer == TexturedRenderLayers.getItemEntityTranslucentCull()
-					? VertexConsumers.union(vertexConsumers.getBuffer(getClintTranslucent()), vertexConsumers.getBuffer(layer))
-					: VertexConsumers.union(vertexConsumers.getBuffer(solid ? getClint() : getEntityClint()), vertexConsumers.getBuffer(layer));
+				? VertexConsumers.union(vertexConsumers.getBuffer(getClintTranslucent()), vertexConsumers.getBuffer(layer))
+				: VertexConsumers.union(vertexConsumers.getBuffer(solid ? getClint() : getEntityClint()), vertexConsumers.getBuffer(layer));
 		}
 		return vertexConsumers.getBuffer(layer);
 	}
@@ -210,8 +213,8 @@ public class RenderLayers implements ElementsInitializer, ClientElementsInitiali
 			float[] fs = pair.getSecond().getColorComponents();
 			BannerPattern bannerPattern = pair.getFirst().value();
 			SpriteIdentifier spriteIdentifier = isBanner
-					? TexturedRenderLayers.getBannerPatternTextureId(RegistryKey.of(Registry.BANNER_PATTERN_KEY, new Identifier(bannerPattern.getId())))
-					: TexturedRenderLayers.getShieldPatternTextureId(RegistryKey.of(Registry.BANNER_PATTERN_KEY, new Identifier(bannerPattern.getId())));
+				? TexturedRenderLayers.getBannerPatternTextureId(RegistryKey.of(Registry.BANNER_PATTERN_KEY, new Identifier(bannerPattern.getId())))
+				: TexturedRenderLayers.getShieldPatternTextureId(RegistryKey.of(Registry.BANNER_PATTERN_KEY, new Identifier(bannerPattern.getId())));
 			canvas.render(matrices, spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline), light, overlay, fs[0], fs[1], fs[2], 1.0F);
 		}
 	}

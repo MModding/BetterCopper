@@ -33,19 +33,19 @@ public class ChargedValueRenderer {
 		BlockPos lowerCorner = ((AreaHelperAccessor) areaHelper).invokeGetLowerCorner(blockPos);
 
 		boolean highlight = (lowerCorner == null ? target.getPos().distanceTo(OFFSET)
-				: target.getPos().subtract(Vec3d.of(lowerCorner)).distanceTo(OFFSET)) < (.4f / 2);
+			: target.getPos().subtract(Vec3d.of(lowerCorner)).distanceTo(OFFSET)) < (.4f / 2);
 		addBox(copperPowerBlockEntity, blockPos, face, highlight);
 	}
 
 	private static void addBox(CopperPowerBlockEntity copperPowerBlockEntity, BlockPos blockPos, Direction face, boolean highlight) {
 		Box box = new Box(Vec3d.ZERO, Vec3d.ZERO).expand(.5f).contract(0, 0, .6f);
-		MutableText genericEnergy = Utils.translatable("generic.energy");
-		MutableText energy = Utils.literal(copperPowerBlockEntity.formatEnergy());
+		MutableText genericEnergy = MutableText.create(Utils.translatable("generic.energy"));
+		MutableText energy = MutableText.create(Utils.literal(copperPowerBlockEntity.formatEnergy()));
 
 		ValueBox.Transform.Centered slot = new ValueBox.Transform.Centered((powerBlock, side)
-				-> (side.getAxis() == Direction.Axis.X) || (side.getAxis() == Direction.Axis.Z));
+			-> (side.getAxis() == Direction.Axis.X) || (side.getAxis() == Direction.Axis.Z));
 		ValueBox valueBox = new ValueBox.TextValueBox(genericEnergy, box, blockPos, energy)
-				.offsetLabel(Vec3d.ZERO.add(20, -10, 0)).withColors(0x5A5D5A, 0xB5B7B6).passive(!highlight);
+			.offsetLabel(Vec3d.ZERO.add(20, -10, 0)).withColors(0x5A5D5A, 0xB5B7B6).passive(!highlight);
 		BetterCopperClient.BOX_OUTLINE.showValueBox(blockPos, valueBox.transform(slot)).lineWidth(1 / 64f).highlightFace(face);
 	}
 }

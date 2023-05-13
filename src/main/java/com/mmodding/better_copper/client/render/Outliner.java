@@ -22,7 +22,7 @@ public class Outliner {
 
 	public void tickOutlines() {
 		Iterator<OutlineEntry> iterator = outlines.values()
-				.iterator();
+			.iterator();
 		while (iterator.hasNext()) {
 			OutlineEntry entry = iterator.next();
 			entry.tick();

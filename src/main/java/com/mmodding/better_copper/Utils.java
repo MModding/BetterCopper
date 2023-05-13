@@ -2,9 +2,9 @@ package com.mmodding.better_copper;
 
 import com.mmodding.better_copper.magneticfield.LoopAreaHelper;
 import com.mmodding.better_copper.magneticfield.MagneticField;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.component.LiteralComponent;
+import net.minecraft.text.component.TextComponent;
+import net.minecraft.text.component.TranslatableComponent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -30,11 +30,11 @@ public class Utils {
 		return openScreenPos;
 	}
 
-	public static MutableText literal(String str) {
-		return new LiteralText(str);
+	public static TextComponent literal(String str) {
+		return new LiteralComponent(str);
 	}
 
-	public static MutableText translatable(String key) {
-		return new TranslatableText(modIdentifier + "." + key);
+	public static TextComponent translatable(String key) {
+		return new TranslatableComponent(modIdentifier + "." + key);
 	}
 }

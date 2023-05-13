@@ -204,9 +204,9 @@ public abstract class BoxOutline {
 		}
 
 		builder.vertex(pose.peek().getModel(), x, y, z)
-				.color(rgb.getRed(), rgb.getGreen(), rgb.getBlue(), rgb.getAlpha() * params.alpha)
-				.uv(u, v).overlay(OverlayTexture.DEFAULT_UV).light(params.lightMap)
-				.normal(pose.peek().getNormal(), xOffset, yOffset, zOffset).next();
+			.color(rgb.getRed(), rgb.getGreen(), rgb.getBlue(), rgb.getAlpha() * params.alpha)
+			.uv(u, v).overlay(OverlayTexture.DEFAULT_UV).light(params.lightMap)
+			.normal(pose.peek().getNormal(), xOffset, yOffset, zOffset).next();
 
 		transformNormals = null;
 	}
