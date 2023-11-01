@@ -1,14 +1,14 @@
 package com.mmodding.better_copper.client;
 
+import com.mmodding.better_copper.client.init.GlintPacks;
 import com.mmodding.better_copper.client.render.ChargedValueRenderer;
 import com.mmodding.better_copper.client.render.Outliner;
 import com.mmodding.better_copper.client.render.SuperRenderTypeBuffer;
 import com.mmodding.better_copper.init.Blocks;
-import com.mmodding.better_copper.init.RenderLayers;
+import com.mmodding.mmodding_lib.library.base.AdvancedModContainer;
 import com.mmodding.mmodding_lib.library.base.MModdingClientModInitializer;
 import com.mmodding.mmodding_lib.library.config.Config;
 import com.mmodding.mmodding_lib.library.initializers.ClientElementsInitializer;
-import com.mmodding.mmodding_lib.library.utils.RenderLayerUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
@@ -16,9 +16,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.quiltmc.qsl.lifecycle.api.client.event.ClientLifecycleEvents;
 import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ public class BetterCopperClient implements MModdingClientModInitializer {
 	public List<ClientElementsInitializer> getClientElementsInitializers() {
 		List<ClientElementsInitializer> clientInitializers = new ArrayList<>();
 		clientInitializers.add(new Blocks());
-		clientInitializers.add(new RenderLayers());
+		clientInitializers.add(new GlintPacks());
 		return clientInitializers;
 	}
 
@@ -44,17 +42,7 @@ public class BetterCopperClient implements MModdingClientModInitializer {
 	}
 
 	@Override
-	public void onInitializeClient(ModContainer modContainer) {
-		MModdingClientModInitializer.super.onInitializeClient(modContainer);
-		ClientLifecycleEvents.READY.register(client -> {
-			RenderLayerUtils.addEntityBuilder(RenderLayers.getArmorClint());
-			RenderLayerUtils.addEntityBuilder(RenderLayers.getArmorEntityClint());
-			RenderLayerUtils.addEntityBuilder(RenderLayers.getClintTranslucent());
-			RenderLayerUtils.addEntityBuilder(RenderLayers.getClint());
-			RenderLayerUtils.addEntityBuilder(RenderLayers.getDirectClint());
-			RenderLayerUtils.addEntityBuilder(RenderLayers.getEntityClint());
-			RenderLayerUtils.addEntityBuilder(RenderLayers.getDirectEntityClint());
-		});
+	public void onInitializeClient(AdvancedModContainer modContainer) {
 		ClientTickEvents.END.register(this::onTick);
 		WorldRenderEvents.AFTER_TRANSLUCENT.register(this::onRenderWorld);
 	}

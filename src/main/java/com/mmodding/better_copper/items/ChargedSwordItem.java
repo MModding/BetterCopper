@@ -4,6 +4,7 @@ import com.mmodding.better_copper.charge.Charge;
 import com.mmodding.better_copper.charge.ConsumeSource;
 import com.mmodding.better_copper.charge.Energy;
 import com.mmodding.better_copper.materials.CopperToolsMaterial;
+import com.mmodding.mmodding_lib.library.items.CustomSwordItem;
 import com.mmodding.mmodding_lib.library.utils.TickOperations;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
@@ -13,7 +14,6 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-public class ChargedSwordItem extends SwordItem implements Charge, TickOperations {
+public class ChargedSwordItem extends CustomSwordItem implements Charge, TickOperations {
 
 	private int tick = 0;
 

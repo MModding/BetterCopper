@@ -7,6 +7,7 @@
     "ArmorItemMixin",
     "EntityMixin",
     "ItemRenderContextMixin",
+    "ItemStackMixin",
     "ScreenHandlerMixin",
     "accessors.AreaHelperAccessor",
     "accessors.EntityAttributesAccessor",

@@ -1,7 +1,7 @@
 package com.mmodding.better_copper.client.render;
 
 import com.mmodding.better_copper.Helper;
-import com.mmodding.better_copper.init.SpecialTextures;
+import com.mmodding.mmodding_lib.library.utils.TextureLocation;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
@@ -94,9 +94,9 @@ public abstract class BoxOutline {
 		if (params.faceTexture.isEmpty())
 			return;
 
-		Identifier faceTexture = params.faceTexture.get().getLocation();
+		Identifier faceTexture = params.faceTexture.get();
 		float alphaBefore = params.alpha;
-		params.alpha = (direction == params.getHighlightedFace() && params.hightlightedFaceTexture.isPresent()) ? 1 : 0.5f;
+		params.alpha = (direction == params.getHighlightedFace() && params.highlightedFaceTexture.isPresent()) ? 1 : 0.5f;
 
 		RenderLayer translucentType = RenderLayer.getEntityTranslucent(faceTexture, !noCull);
 		VertexConsumer builder = buffer.getLateBuffer(translucentType);
@@ -212,8 +212,8 @@ public abstract class BoxOutline {
 	}
 
 	public static class OutlineParams {
-		protected Optional<SpecialTextures> faceTexture;
-		protected Optional<SpecialTextures> hightlightedFaceTexture;
+		protected Optional<TextureLocation> faceTexture;
+		protected Optional<TextureLocation> highlightedFaceTexture;
 		protected Direction highlightedFace;
 		protected boolean fadeLineWidth;
 		protected boolean disableCull;
@@ -224,7 +224,7 @@ public abstract class BoxOutline {
 		private float lineWidth;
 
 		public OutlineParams() {
-			faceTexture = hightlightedFaceTexture = Optional.empty();
+			faceTexture = highlightedFaceTexture = Optional.empty();
 			alpha = 1;
 			lineWidth = 1 / 32f;
 			fadeLineWidth = true;

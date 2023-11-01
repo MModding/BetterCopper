@@ -3,13 +3,8 @@ package com.mmodding.better_copper.magneticfield;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityDimensions;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.BlockLocating;
 import net.minecraft.world.WorldAccess;
 
 import java.util.HashSet;
@@ -64,14 +59,14 @@ public class LoopAreaHelper {
 	}
 
 	protected BlockPos getLowerCorner(BlockPos blockPos) {
-		if (!validStateInsideLoop(world.getBlockState(blockPos), VALID_LOOP)) return null;
+		if (!world.getBlockState(blockPos).isAir()) return null;
 		return getLimitForAxis(getLimitForAxis(blockPos, Direction.Axis.X), Direction.Axis.Z);
 	}
 
 	protected BlockPos getLimitForAxis(BlockPos blockPos, Direction.Axis axis) {
 		if (blockPos == null || axis == null) return null;
 		int offset = 1;
-		while (validStateInsideLoop(world.getBlockState(blockPos.offset(axis, -offset)), VALID_LOOP)) {
+		while (world.getBlockState(blockPos.offset(axis, -offset)).isAir()) {
 			offset++;
 			if (offset > 20) return null;
 			if ((axis.equals(Direction.Axis.Y) && blockPos.getY() - offset < world.getBottomY()) || (!axis.equals(Direction.Axis.Y) && !world.getWorldBorder().contains(blockPos.offset(axis, -offset))))
@@ -83,7 +78,7 @@ public class LoopAreaHelper {
 	protected int getSize(Direction.Axis axis) {
 		for (int i = 1; i <= 21; i++) {
 			BlockState blockState = this.world.getBlockState(this.lowerCorner.offset(axis, i));
-			if (!validStateInsideLoop(blockState, VALID_LOOP)) {
+			if (!blockState.isAir()) {
 				if (VALID_LOOP.contains(blockState.getBlock())) {
 					return i >= 2 ? i : 0;
 
@@ -108,21 +103,5 @@ public class LoopAreaHelper {
 			checkPos = checkPos.offset(Direction.Axis.Z, 1);
 		}
 		return true;
-	}
-
-	public static boolean validStateInsideLoop(BlockState blockState, HashSet<Block> foundations) {
-		return blockState.isAir();
-	}
-
-	public Vec3d getEntityOffsetInLoop(BlockLocating.Rectangle arg, Entity entity, Direction.Axis portalAxis) {
-		EntityDimensions entityDimensions = entity.getDimensions(entity.getPose());
-		double xSize = arg.width - entityDimensions.width;
-		double zSize = arg.height - entityDimensions.width;
-
-		double deltaX = MathHelper.lerp(entity.getX(), arg.lowerLeft.getX(), arg.lowerLeft.getX() + xSize);
-		double deltaY = MathHelper.lerp(entity.getY(), arg.lowerLeft.getY() - 1, arg.lowerLeft.getY() + 1);
-		double deltaZ = MathHelper.lerp(entity.getZ(), arg.lowerLeft.getZ(), arg.lowerLeft.getZ() + zSize);
-
-		return new Vec3d(deltaX, deltaY, deltaZ);
 	}
 }

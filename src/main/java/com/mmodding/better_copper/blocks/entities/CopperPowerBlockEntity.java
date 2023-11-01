@@ -14,7 +14,7 @@ public class CopperPowerBlockEntity extends BlockEntity {
 	private int energy;
 
 	public CopperPowerBlockEntity(BlockPos blockPos, BlockState blockState) {
-		super(BlockEntities.COPPER_POWER_BLOCK_ENTITY.getBlockEntityTypeIfCreated(), blockPos, blockState);
+		super(BlockEntities.COPPER_POWER, blockPos, blockState);
 	}
 
 	public int getEnergy() {

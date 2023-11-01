@@ -3,7 +3,6 @@ package com.mmodding.better_copper.materials;
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.util.Lazy;
 
 public class CopperToolsMaterial implements ToolMaterial {
 
@@ -40,6 +39,6 @@ public class CopperToolsMaterial implements ToolMaterial {
 
 	@Override
 	public Ingredient getRepairIngredient() {
-		return new Lazy<>(() -> Ingredient.ofItems(Items.COPPER_INGOT)).get();
+		return Ingredient.ofItems(Items.COPPER_INGOT);
 	}
 }

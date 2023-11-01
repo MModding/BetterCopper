@@ -6,7 +6,6 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Lazy;
 
 public class CopperArmorMaterial implements ArmorMaterial {
 
@@ -41,7 +40,7 @@ public class CopperArmorMaterial implements ArmorMaterial {
 
 	@Override
 	public Ingredient getRepairIngredient() {
-		return new Lazy<>(() -> Ingredient.ofItems(Items.COPPER_INGOT)).get();
+		return Ingredient.ofItems(Items.COPPER_INGOT);
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package com.mmodding.better_copper.charge;
 
 import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
 import com.mmodding.better_copper.init.Blocks;
-import com.mmodding.mmodding_lib.library.blocks.BlockTags;
+import com.mmodding.mmodding_lib.library.tags.MModdingBlockTags;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -23,7 +23,7 @@ public class Energy {
 			BlockPos otherPos = blockPos.offset(dir);
 			if (!visitedPos.contains(otherPos)) {
 				if (world.getBlockState(otherPos).isOf(Blocks.COPPER_POWER_BLOCK)) return otherPos;
-				if (world.getBlockState(otherPos).isIn(BlockTags.OXIDIZABLE)) {
+				if (world.getBlockState(otherPos).isIn(MModdingBlockTags.OXIDIZABLE)) {
 					BlockPos contPos = getNearestPowerBlockPos(world, otherPos, i + 6, visitedPos);
 					if (contPos != null) return contPos;
 				}

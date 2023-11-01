@@ -1,6 +1,5 @@
 package com.mmodding.better_copper.client.render;
 
-import com.mmodding.better_copper.init.RenderLayers;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
@@ -60,19 +59,12 @@ public class SuperRenderTypeBuffer implements VertexConsumerProvider {
 			put(map, TexturedRenderLayers.getChest());
 			put(map, RenderLayer.getTranslucentNoCrumbling());
 			put(map, RenderLayer.getArmorGlint());
-			put(map, RenderLayers.getArmorClint());
 			put(map, RenderLayer.getArmorEntityGlint());
-			put(map, RenderLayers.getArmorEntityClint());
 			put(map, RenderLayer.getGlint());
-			put(map, RenderLayers.getClint());
 			put(map, RenderLayer.getDirectGlint());
-			put(map, RenderLayers.getDirectClint());
 			put(map, RenderLayer.getGlintTranslucent());
-			put(map, RenderLayers.getClintTranslucent());
 			put(map, RenderLayer.getEntityGlint());
-			put(map, RenderLayers.getEntityClint());
 			put(map, RenderLayer.getDirectEntityGlint());
-			put(map, RenderLayers.getDirectEntityClint());
 			put(map, RenderLayer.getWaterMask());
 			put(map, RenderLayer.getSolid());
 			ModelLoader.BLOCK_DESTRUCTION_RENDER_LAYERS.forEach((renderLayer) -> {
