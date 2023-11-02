@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/rail_curved",
+  "textures": {
+    "rail": "better_copper:block/copper_rail_corner"
+  }
+}
