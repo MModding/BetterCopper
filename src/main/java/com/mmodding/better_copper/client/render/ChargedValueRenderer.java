@@ -32,6 +32,7 @@ public class ChargedValueRenderer {
 		AreaHelper areaHelper = new AreaHelper(minecraftClient.world, blockPos, face.getAxis());
 		BlockPos lowerCorner = ((AreaHelperAccessor) areaHelper).invokeGetLowerCorner(blockPos);
 
+
 		boolean highlight = (lowerCorner == null ? target.getPos().distanceTo(OFFSET)
 			: target.getPos().subtract(Vec3d.of(lowerCorner)).distanceTo(OFFSET)) < (.4f / 2);
 		addBox(copperPowerBlockEntity, blockPos, face, highlight);
