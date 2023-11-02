@@ -6,7 +6,6 @@
   "mixins": [
     "EntityMixin",
     "ItemStackMixin",
-    "ScreenHandlerMixin",
     "accessors.AreaHelperAccessor",
     "accessors.EntityAttributesAccessor",
     "accessors.LightningEntityAccessor",
@@ -14,7 +13,8 @@
     "generation.AnvilScreenHandlerMixin",
     "generation.CraftingMixin",
     "generation.FallingBlockEntityMixin",
-    "generation.FurnaceMixin",
+    "generation.ForgingScreenHandlerMixin",
+    "generation.FurnaceOutputSlotMixin",
     "generation.LightningMixin",
     "generation.LivingEntityMixin",
     "generation.SmithingScreenHandlerMixin",

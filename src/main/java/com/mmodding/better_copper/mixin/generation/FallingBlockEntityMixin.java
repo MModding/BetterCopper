@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.FallingBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,10 +17,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(FallingBlockEntity.class)
 public abstract class FallingBlockEntityMixin extends EntityMixin implements TickOperations {
 
+	@Unique
+	private int tick = 0;
+
 	@Shadow
 	private BlockState block;
-
-	private int tick = 0;
 
 	@Inject(method = "tick", at = @At("HEAD"))
 	private void injectTick(CallbackInfo ci) {

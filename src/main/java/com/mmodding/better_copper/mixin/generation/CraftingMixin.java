@@ -25,6 +25,6 @@ public class CraftingMixin {
 
 	@Inject(method = "onCrafted(Lnet/minecraft/item/ItemStack;)V", at = @At("HEAD"))
 	private void injected(ItemStack stack, CallbackInfo ci) {
-		Energy.addEnergyToPowerBlock(player.world, Utils.getOpenScreenPos(), GenerationSource.CRAFTING, stack.getCount() * this.amount, Utils.getOpenScreenPos().up());
+		Energy.addEnergyToPowerBlock(this.player.world, Utils.getOpenScreenPos(), GenerationSource.CRAFTING, stack.getCount() * this.amount, Utils.getOpenScreenPos().up());
 	}
 }

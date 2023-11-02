@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FurnaceOutputSlot.class)
-public class FurnaceMixin {
+public class FurnaceOutputSlotMixin {
 
 	@Shadow
 	@Final
