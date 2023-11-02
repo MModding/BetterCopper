@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": {
+    "better_copper:copper_rail": "better_copper:waxed_copper_rail",
+    "better_copper:exposed_copper_rail": "better_copper:waxed_exposed_copper_rail",
+    "better_copper:weathered_copper_rail": "better_copper:waxed_weathered_copper_rail",
+    "better_copper:oxidized_copper_rail": "better_copper:waxed_oxidized_copper_rail"
+  }
+}
