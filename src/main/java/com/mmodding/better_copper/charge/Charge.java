@@ -4,11 +4,11 @@ import net.minecraft.item.ItemStack;
 
 public interface Charge {
 
-	default void charge(ItemStack stack, int charge) {
-		stack.getOrCreateNbt().putInt("charge", this.getCharge(stack) + charge);
+	static void charge(ItemStack stack, int charge) {
+		stack.getOrCreateNbt().putInt("charge", Charge.getCharge(stack) + charge);
 	}
 
-	default int getCharge(ItemStack stack) {
+	static int getCharge(ItemStack stack) {
 		if (stack.getNbt() == null) return 0;
 		return stack.getOrCreateNbt().getInt("charge");
 	}
@@ -18,7 +18,7 @@ public interface Charge {
 		return stack.getNbt().getInt("charge") != 0;
 	}
 
-	default boolean isCharged(ItemStack stack) {
+	static boolean isCharged(ItemStack stack) {
 		if (stack.getNbt() == null) return false;
 		return stack.getNbt().getInt("charge") != 0;
 	}
