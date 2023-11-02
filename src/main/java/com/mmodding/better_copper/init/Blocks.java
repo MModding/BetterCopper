@@ -39,5 +39,14 @@ public class Blocks implements ElementsInitializer, ClientElementsInitializer {
 	}
 
 	@Override
-	public void registerClient() {}
+	public void registerClient() {
+		COPPER_RAIL.cutout();
+		EXPOSED_COPPER_RAIL.cutout();
+		WEATHERED_COPPER_RAIL.cutout();
+		OXIDIZED_COPPER_RAIL.cutout();
+		WAXED_COPPER_RAIL.cutout();
+		WAXED_EXPOSED_COPPER_RAIL.cutout();
+		WAXED_WEATHERED_COPPER_RAIL.cutout();
+		WAXED_OXIDIZED_COPPER_RAIL.cutout();
+	}
 }
