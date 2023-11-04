@@ -66,10 +66,10 @@ public class OxidizableCopperRailBlock extends RailBlock implements Oxidizable, 
 	@Override
 	public double getVelocityX() {
 		return switch (getDegradationLevel()) {
-			case UNAFFECTED -> 0.7;
-			case EXPOSED -> 0.5;
-			case WEATHERED -> 0.3;
-			case OXIDIZED -> 0.1;
+			case UNAFFECTED -> 1.2;
+			case EXPOSED -> 1.0;
+			case WEATHERED -> 0.8;
+			case OXIDIZED -> 0.6;
 		};
 	}
 
