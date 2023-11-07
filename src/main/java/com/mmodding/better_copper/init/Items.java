@@ -1,6 +1,6 @@
 package com.mmodding.better_copper.init;
 
-import com.mmodding.better_copper.Utils;
+import com.mmodding.better_copper.BetterCopper;
 import com.mmodding.better_copper.items.ChargedArmorItem;
 import com.mmodding.better_copper.items.ChargedSwordItem;
 import com.mmodding.mmodding_lib.library.initializers.ElementsInitializer;
@@ -18,10 +18,10 @@ public class Items implements ElementsInitializer {
 
 	@Override
 	public void register() {
-		COPPER_HELMET.register(Utils.newIdentifier("copper_helmet"));
-		COPPER_CHESTPLATE.register(Utils.newIdentifier("copper_chestplate"));
-		COPPER_LEGGINGS.register(Utils.newIdentifier("copper_leggings"));
-		COPPER_BOOTS.register(Utils.newIdentifier("copper_boots"));
-		COPPER_SWORD.register(Utils.newIdentifier("copper_sword"));
+		COPPER_HELMET.register(BetterCopper.createId("copper_helmet"));
+		COPPER_CHESTPLATE.register(BetterCopper.createId("copper_chestplate"));
+		COPPER_LEGGINGS.register(BetterCopper.createId("copper_leggings"));
+		COPPER_BOOTS.register(BetterCopper.createId("copper_boots"));
+		COPPER_SWORD.register(BetterCopper.createId("copper_sword"));
 	}
 }

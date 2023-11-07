@@ -5,6 +5,7 @@ import com.mmodding.better_copper.init.Blocks;
 import com.mmodding.mmodding_lib.library.tags.MModdingBlockTags;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -16,15 +17,21 @@ import java.util.Set;
 public class Energy {
 
 	@Nullable
-	private static BlockPos getNearestPowerBlockPos(World world, BlockPos blockPos, int i, Set<BlockPos> visitedPos) {
-		if (blockPos == null || i >= 200) return null;
+	private static BlockPos getNearestPowerBlockPos(World world, BlockPos blockPos) {
+		return getNearestPowerBlockPos(world, blockPos, new Pair<>(0, 300), new HashSet<>());
+	}
+
+	@Nullable
+	private static BlockPos getNearestPowerBlockPos(World world, BlockPos blockPos, Pair<Integer, Integer> iteration, Set<BlockPos> visitedPos) {
+		if (blockPos == null || iteration.getLeft() > iteration.getRight()) return null;
 		visitedPos.add(blockPos);
 		for (Direction dir : Direction.values()) {
 			BlockPos otherPos = blockPos.offset(dir);
 			if (!visitedPos.contains(otherPos)) {
 				if (world.getBlockState(otherPos).isOf(Blocks.COPPER_POWER_BLOCK)) return otherPos;
 				if (world.getBlockState(otherPos).isIn(MModdingBlockTags.OXIDIZABLE)) {
-					BlockPos contPos = getNearestPowerBlockPos(world, otherPos, i + 6, visitedPos);
+					iteration.setLeft(iteration.getLeft() * 6);
+					BlockPos contPos = getNearestPowerBlockPos(world, otherPos, iteration, visitedPos);
 					if (contPos != null) return contPos;
 				}
 			}
@@ -33,7 +40,7 @@ public class Energy {
 	}
 
 	public static void addEnergyToPowerBlock(World world, BlockPos blockPos, GenerationSource generationSource, int count, BlockPos particlePos) {
-		BlockPos powerBlockPos = getNearestPowerBlockPos(world, blockPos, 0, new HashSet<>());
+		BlockPos powerBlockPos = getNearestPowerBlockPos(world, blockPos);
 		if (powerBlockPos == null) return;
 		BlockEntity blockEntity = world.getBlockEntity(powerBlockPos);
 		if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
@@ -55,7 +62,7 @@ public class Energy {
 	}
 
 	public static int removeEnergyFromPowerBlock(World world, BlockPos blockPos, ConsumeSource consumeSource, int count, BlockPos particlePos) {
-		BlockPos powerBlockPos = getNearestPowerBlockPos(world, blockPos, 0, new HashSet<>());
+		BlockPos powerBlockPos = getNearestPowerBlockPos(world, blockPos);
 		if (powerBlockPos == null) return 0;
 		BlockEntity blockEntity = world.getBlockEntity(powerBlockPos);
 		if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {

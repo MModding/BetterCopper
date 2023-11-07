@@ -1,6 +1,6 @@
 package com.mmodding.better_copper.init;
 
-import com.mmodding.better_copper.Utils;
+import com.mmodding.better_copper.BetterCopper;
 import com.mmodding.better_copper.blocks.CopperPowerBlock;
 import com.mmodding.better_copper.blocks.CopperRailBlock;
 import com.mmodding.better_copper.blocks.NetheriteCoatedGoldBlock;
@@ -26,16 +26,16 @@ public class Blocks implements ElementsInitializer, ClientElementsInitializer {
 
 	@Override
 	public void register() {
-		COPPER_POWER_BLOCK.register(Utils.newIdentifier("copper_power_block"));
-		NETHERITE_COATED_GOLD_BLOCK.register(Utils.newIdentifier("netherite_coated_gold_block"));
-		COPPER_RAIL.register(Utils.newIdentifier("copper_rail"));
-		EXPOSED_COPPER_RAIL.register(Utils.newIdentifier("exposed_copper_rail"));
-		WEATHERED_COPPER_RAIL.register(Utils.newIdentifier("weathered_copper_rail"));
-		OXIDIZED_COPPER_RAIL.register(Utils.newIdentifier("oxidized_copper_rail"));
-		WAXED_COPPER_RAIL.register(Utils.newIdentifier("waxed_copper_rail"));
-		WAXED_EXPOSED_COPPER_RAIL.register(Utils.newIdentifier("waxed_weathered_copper_rail"));
-		WAXED_WEATHERED_COPPER_RAIL.register(Utils.newIdentifier("waxed_exposed_copper_rail"));
-		WAXED_OXIDIZED_COPPER_RAIL.register(Utils.newIdentifier("waxed_oxidized_copper_rail"));
+		COPPER_POWER_BLOCK.register(BetterCopper.createId("copper_power_block"));
+		NETHERITE_COATED_GOLD_BLOCK.register(BetterCopper.createId("netherite_coated_gold_block"));
+		COPPER_RAIL.register(BetterCopper.createId("copper_rail"));
+		EXPOSED_COPPER_RAIL.register(BetterCopper.createId("exposed_copper_rail"));
+		WEATHERED_COPPER_RAIL.register(BetterCopper.createId("weathered_copper_rail"));
+		OXIDIZED_COPPER_RAIL.register(BetterCopper.createId("oxidized_copper_rail"));
+		WAXED_COPPER_RAIL.register(BetterCopper.createId("waxed_copper_rail"));
+		WAXED_EXPOSED_COPPER_RAIL.register(BetterCopper.createId("waxed_weathered_copper_rail"));
+		WAXED_WEATHERED_COPPER_RAIL.register(BetterCopper.createId("waxed_exposed_copper_rail"));
+		WAXED_OXIDIZED_COPPER_RAIL.register(BetterCopper.createId("waxed_oxidized_copper_rail"));
 	}
 
 	@Override
