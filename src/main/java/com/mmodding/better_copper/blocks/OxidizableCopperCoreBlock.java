@@ -70,7 +70,7 @@ public class OxidizableCopperCoreBlock extends CustomBlockWithEntity implements 
 
 	@Override
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (state.hasBlockEntity() && !state.isIn(BetterCopperTags.COPPER_CORES)) {
+		if (state.hasBlockEntity() && !newState.isIn(BetterCopperTags.COPPER_CORES)) {
 			world.removeBlockEntity(pos);
 		}
 	}
