@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "better_copper:copper_core",
+    "better_copper:exposed_copper_core",
+    "better_copper:oxidized_copper_core",
+    "better_copper:weathered_copper_core",
+    "better_copper:waxed_copper_core",
+    "better_copper:waxed_exposed_copper_core",
+    "better_copper:waxed_oxidized_copper_core",
+    "better_copper:waxed_weathered_copper_core"
+  ]
+}

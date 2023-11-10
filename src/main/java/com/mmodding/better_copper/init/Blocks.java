@@ -1,10 +1,7 @@
 package com.mmodding.better_copper.init;
 
 import com.mmodding.better_copper.BetterCopper;
-import com.mmodding.better_copper.blocks.CopperPowerBlock;
-import com.mmodding.better_copper.blocks.CopperRailBlock;
-import com.mmodding.better_copper.blocks.NetheriteCoatedGoldBlock;
-import com.mmodding.better_copper.blocks.OxidizableCopperRailBlock;
+import com.mmodding.better_copper.blocks.*;
 import com.mmodding.mmodding_lib.library.initializers.ClientElementsInitializer;
 import com.mmodding.mmodding_lib.library.initializers.ElementsInitializer;
 import net.minecraft.block.AbstractBlock;
@@ -13,9 +10,16 @@ import net.minecraft.item.ItemGroup;
 
 public class Blocks implements ElementsInitializer, ClientElementsInitializer {
 
-	public static final CopperPowerBlock COPPER_POWER_BLOCK = new CopperPowerBlock(AbstractBlock.Settings.copy(net.minecraft.block.Blocks.COPPER_BLOCK), true, ItemGroup.BUILDING_BLOCKS);
+	public static final OxidizableCopperCoreBlock COPPER_CORE = new OxidizableCopperCoreBlock(AbstractBlock.Settings.copy(net.minecraft.block.Blocks.COPPER_BLOCK), true, ItemGroup.BUILDING_BLOCKS);
+	public static final OxidizableCopperCoreBlock EXPOSED_COPPER_CORE = new OxidizableCopperCoreBlock(Oxidizable.OxidizationLevel.EXPOSED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.EXPOSED_COPPER), true, ItemGroup.BUILDING_BLOCKS);
+	public static final OxidizableCopperCoreBlock WEATHERED_COPPER_CORE = new OxidizableCopperCoreBlock(Oxidizable.OxidizationLevel.WEATHERED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.WEATHERED_COPPER), true, ItemGroup.BUILDING_BLOCKS);
+	public static final OxidizableCopperCoreBlock OXIDIZED_COPPER_CORE = new OxidizableCopperCoreBlock(Oxidizable.OxidizationLevel.OXIDIZED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.OXIDIZED_COPPER), true, ItemGroup.BUILDING_BLOCKS);
+	public static final CopperCoreBlock WAXED_COPPER_CORE = new CopperCoreBlock(AbstractBlock.Settings.copy(COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
+	public static final CopperCoreBlock WAXED_EXPOSED_COPPER_CORE = new CopperCoreBlock(AbstractBlock.Settings.copy(EXPOSED_COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
+	public static final CopperCoreBlock WAXED_WEATHERED_COPPER_CORE = new CopperCoreBlock(AbstractBlock.Settings.copy(WEATHERED_COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
+	public static final CopperCoreBlock WAXED_OXIDIZED_COPPER_CORE = new CopperCoreBlock(AbstractBlock.Settings.copy(OXIDIZED_COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
 	public static final NetheriteCoatedGoldBlock NETHERITE_COATED_GOLD_BLOCK = new NetheriteCoatedGoldBlock(AbstractBlock.Settings.copy(net.minecraft.block.Blocks.GOLD_BLOCK), true, ItemGroup.BUILDING_BLOCKS);
-	public static final OxidizableCopperRailBlock COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.UNAFFECTED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final OxidizableCopperRailBlock COPPER_RAIL = new OxidizableCopperRailBlock(AbstractBlock.Settings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
 	public static final OxidizableCopperRailBlock EXPOSED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.EXPOSED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
 	public static final OxidizableCopperRailBlock WEATHERED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.WEATHERED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
 	public static final OxidizableCopperRailBlock OXIDIZED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.OXIDIZED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
@@ -26,7 +30,14 @@ public class Blocks implements ElementsInitializer, ClientElementsInitializer {
 
 	@Override
 	public void register() {
-		COPPER_POWER_BLOCK.register(BetterCopper.createId("copper_power_block"));
+		COPPER_CORE.register(BetterCopper.createId("copper_core"));
+		EXPOSED_COPPER_CORE.register(BetterCopper.createId("exposed_copper_core"));
+		WEATHERED_COPPER_CORE.register(BetterCopper.createId("weathered_copper_core"));
+		OXIDIZED_COPPER_CORE.register(BetterCopper.createId("oxidized_copper_core"));
+		WAXED_COPPER_CORE.register(BetterCopper.createId("waxed_copper_core"));
+		WAXED_EXPOSED_COPPER_CORE.register(BetterCopper.createId("waxed_exposed_copper_core"));
+		WAXED_WEATHERED_COPPER_CORE.register(BetterCopper.createId("waxed_weathered_copper_core"));
+		WAXED_OXIDIZED_COPPER_CORE.register(BetterCopper.createId("waxed_oxidized_copper_core"));
 		NETHERITE_COATED_GOLD_BLOCK.register(BetterCopper.createId("netherite_coated_gold_block"));
 		COPPER_RAIL.register(BetterCopper.createId("copper_rail"));
 		EXPOSED_COPPER_RAIL.register(BetterCopper.createId("exposed_copper_rail"));

@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": {
+    "better_copper:copper_core": "better_copper:exposed_copper_core",
+    "better_copper:exposed_copper_core": "better_copper:weathered_copper_core",
+    "better_copper:weathered_copper_core": "better_copper:oxidized_copper_core",
     "better_copper:copper_rail": "better_copper:exposed_copper_rail",
     "better_copper:exposed_copper_rail": "better_copper:weathered_copper_rail",
     "better_copper:weathered_copper_rail": "better_copper:oxidized_copper_rail"

@@ -8,13 +8,13 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.function.Function;
 
-public class CopperPowerBlockEntity extends BlockEntity {
+public class CopperCoreBlockEntity extends BlockEntity {
 
 	private final Function<Integer, String> formatter = i -> Integer.toString(i);
 	private int energy;
 
-	public CopperPowerBlockEntity(BlockPos blockPos, BlockState blockState) {
-		super(BlockEntities.COPPER_POWER, blockPos, blockState);
+	public CopperCoreBlockEntity(BlockPos blockPos, BlockState blockState) {
+		super(BlockEntities.COPPER_CORE, blockPos, blockState);
 	}
 
 	public int getEnergy() {

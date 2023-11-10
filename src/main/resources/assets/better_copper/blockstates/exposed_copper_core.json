@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "better_copper:block/exposed_copper_core"
+    }
+  }
+}

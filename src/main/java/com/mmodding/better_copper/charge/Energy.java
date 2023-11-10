@@ -1,7 +1,7 @@
 package com.mmodding.better_copper.charge;
 
-import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
-import com.mmodding.better_copper.init.Blocks;
+import com.mmodding.better_copper.blocks.entities.CopperCoreBlockEntity;
+import com.mmodding.better_copper.ducks.BetterCopperTags;
 import com.mmodding.mmodding_lib.library.tags.MModdingBlockTags;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.particle.ParticleTypes;
@@ -28,7 +28,7 @@ public class Energy {
 		for (Direction dir : Direction.values()) {
 			BlockPos otherPos = blockPos.offset(dir);
 			if (!visitedPos.contains(otherPos)) {
-				if (world.getBlockState(otherPos).isOf(Blocks.COPPER_POWER_BLOCK)) return otherPos;
+				if (world.getBlockState(otherPos).isIn(BetterCopperTags.COPPER_CORES)) return otherPos;
 				if (world.getBlockState(otherPos).isIn(MModdingBlockTags.OXIDIZABLE)) {
 					iteration.setLeft(iteration.getLeft() * 6);
 					BlockPos contPos = getNearestPowerBlockPos(world, otherPos, iteration, visitedPos);
@@ -43,8 +43,8 @@ public class Energy {
 		BlockPos powerBlockPos = getNearestPowerBlockPos(world, blockPos);
 		if (powerBlockPos == null) return;
 		BlockEntity blockEntity = world.getBlockEntity(powerBlockPos);
-		if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
-			copperPowerBlockEntity.addEnergy(generationSource.getPower() * count);
+		if (blockEntity instanceof CopperCoreBlockEntity copperCoreBlockEntity) {
+			copperCoreBlockEntity.addEnergy(generationSource.getPower() * count);
 			if (world.isClient) spawnEnergyParticles(world, particlePos);
 		}
 	}
@@ -65,8 +65,8 @@ public class Energy {
 		BlockPos powerBlockPos = getNearestPowerBlockPos(world, blockPos);
 		if (powerBlockPos == null) return 0;
 		BlockEntity blockEntity = world.getBlockEntity(powerBlockPos);
-		if (blockEntity instanceof CopperPowerBlockEntity copperPowerBlockEntity) {
-			int energyConsumed = copperPowerBlockEntity.removeEnergy(consumeSource.getPower() * count);
+		if (blockEntity instanceof CopperCoreBlockEntity copperCoreBlockEntity) {
+			int energyConsumed = copperCoreBlockEntity.removeEnergy(consumeSource.getPower() * count);
 			if (energyConsumed > 0 && world.isClient)
 				spawnEnergyParticles(world, particlePos);
 			return energyConsumed;

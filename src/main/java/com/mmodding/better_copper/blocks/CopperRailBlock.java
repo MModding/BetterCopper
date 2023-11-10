@@ -18,14 +18,6 @@ public class CopperRailBlock extends RailBlock implements CopperRailElement, Blo
 
 	private BlockItem item = null;
 
-	public CopperRailBlock(double velocity, Settings settings) {
-		this(velocity, settings, false);
-	}
-
-	public CopperRailBlock(double velocity, Settings settings, boolean hasItem) {
-		this(velocity, settings, hasItem, (ItemGroup) null);
-	}
-
 	public CopperRailBlock(double velocity, Settings settings, boolean hasItem, ItemGroup itemGroup) {
 		this(velocity, settings, hasItem, itemGroup != null ? new QuiltItemSettings().group(itemGroup) : new QuiltItemSettings());
 	}

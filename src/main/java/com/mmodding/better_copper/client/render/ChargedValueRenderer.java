@@ -1,7 +1,7 @@
 package com.mmodding.better_copper.client.render;
 
 import com.mmodding.better_copper.Utils;
-import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
+import com.mmodding.better_copper.blocks.entities.CopperCoreBlockEntity;
 import com.mmodding.better_copper.client.BetterCopperClient;
 import com.mmodding.better_copper.mixin.accessors.AreaHelperAccessor;
 import net.minecraft.client.MinecraftClient;
@@ -26,7 +26,7 @@ public class ChargedValueRenderer {
 
 		BlockPos blockPos = blockHitResult.getBlockPos();
 		Direction face = blockHitResult.getSide();
-		if (!(minecraftClient.world.getBlockEntity(blockPos) instanceof CopperPowerBlockEntity copperPowerBlockEntity))
+		if (!(minecraftClient.world.getBlockEntity(blockPos) instanceof CopperCoreBlockEntity copperCoreBlockEntity))
 			return;
 
 		AreaHelper areaHelper = new AreaHelper(minecraftClient.world, blockPos, face.getAxis());
@@ -35,13 +35,13 @@ public class ChargedValueRenderer {
 
 		boolean highlight = (lowerCorner == null ? target.getPos().distanceTo(OFFSET)
 			: target.getPos().subtract(Vec3d.of(lowerCorner)).distanceTo(OFFSET)) < (.4f / 2);
-		addBox(copperPowerBlockEntity, blockPos, face, highlight);
+		addBox(copperCoreBlockEntity, blockPos, face, highlight);
 	}
 
-	private static void addBox(CopperPowerBlockEntity copperPowerBlockEntity, BlockPos blockPos, Direction face, boolean highlight) {
+	private static void addBox(CopperCoreBlockEntity copperCoreBlockEntity, BlockPos blockPos, Direction face, boolean highlight) {
 		Box box = new Box(Vec3d.ZERO, Vec3d.ZERO).expand(.5f).contract(0, 0, .6f);
 		MutableText genericEnergy = MutableText.create(Utils.translatable("generic.energy"));
-		MutableText energy = MutableText.create(Utils.literal(copperPowerBlockEntity.formatEnergy()));
+		MutableText energy = MutableText.create(Utils.literal(copperCoreBlockEntity.formatEnergy()));
 
 		ValueBox.Transform.Centered slot = new ValueBox.Transform.Centered((powerBlock, side)
 			-> (side.getAxis() == Direction.Axis.X) || (side.getAxis() == Direction.Axis.Z));

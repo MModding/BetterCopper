@@ -3,6 +3,6 @@
   "textures": {
     "top": "minecraft:block/copper_block",
     "bottom": "minecraft:block/copper_block",
-    "side": "better_copper:block/copper_power_block"
+    "side": "better_copper:block/copper_core"
   }
 }

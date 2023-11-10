@@ -1,7 +1,8 @@
 package com.mmodding.better_copper.blocks;
 
-import com.mmodding.better_copper.blocks.entities.CopperPowerBlockEntity;
+import com.mmodding.better_copper.blocks.entities.CopperCoreBlockEntity;
 import com.mmodding.better_copper.charge.Charge;
+import com.mmodding.better_copper.ducks.BetterCopperTags;
 import com.mmodding.mmodding_lib.library.blocks.BlockRegistrable;
 import com.mmodding.mmodding_lib.library.blocks.BlockWithItem;
 import com.mmodding.mmodding_lib.library.blocks.CustomBlockWithEntity;
@@ -13,12 +14,13 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class CopperPowerBlock extends CustomBlockWithEntity implements Charge, BlockRegistrable, BlockWithItem {
+public class CopperCoreBlock extends CustomBlockWithEntity implements Charge, BlockRegistrable, BlockWithItem {
 
 	private final AtomicBoolean registered = new AtomicBoolean(false);
 	private BlockItem item = null;
@@ -28,11 +30,11 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements Charge, B
 		return BlockRenderType.MODEL;
 	}
 
-	public CopperPowerBlock(AbstractBlock.Settings settings, boolean hasItem, ItemGroup itemGroup) {
+	public CopperCoreBlock(AbstractBlock.Settings settings, boolean hasItem, ItemGroup itemGroup) {
 		this(settings, hasItem, itemGroup != null ? new QuiltItemSettings().group(itemGroup) : new QuiltItemSettings());
 	}
 
-	public CopperPowerBlock(Settings settings, boolean hasItem, Item.Settings itemSettings) {
+	public CopperCoreBlock(Settings settings, boolean hasItem, Item.Settings itemSettings) {
 		super(settings);
 		if (hasItem) this.item = new BlockItem(this, itemSettings);
 	}
@@ -40,7 +42,14 @@ public class CopperPowerBlock extends CustomBlockWithEntity implements Charge, B
 	@Nullable
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new CopperPowerBlockEntity(pos, state);
+		return new CopperCoreBlockEntity(pos, state);
+	}
+
+	@Override
+	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+		if (state.hasBlockEntity() && !state.isIn(BetterCopperTags.COPPER_CORES)) {
+			world.removeBlockEntity(pos);
+		}
 	}
 
 	@Override
