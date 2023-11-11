@@ -61,7 +61,7 @@ public class AbstractMinecartEntityMixin {
 		}
 	}
 
-	@WrapOperation(method = "moveOnRail", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;multiply(DDD)Lnet/minecraft/util/math/Vec3d;"))
+	@WrapOperation(method = "moveOnRail", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;multiply(DDD)Lnet/minecraft/util/math/Vec3d;", ordinal = 1))
 	private Vec3d changeVelocity(Vec3d velocity, double x, double y, double z, Operation<Vec3d> original, @Local BlockState state) {
 		return state.getBlock() instanceof CopperRailElement rail ? velocity.multiply(rail.getVelocityX() * x, rail.getVelocityY() * y, rail.getVelocityZ() * z) : original.call(velocity, x, y, z);
 	}
