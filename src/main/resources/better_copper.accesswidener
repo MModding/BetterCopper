@@ -29,3 +29,5 @@ mutable field net/minecraft/item/ArmorItem protection I
 accessible field net/minecraft/item/SwordItem attackDamage F
 
 mutable field net/minecraft/item/SwordItem attackDamage F
+
+accessible method net/minecraft/advancement/AdvancementDisplay iconFromJson (Lcom/google/gson/JsonObject;)Lnet/minecraft/item/ItemStack;
