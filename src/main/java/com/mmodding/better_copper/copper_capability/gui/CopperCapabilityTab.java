@@ -4,8 +4,6 @@ import com.google.common.collect.Maps;
 import com.mmodding.better_copper.copper_capability.CopperCapability;
 import com.mmodding.better_copper.copper_capability.CopperCapabilityDisplay;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.GameRenderer;
@@ -17,10 +15,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import java.util.Map;
 
-@Environment(EnvType.CLIENT)
+@ClientOnly
 public class CopperCapabilityTab extends DrawableHelper {
 
 	private final MinecraftClient client;

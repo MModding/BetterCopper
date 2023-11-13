@@ -1,13 +1,12 @@
 package com.mmodding.better_copper.copper_capability.gui;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 
-@Environment(EnvType.CLIENT)
+@ClientOnly
 enum CopperCapabilityTabType {
 	ABOVE(0, 0, 28, 32, 8),
 	BELOW(84, 0, 28, 32, 8),

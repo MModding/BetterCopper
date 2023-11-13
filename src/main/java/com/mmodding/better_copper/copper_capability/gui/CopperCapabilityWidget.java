@@ -4,8 +4,6 @@ import com.google.common.collect.Lists;
 import com.mmodding.better_copper.copper_capability.CopperCapability;
 import com.mmodding.better_copper.copper_capability.CopperCapabilityDisplay;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.advancement.AdvancementProgress;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextHandler;
@@ -18,10 +16,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Language;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import java.util.List;
 
-@Environment(EnvType.CLIENT)
+@ClientOnly
 public class CopperCapabilityWidget extends DrawableHelper {
 	private static final Identifier WIDGETS_TEXTURE = new Identifier("textures/gui/advancements/widgets.png");
 	private static final int[] SPLIT_OFFSET_CANDIDATES = new int[]{0, 10, -10, 25, -25};
@@ -86,6 +85,10 @@ public class CopperCapabilityWidget extends DrawableHelper {
 
 	@Nullable
 	private CopperCapabilityWidget getParent(CopperCapability copperCapability) {
+		do {
+			copperCapability = copperCapability.getParent();
+		} while (copperCapability != null && copperCapability.getDisplay() == null);
+
 		return copperCapability != null && copperCapability.getDisplay() != null ? this.tab.getWidget(copperCapability) : null;
 	}
 
@@ -320,7 +323,7 @@ public class CopperCapabilityWidget extends DrawableHelper {
 	}
 
 	public void addToTree() {
-		if (this.parent == null) {
+		if (this.parent == null && this.copperCapability.getParent() != null) {
 			this.parent = this.getParent(this.copperCapability);
 			if (this.parent != null) {
 				this.parent.addChild(this);

@@ -3,8 +3,6 @@ package com.mmodding.better_copper.copper_capability.gui;
 import com.google.common.collect.Maps;
 import com.mmodding.better_copper.copper_capability.CopperCapability;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.render.GameRenderer;
@@ -14,10 +12,11 @@ import net.minecraft.network.packet.c2s.play.AdvancementTabC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import java.util.Map;
 
-@Environment(EnvType.CLIENT)
+@ClientOnly
 public class CopperCapabilityScreen extends Screen {
 	private static final Identifier WINDOW_TEXTURE = new Identifier("textures/gui/advancements/window.png");
 	private static final Identifier TABS_TEXTURE = new Identifier("textures/gui/advancements/tabs.png");
@@ -176,6 +175,9 @@ public class CopperCapabilityScreen extends Screen {
 
 	@Nullable
 	private CopperCapabilityTab getTab(CopperCapability copperCapability) {
+		while (copperCapability.getParent() != null) {
+			copperCapability = copperCapability.getParent();
+		}
 		return this.tabs.get(copperCapability);
 	}
 }

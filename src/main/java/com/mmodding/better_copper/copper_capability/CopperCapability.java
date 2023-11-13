@@ -1,5 +1,6 @@
 package com.mmodding.better_copper.copper_capability;
 
+import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 import com.mmodding.better_copper.BetterCopper;
 import net.minecraft.advancement.AdvancementFrame;
@@ -15,9 +16,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class CopperCapability {
+	@Nullable
+	private final CopperCapability parent;
 	private final Identifier id;
 	private final Text text;
 	private final CopperCapability.Type capabilityType;
@@ -26,14 +31,19 @@ public class CopperCapability {
 	private final int level;
 	private final int price;
 	private final int usePower;
+	private final Set<CopperCapability> children = Sets.newLinkedHashSet();
 
-	public CopperCapability(Identifier id, CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int level, int price, int usePower) {
+	public CopperCapability(@Nullable CopperCapability parent, Identifier id, CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int level, int price, int usePower) {
+		this.parent = parent;
 		this.id = id;
 		this.capabilityType = capabilityType;
 		this.display = display;
 		this.level = level;
 		this.price = price;
 		this.usePower = usePower;
+		if (parent != null) {
+			parent.addChild(this);
+		}
 
 		if (display == null) {
 			this.text = Text.literal(id.toString());
@@ -47,7 +57,12 @@ public class CopperCapability {
 	}
 
 	public CopperCapability.Task createTask() {
-		return new CopperCapability.Task(this.capabilityType, this.display, this.level, this.price, this.usePower);
+		return new CopperCapability.Task(this.parent == null ? null : this.parent.getId(), this.capabilityType, this.display, this.level, this.price, this.usePower);
+	}
+
+	@Nullable
+	public CopperCapability getParent() {
+		return this.parent;
 	}
 
 	public Identifier getId() {
@@ -78,6 +93,8 @@ public class CopperCapability {
 	public String toString() {
 		return "SimpleCopperCapability{id="
 			+ this.getId()
+			+ ", parent="
+			+ (this.parent == null ? "null" : this.parent.getId())
 			+ ", capabilityType="
 			+ this.capabilityType
 			+ ", display="
@@ -89,6 +106,14 @@ public class CopperCapability {
 			+ ", usePower="
 			+ this.usePower
 			+ "}";
+	}
+
+	public Iterable<CopperCapability> getChildren() {
+		return this.children;
+	}
+
+	public void addChild(CopperCapability child) {
+		this.children.add(child);
 	}
 
 	public boolean equals(Object object) {
@@ -110,12 +135,10 @@ public class CopperCapability {
 	}
 
 	public enum Type {
-		ARMORS,
 		HELMET,
 		CHESTPLATE,
 		LEGGINGS,
 		BOOTS,
-		TOOLS,
 		SWORD,
 		PICKAXE,
 		AXE,
@@ -123,6 +146,10 @@ public class CopperCapability {
 	}
 
 	public static class Task {
+		@Nullable
+		private Identifier parentId;
+		@Nullable
+		private CopperCapability parentObj;
 		private CopperCapability.Type capabilityType;
 		@Nullable
 		private CopperCapabilityDisplay display;
@@ -130,7 +157,8 @@ public class CopperCapability {
 		private int price;
 		private int usePower;
 
-		Task(CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int level, int price, int usePower) {
+		Task(@Nullable Identifier parentId, CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int level, int price, int usePower) {
+			this.parentId = parentId;
 			this.capabilityType = capabilityType;
 			this.display = display;
 			this.level = level;
@@ -142,6 +170,16 @@ public class CopperCapability {
 
 		public static CopperCapability.Task create() {
 			return new CopperCapability.Task();
+		}
+
+		public CopperCapability.Task parent(CopperCapability parent) {
+			this.parentObj = parent;
+			return this;
+		}
+
+		public CopperCapability.Task parent(Identifier parentId) {
+			this.parentId = parentId;
+			return this;
 		}
 
 		public CopperCapability.Task display(Text title, Text description, ItemStack icon, @Nullable Identifier background, AdvancementFrame frame) {
@@ -157,8 +195,19 @@ public class CopperCapability {
 			return this;
 		}
 
+		public boolean findParent(Function<Identifier, CopperCapability> parentProvider) {
+			if (this.parentId == null) {
+				return true;
+			} else {
+				if (this.parentObj == null) {
+					this.parentObj = parentProvider.apply(this.parentId);
+				}
+				return this.parentObj != null;
+			}
+		}
+
 		public CopperCapability build(Identifier id) {
-			return new CopperCapability(id, capabilityType, this.display, this.level, this.price, this.usePower);
+			return new CopperCapability(parentObj, id, capabilityType, this.display, this.level, this.price, this.usePower);
 		}
 
 		public CopperCapability build(Consumer<CopperCapability> consumer, String id) {
@@ -170,9 +219,17 @@ public class CopperCapability {
 		public JsonObject toJson() {
 			JsonObject jsonObject = new JsonObject();
 			jsonObject.addProperty("type", this.capabilityType.toString());
+
+			if (this.parentObj != null) {
+				jsonObject.addProperty("parent", this.parentObj.getId().toString());
+			} else if (this.parentId != null) {
+				jsonObject.addProperty("parent", this.parentId.toString());
+			}
+
 			if (this.display != null) {
 				jsonObject.add("display", this.display.toJson());
 			}
+
 			jsonObject.addProperty("level", this.level);
 			jsonObject.addProperty("price", this.price);
 			jsonObject.addProperty("use_power", this.usePower);
@@ -181,6 +238,7 @@ public class CopperCapability {
 
 		public void toPacket(PacketByteBuf buf) {
 			buf.writeString(this.capabilityType.toString());
+			buf.writeNullable(this.parentId, PacketByteBuf::writeIdentifier);
 			buf.writeNullable(this.display, (bufx, display) -> display.toPacket(bufx));
 			buf.writeVarInt(this.level);
 			buf.writeVarInt(this.price);
@@ -190,6 +248,8 @@ public class CopperCapability {
 		public String toString() {
 			return "Task CopperCapability{capabilityType="
 				+ this.capabilityType
+				+ ", parentId="
+				+ this.parentId
 				+ ", display="
 				+ this.display
 				+ ", level="
@@ -203,20 +263,22 @@ public class CopperCapability {
 
 		public static CopperCapability.Task fromJson(JsonObject obj) {
 			String capabilityType = JsonHelper.getString(obj, "type");
+			Identifier parent = obj.has("parent") ? new Identifier(JsonHelper.getString(obj, "parent")) : null;
 			CopperCapabilityDisplay copperCapabilityDisplay = obj.has("display") ? CopperCapabilityDisplay.fromJson(JsonHelper.getObject(obj, "display")) : null;
 			int level = JsonHelper.getInt(obj, "level");
 			int price = JsonHelper.getInt(obj, "price");
 			int usePower = JsonHelper.getInt(obj, "use_power");
-			return new CopperCapability.Task(CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, usePower);
+			return new CopperCapability.Task(parent, CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, usePower);
 		}
 
 		public static CopperCapability.Task fromPacket(PacketByteBuf buf) {
 			String capabilityType = buf.readString();
+			Identifier parent = buf.readNullable(PacketByteBuf::readIdentifier);
 			CopperCapabilityDisplay copperCapabilityDisplay = buf.readNullable(CopperCapabilityDisplay::fromPacket);
 			int level = buf.readInt();
 			int price = buf.readInt();
 			int usePower = buf.readInt();
-			return new CopperCapability.Task(CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, usePower);
+			return new CopperCapability.Task(parent, CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, usePower);
 		}
 	}
 }
