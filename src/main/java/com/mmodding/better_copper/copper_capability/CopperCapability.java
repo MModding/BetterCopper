@@ -23,13 +23,15 @@ public class CopperCapability {
 	private final CopperCapability.Type capabilityType;
 	@Nullable
 	private final CopperCapabilityDisplay display;
+	private final int level;
 	private final int price;
 	private final int usePower;
 
-	public CopperCapability(Identifier id, CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int price, int usePower) {
+	public CopperCapability(Identifier id, CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int level, int price, int usePower) {
 		this.id = id;
 		this.capabilityType = capabilityType;
 		this.display = display;
+		this.level = level;
 		this.price = price;
 		this.usePower = usePower;
 
@@ -45,7 +47,7 @@ public class CopperCapability {
 	}
 
 	public CopperCapability.Task createTask() {
-		return new CopperCapability.Task(this.capabilityType, this.display, this.price, this.usePower);
+		return new CopperCapability.Task(this.capabilityType, this.display, this.level, this.price, this.usePower);
 	}
 
 	public Identifier getId() {
@@ -59,6 +61,10 @@ public class CopperCapability {
 	@Nullable
 	public CopperCapabilityDisplay getDisplay() {
 		return this.display;
+	}
+
+	public int getLevel() {
+		return this.level;
 	}
 
 	public int getPrice() {
@@ -76,6 +82,8 @@ public class CopperCapability {
 			+ this.capabilityType
 			+ ", display="
 			+ this.display
+			+ ", level="
+			+ this.level
 			+ ", price="
 			+ this.price
 			+ ", usePower="
@@ -118,12 +126,14 @@ public class CopperCapability {
 		private CopperCapability.Type capabilityType;
 		@Nullable
 		private CopperCapabilityDisplay display;
+		private int level;
 		private int price;
 		private int usePower;
 
-		Task(CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int price, int usePower) {
+		Task(CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int level, int price, int usePower) {
 			this.capabilityType = capabilityType;
 			this.display = display;
+			this.level = level;
 			this.price = price;
 			this.usePower = usePower;
 		}
@@ -148,7 +158,7 @@ public class CopperCapability {
 		}
 
 		public CopperCapability build(Identifier id) {
-			return new CopperCapability(id, capabilityType, this.display, this.price, this.usePower);
+			return new CopperCapability(id, capabilityType, this.display, this.level, this.price, this.usePower);
 		}
 
 		public CopperCapability build(Consumer<CopperCapability> consumer, String id) {
@@ -163,6 +173,7 @@ public class CopperCapability {
 			if (this.display != null) {
 				jsonObject.add("display", this.display.toJson());
 			}
+			jsonObject.addProperty("level", this.level);
 			jsonObject.addProperty("price", this.price);
 			jsonObject.addProperty("use_power", this.usePower);
 			return jsonObject;
@@ -171,6 +182,7 @@ public class CopperCapability {
 		public void toPacket(PacketByteBuf buf) {
 			buf.writeString(this.capabilityType.toString());
 			buf.writeNullable(this.display, (bufx, display) -> display.toPacket(bufx));
+			buf.writeVarInt(this.level);
 			buf.writeVarInt(this.price);
 			buf.writeVarInt(this.usePower);
 		}
@@ -180,6 +192,8 @@ public class CopperCapability {
 				+ this.capabilityType
 				+ ", display="
 				+ this.display
+				+ ", level="
+				+ this.level
 				+ ", price="
 				+ this.price
 				+ ", usePower"
@@ -190,17 +204,19 @@ public class CopperCapability {
 		public static CopperCapability.Task fromJson(JsonObject obj) {
 			String capabilityType = JsonHelper.getString(obj, "type");
 			CopperCapabilityDisplay copperCapabilityDisplay = obj.has("display") ? CopperCapabilityDisplay.fromJson(JsonHelper.getObject(obj, "display")) : null;
+			int level = JsonHelper.getInt(obj, "level");
 			int price = JsonHelper.getInt(obj, "price");
 			int usePower = JsonHelper.getInt(obj, "use_power");
-			return new CopperCapability.Task(CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, price, usePower);
+			return new CopperCapability.Task(CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, usePower);
 		}
 
 		public static CopperCapability.Task fromPacket(PacketByteBuf buf) {
 			String capabilityType = buf.readString();
 			CopperCapabilityDisplay copperCapabilityDisplay = buf.readNullable(CopperCapabilityDisplay::fromPacket);
+			int level = buf.readInt();
 			int price = buf.readInt();
 			int usePower = buf.readInt();
-			return new CopperCapability.Task(CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, price, usePower);
+			return new CopperCapability.Task(CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, usePower);
 		}
 	}
 }
