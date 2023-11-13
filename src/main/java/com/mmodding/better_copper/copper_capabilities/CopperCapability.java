@@ -154,15 +154,15 @@ public class CopperCapability {
 		private CopperCapabilityDisplay display;
 		private int level;
 		private int price;
-		private int usePower;
+		private int requiredPower;
 
-		Task(@Nullable Identifier parentId, CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int level, int price, int usePower) {
+		Task(@Nullable Identifier parentId, CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int level, int price, int requiredPower) {
 			this.parentId = parentId;
 			this.capabilityType = capabilityType;
 			this.display = display;
 			this.level = level;
 			this.price = price;
-			this.usePower = usePower;
+			this.requiredPower = requiredPower;
 		}
 
 		private Task() {}
@@ -206,7 +206,7 @@ public class CopperCapability {
 		}
 
 		public CopperCapability build(Identifier id) {
-			return new CopperCapability(parentObj, id, capabilityType, this.display, this.level, this.price, this.usePower);
+			return new CopperCapability(parentObj, id, capabilityType, this.display, this.level, this.price, this.requiredPower);
 		}
 
 		public CopperCapability build(Consumer<CopperCapability> consumer, String id) {
@@ -231,7 +231,7 @@ public class CopperCapability {
 
 			jsonObject.addProperty("level", this.level);
 			jsonObject.addProperty("price", this.price);
-			jsonObject.addProperty("use_power", this.usePower);
+			jsonObject.addProperty("required_power", this.requiredPower);
 			return jsonObject;
 		}
 
@@ -241,7 +241,7 @@ public class CopperCapability {
 			buf.writeNullable(this.display, (bufx, display) -> display.toPacket(bufx));
 			buf.writeVarInt(this.level);
 			buf.writeVarInt(this.price);
-			buf.writeVarInt(this.usePower);
+			buf.writeVarInt(this.requiredPower);
 		}
 
 		public String toString() {
@@ -255,8 +255,8 @@ public class CopperCapability {
 				+ this.level
 				+ ", price="
 				+ this.price
-				+ ", usePower"
-				+ this.usePower
+				+ ", requiredPower="
+				+ this.requiredPower
 				+ "}";
 		}
 
@@ -266,8 +266,8 @@ public class CopperCapability {
 			CopperCapabilityDisplay copperCapabilityDisplay = obj.has("display") ? CopperCapabilityDisplay.fromJson(JsonHelper.getObject(obj, "display")) : null;
 			int level = JsonHelper.getInt(obj, "level");
 			int price = JsonHelper.getInt(obj, "price");
-			int usePower = JsonHelper.getInt(obj, "use_power");
-			return new CopperCapability.Task(parent, CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, usePower);
+			int requiredPower = JsonHelper.getInt(obj, "required_power");
+			return new CopperCapability.Task(parent, CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, requiredPower);
 		}
 
 		public static CopperCapability.Task fromPacket(PacketByteBuf buf) {
@@ -276,8 +276,8 @@ public class CopperCapability {
 			CopperCapabilityDisplay copperCapabilityDisplay = buf.readNullable(CopperCapabilityDisplay::fromPacket);
 			int level = buf.readInt();
 			int price = buf.readInt();
-			int usePower = buf.readInt();
-			return new CopperCapability.Task(parent, CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, usePower);
+			int requiredPower = buf.readInt();
+			return new CopperCapability.Task(parent, CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, requiredPower);
 		}
 	}
 }
