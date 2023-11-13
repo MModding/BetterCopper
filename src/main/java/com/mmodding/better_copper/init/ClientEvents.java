@@ -3,7 +3,7 @@ package com.mmodding.better_copper.init;
 import com.mmodding.better_copper.client.render.ChargedValueRenderer;
 import com.mmodding.better_copper.client.render.Outliner;
 import com.mmodding.better_copper.client.render.SuperRenderTypeBuffer;
-import com.mmodding.better_copper.copper_capability.gui.CopperCapabilityScreen;
+import com.mmodding.better_copper.copper_capabilities.client.gui.CopperCapabilityScreen;
 import com.mmodding.mmodding_lib.library.initializers.ClientElementsInitializer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;

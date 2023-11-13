@@ -10,6 +10,7 @@ group = project.maven_group
 repositories {
 	maven { url 'https://jitpack.io' }
 	maven { url 'https://maven.terraformersmc.com/releases/' }
+	maven { url 'https://maven.ladysnake.org/releases' }
 }
 
 // All the dependencies are declared at gradle/libs.version.toml and referenced with "libs.<id>"
@@ -26,6 +27,12 @@ dependencies {
 
 	// MModding Library
 	modImplementation libs.mmodding.lib
+
+	// Cardinal Components API
+	modApi libs.cca.base
+	modApi libs.cca.entity
+	include libs.cca.base
+	include libs.cca.entity
 }
 
 loom {

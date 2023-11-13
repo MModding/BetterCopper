@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.copper_capability;
+package com.mmodding.better_copper.copper_capabilities;
 
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
@@ -21,32 +21,31 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class CopperCapability {
-	@Nullable
-	private final CopperCapability parent;
-	private final Identifier id;
+
+	private final @Nullable CopperCapability parent;
+	private final Identifier identifier;
 	private final Text text;
 	private final CopperCapability.Type capabilityType;
-	@Nullable
-	private final CopperCapabilityDisplay display;
+	private final @Nullable CopperCapabilityDisplay display;
 	private final int level;
 	private final int price;
-	private final int usePower;
+	private final int requiredPower;
 	private final Set<CopperCapability> children = Sets.newLinkedHashSet();
 
-	public CopperCapability(@Nullable CopperCapability parent, Identifier id, CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int level, int price, int usePower) {
+	public CopperCapability(@Nullable CopperCapability parent, Identifier identifier, CopperCapability.Type capabilityType, @Nullable CopperCapabilityDisplay display, int level, int price, int requiredPower) {
 		this.parent = parent;
-		this.id = id;
+		this.identifier = identifier;
 		this.capabilityType = capabilityType;
 		this.display = display;
 		this.level = level;
 		this.price = price;
-		this.usePower = usePower;
+		this.requiredPower = requiredPower;
 		if (parent != null) {
 			parent.addChild(this);
 		}
 
 		if (display == null) {
-			this.text = Text.literal(id.toString());
+			this.text = Text.literal(identifier.toString());
 		} else {
 			Text text = display.getTitle();
 			Formatting formatting = display.getFrame().getTitleFormat();
@@ -57,7 +56,7 @@ public class CopperCapability {
 	}
 
 	public CopperCapability.Task createTask() {
-		return new CopperCapability.Task(this.parent == null ? null : this.parent.getId(), this.capabilityType, this.display, this.level, this.price, this.usePower);
+		return new CopperCapability.Task(this.parent == null ? null : this.parent.getIdentifier(), this.capabilityType, this.display, this.level, this.price, this.requiredPower);
 	}
 
 	@Nullable
@@ -65,8 +64,8 @@ public class CopperCapability {
 		return this.parent;
 	}
 
-	public Identifier getId() {
-		return this.id;
+	public Identifier getIdentifier() {
+		return this.identifier;
 	}
 
 	public CopperCapability.Type getCapabilityType() {
@@ -86,15 +85,15 @@ public class CopperCapability {
 		return this.price;
 	}
 
-	public int getUsePower() {
-		return this.usePower;
+	public int getRequiredPower() {
+		return this.requiredPower;
 	}
 
 	public String toString() {
 		return "SimpleCopperCapability{id="
-			+ this.getId()
+			+ this.getIdentifier()
 			+ ", parent="
-			+ (this.parent == null ? "null" : this.parent.getId())
+			+ (this.parent == null ? "null" : this.parent.getIdentifier())
 			+ ", capabilityType="
 			+ this.capabilityType
 			+ ", display="
@@ -103,8 +102,8 @@ public class CopperCapability {
 			+ this.level
 			+ ", price="
 			+ this.price
-			+ ", usePower="
-			+ this.usePower
+			+ ", requiredPower="
+			+ this.requiredPower
 			+ "}";
 	}
 
@@ -122,12 +121,12 @@ public class CopperCapability {
 		} else if (!(object instanceof CopperCapability copperCapability)) {
 			return false;
 		} else {
-			return this.id.equals(copperCapability.id);
+			return this.identifier.equals(copperCapability.identifier);
 		}
 	}
 
 	public int hashCode() {
-		return this.id.hashCode();
+		return this.identifier.hashCode();
 	}
 
 	public Text toHoverableText() {
@@ -221,7 +220,7 @@ public class CopperCapability {
 			jsonObject.addProperty("type", this.capabilityType.toString());
 
 			if (this.parentObj != null) {
-				jsonObject.addProperty("parent", this.parentObj.getId().toString());
+				jsonObject.addProperty("parent", this.parentObj.getIdentifier().toString());
 			} else if (this.parentId != null) {
 				jsonObject.addProperty("parent", this.parentId.toString());
 			}

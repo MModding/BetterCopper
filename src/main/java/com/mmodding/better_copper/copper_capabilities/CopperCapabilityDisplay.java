@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.copper_capability;
+package com.mmodding.better_copper.copper_capabilities;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,12 +14,13 @@ import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 public class CopperCapabilityDisplay {
+
 	private final Text title;
 	private final Text description;
 	private final ItemStack icon;
-	@Nullable
-	private final Identifier background;
+	private final @Nullable Identifier background;
 	private final AdvancementFrame frame;
+
 	private float x;
 	private float y;
 
@@ -123,7 +124,8 @@ public class CopperCapabilityDisplay {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("item", Registry.ITEM.getId(this.icon.getItem()).toString());
 		if (this.icon.hasNbt()) {
-			jsonObject.addProperty("nbt", this.icon.getNbt().toString());
+			assert this.icon.getNbt() != null;
+            jsonObject.addProperty("nbt", this.icon.getNbt().toString());
 		}
 		return jsonObject;
 	}

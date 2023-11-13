@@ -1,7 +1,7 @@
-package com.mmodding.better_copper.copper_capability.gui;
+package com.mmodding.better_copper.copper_capabilities.client.gui;
 
 import com.google.common.collect.Maps;
-import com.mmodding.better_copper.copper_capability.CopperCapability;
+import com.mmodding.better_copper.copper_capabilities.CopperCapability;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -18,14 +18,16 @@ import java.util.Map;
 
 @ClientOnly
 public class CopperCapabilityScreen extends Screen {
+
 	private static final Identifier WINDOW_TEXTURE = new Identifier("textures/gui/advancements/window.png");
 	private static final Identifier TABS_TEXTURE = new Identifier("textures/gui/advancements/tabs.png");
 	private static final Text CAPABILITIES_TEXT = Text.translatable("gui.copper_capabilities");
 	private static final Text EMPTY_TEXT = Text.translatable("copper_capabilities.empty");
 	private static final Text TIP_TEXT = Text.translatable("copper_capabilities.tip");
+
 	private final Map<CopperCapability, CopperCapabilityTab> tabs = Maps.newLinkedHashMap();
-	@Nullable
-	private CopperCapabilityTab selectedTab;
+
+	private @Nullable CopperCapabilityTab selectedTab;
 	private boolean movingTab;
 
 	public CopperCapabilityScreen() {
@@ -40,7 +42,8 @@ public class CopperCapabilityScreen extends Screen {
 
 	@Override
 	public void removed() {
-		ClientPlayNetworkHandler clientPlayNetworkHandler = this.client.getNetworkHandler();
+        assert this.client != null;
+        ClientPlayNetworkHandler clientPlayNetworkHandler = this.client.getNetworkHandler();
 		if (clientPlayNetworkHandler != null) {
 			clientPlayNetworkHandler.sendPacket(AdvancementTabC2SPacket.close());
 		}
@@ -64,7 +67,8 @@ public class CopperCapabilityScreen extends Screen {
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		if (this.client.options.advancementsKey.matchesKey(keyCode, scanCode)) {
+        assert this.client != null;
+        if (this.client.options.advancementsKey.matchesKey(keyCode, scanCode)) {
 			this.client.setScreen(null);
 			this.client.mouse.lockCursor();
 			return true;

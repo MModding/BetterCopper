@@ -1,8 +1,7 @@
-package com.mmodding.better_copper.copper_capability.gui;
+package com.mmodding.better_copper.copper_capabilities.client.gui;
 
-import com.google.common.collect.Lists;
-import com.mmodding.better_copper.copper_capability.CopperCapability;
-import com.mmodding.better_copper.copper_capability.CopperCapabilityDisplay;
+import com.mmodding.better_copper.copper_capabilities.CopperCapabilityDisplay;
+import com.mmodding.better_copper.copper_capabilities.CopperCapability;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.advancement.AdvancementProgress;
 import net.minecraft.client.MinecraftClient;
@@ -18,12 +17,15 @@ import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ClientOnly
 public class CopperCapabilityWidget extends DrawableHelper {
+
 	private static final Identifier WIDGETS_TEXTURE = new Identifier("textures/gui/advancements/widgets.png");
 	private static final int[] SPLIT_OFFSET_CANDIDATES = new int[]{0, 10, -10, 25, -25};
+
 	private final CopperCapabilityTab tab;
 	private final CopperCapability copperCapability;
 	private final CopperCapabilityDisplay display;
@@ -31,11 +33,10 @@ public class CopperCapabilityWidget extends DrawableHelper {
 	private final int width;
 	private final List<OrderedText> description;
 	private final MinecraftClient client;
-	@Nullable
-	private CopperCapabilityWidget parent;
-	private final List<CopperCapabilityWidget> children = Lists.<CopperCapabilityWidget>newArrayList();
-	@Nullable
-	private AdvancementProgress progress;
+	private final List<CopperCapabilityWidget> children = new ArrayList<>();
+
+	private @Nullable CopperCapabilityWidget parent;
+	private @Nullable AdvancementProgress progress;
 	private final int x;
 	private final int y;
 
@@ -243,9 +244,7 @@ public class CopperCapabilityWidget extends DrawableHelper {
 	 * @implNote This splits the area into 9 parts (4 corners, 4 edges and 1
 	 * central box) and draws each of them.
 	 */
-	protected void renderDescriptionBackground(
-		MatrixStack matrices, int x, int y, int width, int height, int cornerSize, int textureWidth, int textureHeight, int u, int v
-	) {
+	protected void renderDescriptionBackground(MatrixStack matrices, int x, int y, int width, int height, int cornerSize, int textureWidth, int textureHeight, int u, int v) {
 		this.drawTexture(matrices, x, y, u, v, cornerSize, cornerSize);
 		this.drawTextureRepeatedly(
 			matrices, x + cornerSize, y, width - cornerSize - cornerSize, cornerSize, u + cornerSize, v, textureWidth - cornerSize - cornerSize, textureHeight

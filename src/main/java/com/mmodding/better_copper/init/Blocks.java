@@ -4,29 +4,29 @@ import com.mmodding.better_copper.BetterCopper;
 import com.mmodding.better_copper.blocks.*;
 import com.mmodding.mmodding_lib.library.initializers.ClientElementsInitializer;
 import com.mmodding.mmodding_lib.library.initializers.ElementsInitializer;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.item.ItemGroup;
+import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 public class Blocks implements ElementsInitializer, ClientElementsInitializer {
 
-	public static final OxidizableCopperCoreBlock COPPER_CORE = new OxidizableCopperCoreBlock(AbstractBlock.Settings.copy(net.minecraft.block.Blocks.COPPER_BLOCK), true, ItemGroup.BUILDING_BLOCKS);
-	public static final OxidizableCopperCoreBlock EXPOSED_COPPER_CORE = new OxidizableCopperCoreBlock(Oxidizable.OxidizationLevel.EXPOSED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.EXPOSED_COPPER), true, ItemGroup.BUILDING_BLOCKS);
-	public static final OxidizableCopperCoreBlock WEATHERED_COPPER_CORE = new OxidizableCopperCoreBlock(Oxidizable.OxidizationLevel.WEATHERED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.WEATHERED_COPPER), true, ItemGroup.BUILDING_BLOCKS);
-	public static final OxidizableCopperCoreBlock OXIDIZED_COPPER_CORE = new OxidizableCopperCoreBlock(Oxidizable.OxidizationLevel.OXIDIZED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.OXIDIZED_COPPER), true, ItemGroup.BUILDING_BLOCKS);
-	public static final CopperCoreBlock WAXED_COPPER_CORE = new CopperCoreBlock(AbstractBlock.Settings.copy(COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
-	public static final CopperCoreBlock WAXED_EXPOSED_COPPER_CORE = new CopperCoreBlock(AbstractBlock.Settings.copy(EXPOSED_COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
-	public static final CopperCoreBlock WAXED_WEATHERED_COPPER_CORE = new CopperCoreBlock(AbstractBlock.Settings.copy(WEATHERED_COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
-	public static final CopperCoreBlock WAXED_OXIDIZED_COPPER_CORE = new CopperCoreBlock(AbstractBlock.Settings.copy(OXIDIZED_COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
-	public static final NetheriteCoatedGoldBlock NETHERITE_COATED_GOLD_BLOCK = new NetheriteCoatedGoldBlock(AbstractBlock.Settings.copy(net.minecraft.block.Blocks.GOLD_BLOCK), true, ItemGroup.BUILDING_BLOCKS);
-	public static final OxidizableCopperRailBlock COPPER_RAIL = new OxidizableCopperRailBlock(AbstractBlock.Settings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
-	public static final OxidizableCopperRailBlock EXPOSED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.EXPOSED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
-	public static final OxidizableCopperRailBlock WEATHERED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.WEATHERED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
-	public static final OxidizableCopperRailBlock OXIDIZED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.OXIDIZED, AbstractBlock.Settings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
-	public static final CopperRailBlock WAXED_COPPER_RAIL = new CopperRailBlock(1.2, AbstractBlock.Settings.copy(COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
-	public static final CopperRailBlock WAXED_EXPOSED_COPPER_RAIL = new CopperRailBlock(1.0, AbstractBlock.Settings.copy(EXPOSED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
-	public static final CopperRailBlock WAXED_WEATHERED_COPPER_RAIL = new CopperRailBlock(0.8, AbstractBlock.Settings.copy(WEATHERED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
-	public static final CopperRailBlock WAXED_OXIDIZED_COPPER_RAIL = new CopperRailBlock(0.6, AbstractBlock.Settings.copy(OXIDIZED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final OxidizableCopperCoreBlock COPPER_CORE = new OxidizableCopperCoreBlock(QuiltBlockSettings.copy(net.minecraft.block.Blocks.COPPER_BLOCK), true, ItemGroup.BUILDING_BLOCKS);
+	public static final OxidizableCopperCoreBlock EXPOSED_COPPER_CORE = new OxidizableCopperCoreBlock(Oxidizable.OxidizationLevel.EXPOSED, QuiltBlockSettings.copy(net.minecraft.block.Blocks.EXPOSED_COPPER), true, ItemGroup.BUILDING_BLOCKS);
+	public static final OxidizableCopperCoreBlock WEATHERED_COPPER_CORE = new OxidizableCopperCoreBlock(Oxidizable.OxidizationLevel.WEATHERED, QuiltBlockSettings.copy(net.minecraft.block.Blocks.WEATHERED_COPPER), true, ItemGroup.BUILDING_BLOCKS);
+	public static final OxidizableCopperCoreBlock OXIDIZED_COPPER_CORE = new OxidizableCopperCoreBlock(Oxidizable.OxidizationLevel.OXIDIZED, QuiltBlockSettings.copy(net.minecraft.block.Blocks.OXIDIZED_COPPER), true, ItemGroup.BUILDING_BLOCKS);
+	public static final CopperCoreBlock WAXED_COPPER_CORE = new CopperCoreBlock(QuiltBlockSettings.copy(COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
+	public static final CopperCoreBlock WAXED_EXPOSED_COPPER_CORE = new CopperCoreBlock(QuiltBlockSettings.copy(EXPOSED_COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
+	public static final CopperCoreBlock WAXED_WEATHERED_COPPER_CORE = new CopperCoreBlock(QuiltBlockSettings.copy(WEATHERED_COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
+	public static final CopperCoreBlock WAXED_OXIDIZED_COPPER_CORE = new CopperCoreBlock(QuiltBlockSettings.copy(OXIDIZED_COPPER_CORE), true, ItemGroup.BUILDING_BLOCKS);
+	public static final NetheriteCoatedGoldBlock NETHERITE_COATED_GOLD_BLOCK = new NetheriteCoatedGoldBlock(QuiltBlockSettings.copy(net.minecraft.block.Blocks.GOLD_BLOCK), true, ItemGroup.BUILDING_BLOCKS);
+	public static final OxidizableCopperRailBlock COPPER_RAIL = new OxidizableCopperRailBlock(QuiltBlockSettings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final OxidizableCopperRailBlock EXPOSED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.EXPOSED, QuiltBlockSettings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final OxidizableCopperRailBlock WEATHERED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.WEATHERED, QuiltBlockSettings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final OxidizableCopperRailBlock OXIDIZED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.OXIDIZED, QuiltBlockSettings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final CopperRailBlock WAXED_COPPER_RAIL = new CopperRailBlock(1.2, QuiltBlockSettings.copy(COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final CopperRailBlock WAXED_EXPOSED_COPPER_RAIL = new CopperRailBlock(1.0, QuiltBlockSettings.copy(EXPOSED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final CopperRailBlock WAXED_WEATHERED_COPPER_RAIL = new CopperRailBlock(0.8, QuiltBlockSettings.copy(WEATHERED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final CopperRailBlock WAXED_OXIDIZED_COPPER_RAIL = new CopperRailBlock(0.6, QuiltBlockSettings.copy(OXIDIZED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
 
 	@Override
 	public void register() {

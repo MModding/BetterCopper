@@ -1,8 +1,8 @@
-package com.mmodding.better_copper.copper_capability.gui;
+package com.mmodding.better_copper.copper_capabilities.client.gui;
 
 import com.google.common.collect.Maps;
-import com.mmodding.better_copper.copper_capability.CopperCapability;
-import com.mmodding.better_copper.copper_capability.CopperCapabilityDisplay;
+import com.mmodding.better_copper.copper_capabilities.CopperCapability;
+import com.mmodding.better_copper.copper_capabilities.CopperCapabilityDisplay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import java.util.Map;
+import java.util.Objects;
 
 @ClientOnly
 public class CopperCapabilityTab extends DrawableHelper {
@@ -32,6 +33,7 @@ public class CopperCapabilityTab extends DrawableHelper {
 	private final Text title;
 	private final CopperCapabilityWidget rootWidget;
 	private final Map<CopperCapability, CopperCapabilityWidget> widgets = Maps.newLinkedHashMap();
+
 	private double originX;
 	private double originY;
 	private int minPanX = Integer.MAX_VALUE;
@@ -101,11 +103,7 @@ public class CopperCapabilityTab extends DrawableHelper {
 		RenderSystem.depthFunc(515);
 		Identifier identifier = this.display.getBackground();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		if (identifier != null) {
-			RenderSystem.setShaderTexture(0, identifier);
-		} else {
-			RenderSystem.setShaderTexture(0, TextureManager.MISSING_IDENTIFIER);
-		}
+        RenderSystem.setShaderTexture(0, Objects.requireNonNullElse(identifier, TextureManager.MISSING_IDENTIFIER));
 
 		int i = MathHelper.floor(this.originX);
 		int j = MathHelper.floor(this.originY);
@@ -161,28 +159,26 @@ public class CopperCapabilityTab extends DrawableHelper {
 
 	@Nullable
 	public static CopperCapabilityTab create(MinecraftClient minecraft, CopperCapabilityScreen screen, int index, CopperCapability root) {
-		if (root.getDisplay() == null) {
-			return null;
-		} else {
-			for (CopperCapabilityTabType copperCapabilityTabType : CopperCapabilityTabType.values()) {
-				if (index < copperCapabilityTabType.getTabCount()) {
-					return new CopperCapabilityTab(minecraft, screen, copperCapabilityTabType, index, root, root.getDisplay());
-				}
+        if (root.getDisplay() != null) {
+            for (CopperCapabilityTabType copperCapabilityTabType : CopperCapabilityTabType.values()) {
+                if (index < copperCapabilityTabType.getTabCount()) {
+                    return new CopperCapabilityTab(minecraft, screen, copperCapabilityTabType, index, root, root.getDisplay());
+                }
 
-				index -= copperCapabilityTabType.getTabCount();
-			}
+                index -= copperCapabilityTabType.getTabCount();
+            }
 
-			return null;
-		}
-	}
+        }
+        return null;
+    }
 
 	public void move(double offsetX, double offsetY) {
 		if (this.maxPanX - this.minPanX > 234) {
-			this.originX = MathHelper.clamp(this.originX + offsetX, (double) (-(this.maxPanX - 234)), 0.0);
+			this.originX = MathHelper.clamp(this.originX + offsetX, -(this.maxPanX - 234), 0.0);
 		}
 
 		if (this.maxPanY - this.minPanY > 113) {
-			this.originY = MathHelper.clamp(this.originY + offsetY, (double) (-(this.maxPanY - 113)), 0.0);
+			this.originY = MathHelper.clamp(this.originY + offsetY, -(this.maxPanY - 113), 0.0);
 		}
 	}
 

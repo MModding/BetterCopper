@@ -6,6 +6,7 @@ quilt_loader = "0.19.2"
 
 quilted_fabric_api = "4.0.0-beta.18+0.64.0-1.19.2"
 mmodding_lib = "46d686daca"
+cca = "5.0.2"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -15,6 +16,8 @@ quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loade
 # Dependencies
 quilted_fabric_api = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api", version.ref = "quilted_fabric_api" }
 mmodding_lib = { module = "com.github.MModding:MModding-Library", version.ref = "mmodding_lib" }
+cca-base = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-base", version.ref = "cca" }
+cca-entity = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-entity", version.ref = "cca" }
 
 [plugins]
 quilt_loom = { id = "org.quiltmc.loom", version = "1.0.+" }

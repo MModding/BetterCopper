@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.copper_capability.gui;
+package com.mmodding.better_copper.copper_capabilities.client.gui;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 @ClientOnly
-enum CopperCapabilityTabType {
+public enum CopperCapabilityTabType {
 	ABOVE(0, 0, 28, 32, 8),
 	BELOW(84, 0, 28, 32, 8),
 	LEFT(0, 64, 32, 28, 5),
@@ -19,7 +19,7 @@ enum CopperCapabilityTabType {
 	private final int height;
 	private final int tabCount;
 
-	private CopperCapabilityTabType(int u, int v, int width, int height, int tabCount) {
+	CopperCapabilityTabType(int u, int v, int width, int height, int tabCount) {
 		this.u = u;
 		this.v = v;
 		this.width = width;
@@ -70,33 +70,19 @@ enum CopperCapabilityTabType {
 	}
 
 	public int getTabX(int index) {
-		switch (this) {
-			case ABOVE:
-				return (this.width + 4) * index;
-			case BELOW:
-				return (this.width + 4) * index;
-			case LEFT:
-				return -this.width + 4;
-			case RIGHT:
-				return 248;
-			default:
-				throw new UnsupportedOperationException("Don't know what this tab type is!" + this);
-		}
+        return switch (this) {
+            case ABOVE, BELOW -> (this.width + 4) * index;
+            case LEFT -> -this.width + 4;
+            case RIGHT -> 248;
+        };
 	}
 
 	public int getTabY(int index) {
-		switch (this) {
-			case ABOVE:
-				return -this.height + 4;
-			case BELOW:
-				return 136;
-			case LEFT:
-				return this.height * index;
-			case RIGHT:
-				return this.height * index;
-			default:
-				throw new UnsupportedOperationException("Don't know what this tab type is!" + this);
-		}
+        return switch (this) {
+            case ABOVE -> -this.height + 4;
+            case BELOW -> 136;
+            case LEFT, RIGHT -> this.height * index;
+        };
 	}
 
 	public boolean isClickOnTab(int screenX, int screenY, int index, double mouseX, double mouseY) {

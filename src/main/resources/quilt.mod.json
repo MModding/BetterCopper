@@ -1,5 +1,8 @@
 {
 	"schema_version": 1,
+	"cardinal-components": [
+		"better_copper:copper_capabilities"
+	],
 	"quilt_loader": {
 		"group": "com.mmodding",
 		"id": "better_copper",
@@ -22,7 +25,8 @@
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
 			"init": "com.mmodding.better_copper.BetterCopper",
-			"client_init": "com.mmodding.better_copper.client.BetterCopperClient"
+			"client_init": "com.mmodding.better_copper.client.BetterCopperClient",
+			"cardinal_components": "com.mmodding.better_copper.copper_capabilities.CopperCapabilities"
 		},
 		"depends": [
 			{
