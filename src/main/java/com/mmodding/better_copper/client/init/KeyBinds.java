@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.init;
+package com.mmodding.better_copper.client.init;
 
 import com.mmodding.mmodding_lib.library.initializers.ClientElementsInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;

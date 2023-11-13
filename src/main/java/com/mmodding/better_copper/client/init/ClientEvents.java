@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.init;
+package com.mmodding.better_copper.client.init;
 
 import com.mmodding.better_copper.client.render.ChargedValueRenderer;
 import com.mmodding.better_copper.client.render.Outliner;

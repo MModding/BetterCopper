@@ -2,7 +2,7 @@ package com.mmodding.better_copper.client.render;
 
 import com.mmodding.better_copper.Utils;
 import com.mmodding.better_copper.blocks.entities.CopperCoreBlockEntity;
-import com.mmodding.better_copper.init.ClientEvents;
+import com.mmodding.better_copper.client.init.ClientEvents;
 import com.mmodding.better_copper.mixin.accessors.AreaHelperAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.MutableText;
