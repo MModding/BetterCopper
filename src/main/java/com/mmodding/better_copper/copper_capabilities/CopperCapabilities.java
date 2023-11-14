@@ -53,6 +53,7 @@ public class CopperCapabilities implements EntityComponentInitializer {
 			throw new IllegalArgumentException("Mob does not have a CopperCapabilitiesComponent");
 		}
 	}
+
 	@Override
 	public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
 		registry.registerFor(MobEntity.class, COPPER_CAPABILITIES, (mob) -> new CopperCapabilitiesComponent());
