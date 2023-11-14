@@ -145,13 +145,10 @@ public class CopperCapability {
 	}
 
 	public static class Task {
-		@Nullable
-		private Identifier parentId;
-		@Nullable
-		private CopperCapability parentObj;
+		private @Nullable Identifier parentId;
+		private @Nullable CopperCapability parentObj;
 		private CopperCapability.Type capabilityType;
-		@Nullable
-		private CopperCapabilityDisplay display;
+		private @Nullable CopperCapabilityDisplay display;
 		private int level;
 		private int price;
 		private int requiredPower;
@@ -217,8 +214,6 @@ public class CopperCapability {
 
 		public JsonObject toJson() {
 			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty("type", this.capabilityType.toString());
-
 			if (this.parentObj != null) {
 				jsonObject.addProperty("parent", this.parentObj.getIdentifier().toString());
 			} else if (this.parentId != null) {
@@ -236,7 +231,6 @@ public class CopperCapability {
 		}
 
 		public void toPacket(PacketByteBuf buf) {
-			buf.writeString(this.capabilityType.toString());
 			buf.writeNullable(this.parentId, PacketByteBuf::writeIdentifier);
 			buf.writeNullable(this.display, (bufx, display) -> display.toPacket(bufx));
 			buf.writeVarInt(this.level);
@@ -260,24 +254,24 @@ public class CopperCapability {
 				+ "}";
 		}
 
-		public static CopperCapability.Task fromJson(JsonObject obj) {
-			String capabilityType = JsonHelper.getString(obj, "type");
+		public static CopperCapability.Task fromJson(String capabilityType, JsonObject obj) {
+			CopperCapability.Type type = CopperCapability.Type.valueOf(capabilityType.toUpperCase());
 			Identifier parent = obj.has("parent") ? new Identifier(JsonHelper.getString(obj, "parent")) : null;
 			CopperCapabilityDisplay copperCapabilityDisplay = obj.has("display") ? CopperCapabilityDisplay.fromJson(JsonHelper.getObject(obj, "display")) : null;
 			int level = JsonHelper.getInt(obj, "level");
 			int price = JsonHelper.getInt(obj, "price");
 			int requiredPower = JsonHelper.getInt(obj, "required_power");
-			return new CopperCapability.Task(parent, CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, requiredPower);
+			return new CopperCapability.Task(parent, type, copperCapabilityDisplay, level, price, requiredPower);
 		}
 
-		public static CopperCapability.Task fromPacket(PacketByteBuf buf) {
-			String capabilityType = buf.readString();
+		public static CopperCapability.Task fromPacket(String capabilityType, PacketByteBuf buf) {
+			CopperCapability.Type type = CopperCapability.Type.valueOf(capabilityType.toUpperCase());
 			Identifier parent = buf.readNullable(PacketByteBuf::readIdentifier);
 			CopperCapabilityDisplay copperCapabilityDisplay = buf.readNullable(CopperCapabilityDisplay::fromPacket);
 			int level = buf.readInt();
 			int price = buf.readInt();
 			int requiredPower = buf.readInt();
-			return new CopperCapability.Task(parent, CopperCapability.Type.valueOf(capabilityType), copperCapabilityDisplay, level, price, requiredPower);
+			return new CopperCapability.Task(parent, type, copperCapabilityDisplay, level, price, requiredPower);
 		}
 	}
 }

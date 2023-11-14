@@ -1,0 +1,19 @@
+{
+  "type": "helmet",
+  "display": {
+    "title": {
+      "translate": "copper_capabilities.helmet.root.title"
+    },
+    "description": {
+      "translate": "copper_capabilities.helmet.root.description"
+    },
+    "icon": {
+      "item": "better_copper:copper_helmet"
+    },
+    "background": "minecraft:textures/gui/advancements/backgrounds/end.png",
+    "frame": "task"
+  },
+  "level": 1,
+  "price": 10,
+  "required_power": 0
+}

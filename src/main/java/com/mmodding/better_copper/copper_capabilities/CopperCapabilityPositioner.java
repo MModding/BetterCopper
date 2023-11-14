@@ -201,8 +201,8 @@ public class CopperCapabilityPositioner {
 		}
 
 		if (!this.children.isEmpty()) {
-			for (CopperCapabilityPositioner advancementPositioner : this.children) {
-				advancementPositioner.apply();
+			for (CopperCapabilityPositioner copperCapabilityPositioner : this.children) {
+				copperCapabilityPositioner.apply();
 			}
 		}
 	}

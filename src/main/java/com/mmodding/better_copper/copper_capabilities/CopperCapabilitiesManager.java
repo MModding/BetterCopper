@@ -84,13 +84,13 @@ public class CopperCapabilitiesManager {
 
 			if (!bl) {
 				for (Entry<Identifier, CopperCapability.Task> entry : taskMap2.entrySet()) {
-					LOGGER.error("Couldn't load advancement {}: {}", entry.getKey(), entry.getValue());
+					LOGGER.error("Couldn't load capability {}: {}", entry.getKey(), entry.getValue());
 				}
 				break;
 			}
 		}
 
-		LOGGER.info("Loaded {} advancements", this.copperCapabilities.size());
+		LOGGER.info("Loaded {} capabilities", this.copperCapabilities.size());
 	}
 
 	public void clear() {

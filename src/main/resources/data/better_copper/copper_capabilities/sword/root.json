@@ -1,0 +1,19 @@
+{
+  "type": "sword",
+  "display": {
+    "title": {
+      "translate": "copper_capabilities.sword.root.title"
+    },
+    "description": {
+      "translate": "copper_capabilities.sword.root.description"
+    },
+    "icon": {
+      "item": "better_copper:copper_sword"
+    },
+    "background": "minecraft:textures/gui/advancements/backgrounds/end.png",
+    "frame": "task"
+  },
+  "level": 1,
+  "price": 10,
+  "required_power": 0
+}

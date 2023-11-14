@@ -49,8 +49,9 @@ public class CopperCapabilitiesLoader implements IdentifiableJsonDataLoader {
 			Map<Identifier, CopperCapability.Task> map = Maps.newHashMap();
 			data.forEach((id, json) -> {
 				try {
+					String[] partParts = id.getPath().split("/");
 					JsonObject jsonObject = JsonHelper.asObject(json, "copper_capabilities");
-					CopperCapability.Task task = CopperCapability.Task.fromJson(jsonObject);
+					CopperCapability.Task task = CopperCapability.Task.fromJson(partParts[2], jsonObject);
 					map.put(id, task);
 				} catch (Exception exception) {
 					System.out.print("Parsing error loading custom copper capability " + id + ": " + exception.getMessage());
