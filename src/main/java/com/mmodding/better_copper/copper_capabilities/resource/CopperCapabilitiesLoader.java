@@ -6,7 +6,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mmodding.better_copper.BetterCopper;
+import com.mmodding.better_copper.copper_capabilities.CopperCapabilitiesManager;
 import com.mmodding.better_copper.copper_capabilities.CopperCapability;
+import com.mmodding.better_copper.copper_capabilities.CopperCapabilityPositioner;
 import com.mmodding.mmodding_lib.library.resources.loaders.IdentifiableJsonDataLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -16,7 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -24,6 +25,7 @@ import java.util.concurrent.Executor;
 public class CopperCapabilitiesLoader implements IdentifiableJsonDataLoader {
 
 	private static final Gson GSON = new GsonBuilder().create();
+	private CopperCapabilitiesManager manager = new CopperCapabilitiesManager();
 
 	@NotNull
 	@Override
@@ -54,25 +56,23 @@ public class CopperCapabilitiesLoader implements IdentifiableJsonDataLoader {
 					System.out.print("Parsing error loading custom copper capability " + id + ": " + exception.getMessage());
 				}
 			});
-			/* MyManager myManager = new MyManager();
-			myManager.load(map);
-			for(CopperCapability copperCapability : myManager.getRoots()) {
+			CopperCapabilitiesManager copperCapabilitiesManager = new CopperCapabilitiesManager();
+			copperCapabilitiesManager.load(map);
+			for (CopperCapability copperCapability : copperCapabilitiesManager.getRoots()) {
 				if (copperCapability.getDisplay() != null) {
 					CopperCapabilityPositioner.arrangeForTree(copperCapability);
 				}
 			}
-			this.manager = myManager; */
+			this.manager = copperCapabilitiesManager;
 		}, executor);
 	}
 
 	@Nullable
 	public CopperCapability get(Identifier id) {
-		// return this.manager.get(id);
-		return null;
+		return this.manager.get(id);
 	}
 
 	public Collection<CopperCapability> getCopperCapabilities() {
-		// return this.manager.getCopperCapabilities();
-		return Collections.emptyList();
+		return this.manager.getCopperCapabilities();
 	}
 }
