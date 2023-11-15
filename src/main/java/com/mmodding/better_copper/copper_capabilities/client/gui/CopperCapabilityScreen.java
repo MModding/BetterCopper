@@ -2,7 +2,9 @@ package com.mmodding.better_copper.copper_capabilities.client.gui;
 
 import com.google.common.collect.Maps;
 import com.mmodding.better_copper.copper_capabilities.CopperCapability;
+import com.mmodding.better_copper.copper_capabilities.client.ClientCopperCapabilitiesManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.advancement.AdvancementProgress;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.render.GameRenderer;
@@ -17,7 +19,7 @@ import org.quiltmc.loader.api.minecraft.ClientOnly;
 import java.util.Map;
 
 @ClientOnly
-public class CopperCapabilityScreen extends Screen {
+public class CopperCapabilityScreen extends Screen implements ClientCopperCapabilitiesManager.Listener {
 
 	private static final Identifier WINDOW_TEXTURE = new Identifier("textures/gui/advancements/window.png");
 	private static final Identifier TABS_TEXTURE = new Identifier("textures/gui/advancements/tabs.png");
@@ -25,23 +27,33 @@ public class CopperCapabilityScreen extends Screen {
 	private static final Text EMPTY_TEXT = Text.translatable("copper_capabilities.empty");
 	private static final Text TIP_TEXT = Text.translatable("copper_capabilities.tip");
 
+	// private final ClientCopperCapabilitiesManager copperCapabilitiesHandler;
 	private final Map<CopperCapability, CopperCapabilityTab> tabs = Maps.newLinkedHashMap();
 
 	private @Nullable CopperCapabilityTab selectedTab;
 	private boolean movingTab;
 
-	public CopperCapabilityScreen() {
+	public CopperCapabilityScreen(/*ClientCopperCapabilitiesManager copperCapabilitiesHandler*/) {
 		super(ChatNarratorManager.NO_TITLE);
+		// this.copperCapabilitiesHandler = copperCapabilitiesHandler;
 	}
 
 	@Override
 	protected void init() {
 		this.tabs.clear();
 		this.selectedTab = null;
+		/*this.copperCapabilitiesHandler.setListener(this);
+		if (this.selectedTab == null && !this.tabs.isEmpty()) {
+			this.copperCapabilitiesHandler.selectTab(this.tabs.values().iterator().next().getRoot(), true);
+		} else {
+			this.copperCapabilitiesHandler.selectTab(this.selectedTab == null ? null : this.selectedTab.getRoot(), true);
+		}
+		*/
 	}
 
 	@Override
 	public void removed() {
+		// this.copperCapabilitiesHandler.setListener(null);
         assert this.client != null;
         ClientPlayNetworkHandler clientPlayNetworkHandler = this.client.getNetworkHandler();
 		if (clientPlayNetworkHandler != null) {
@@ -57,6 +69,7 @@ public class CopperCapabilityScreen extends Screen {
 
 			for (CopperCapabilityTab copperCapabilityTab : this.tabs.values()) {
 				if (copperCapabilityTab.isClickOnTab(i, j, mouseX, mouseY)) {
+					// this.copperCapabilitiesHandler.selectTab(copperCapabilityTab.getRoot(), true);
 					break;
 				}
 			}
@@ -171,8 +184,49 @@ public class CopperCapabilityScreen extends Screen {
 		}
 	}
 
+	@Override
+	public void onRootAdded(CopperCapability root) {
+		CopperCapabilityTab copperCapabilityTab = CopperCapabilityTab.create(this.client, this, this.tabs.size(), root);
+		if (copperCapabilityTab != null) {
+			this.tabs.put(root, copperCapabilityTab);
+		}
+	}
+
+	@Override
+	public void onRootRemoved(CopperCapability root) {}
+
+	@Override
+	public void onDependentAdded(CopperCapability dependent) {
+		CopperCapabilityTab copperCapabilityTab = this.getTab(dependent);
+		if (copperCapabilityTab != null) {
+			copperCapabilityTab.addCopperCapability(dependent);
+		}
+	}
+
+	@Override
+	public void onDependentRemoved(CopperCapability dependent) {}
+
+	@Override
+	public void setProgress(CopperCapability copperCapability, AdvancementProgress progress) {
+		CopperCapabilityWidget copperCapabilityWidget = this.getCopperCapabilityWidget(copperCapability);
+		if (copperCapabilityWidget != null) {
+			copperCapabilityWidget.setProgress(progress);
+		}
+	}
+
+	@Override
+	public void selectTab(@Nullable CopperCapability copperCapability) {
+		this.selectedTab = this.tabs.get(copperCapability);
+	}
+
+	@Override
+	public void onClear() {
+		this.tabs.clear();
+		this.selectedTab = null;
+	}
+
 	@Nullable
-	public CopperCapabilityWidget copperCapabilityWidget(CopperCapability copperCapability) {
+	public CopperCapabilityWidget getCopperCapabilityWidget(CopperCapability copperCapability) {
 		CopperCapabilityTab copperCapabilityTab = this.getTab(copperCapability);
 		return copperCapabilityTab == null ? null : copperCapabilityTab.getWidget(copperCapability);
 	}
