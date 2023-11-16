@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CopperCapabilityPositioner {
 
@@ -192,7 +193,7 @@ public class CopperCapabilityPositioner {
 	}
 
 	private CopperCapabilityPositioner getAncestor(CopperCapabilityPositioner potentialAncestor, CopperCapabilityPositioner defaultAncestor) {
-		return this.optionalLast != null && potentialAncestor.parent.children.contains(this.optionalLast) ? this.optionalLast : defaultAncestor;
+		return this.optionalLast != null && Objects.requireNonNull(potentialAncestor.parent).children.contains(this.optionalLast) ? this.optionalLast : defaultAncestor;
 	}
 
 	private void apply() {
@@ -217,7 +218,6 @@ public class CopperCapabilityPositioner {
 			if (f < 0.0F) {
 				copperCapabilityPositioner.increaseRowRecursively(-f);
 			}
-
 			copperCapabilityPositioner.apply();
 		}
 	}

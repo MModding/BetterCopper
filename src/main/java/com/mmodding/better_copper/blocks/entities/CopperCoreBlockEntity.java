@@ -4,7 +4,11 @@ import com.mmodding.better_copper.init.BlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
@@ -40,7 +44,7 @@ public class CopperCoreBlockEntity extends BlockEntity {
 	}
 
 	public String formatEnergy() {
-		return formatter.apply(getEnergy());
+		return formatter.apply(this.getEnergy());
 	}
 
 	@Override
@@ -53,5 +57,18 @@ public class CopperCoreBlockEntity extends BlockEntity {
 	protected void writeNbt(NbtCompound nbt) {
 		super.writeNbt(nbt);
 		nbt.putInt("energy", this.energy);
+	}
+
+	@Nullable
+	@Override
+	public Packet<ClientPlayPacketListener> toUpdatePacket() {
+		return BlockEntityUpdateS2CPacket.of(this);
+	}
+
+	@Override
+	public NbtCompound toInitialChunkDataNbt() {
+		NbtCompound nbt = new NbtCompound();
+		nbt.putInt("energy", this.energy);
+		return nbt;
 	}
 }
