@@ -13,8 +13,10 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
@@ -43,6 +45,12 @@ public class CopperCoreBlock extends CustomBlockWithEntity implements Charge, Bl
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
 		return new CopperCoreBlockEntity(pos, state);
+	}
+
+	@Nullable
+	@Override
+	public <T extends BlockEntity> GameEventListener getGameEventListener(ServerWorld world, T blockEntity) {
+		return blockEntity instanceof CopperCoreBlockEntity ? (CopperCoreBlockEntity) blockEntity : null;
 	}
 
 	@Override

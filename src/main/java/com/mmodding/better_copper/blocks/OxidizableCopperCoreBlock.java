@@ -18,6 +18,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.random.RandomGenerator;
 import net.minecraft.world.World;
+import net.minecraft.world.event.listener.GameEventListener;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
@@ -66,6 +67,12 @@ public class OxidizableCopperCoreBlock extends CustomBlockWithEntity implements 
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
 		return new CopperCoreBlockEntity(pos, state);
+	}
+
+	@Nullable
+	@Override
+	public <T extends BlockEntity> GameEventListener getGameEventListener(ServerWorld world, T blockEntity) {
+		return blockEntity instanceof CopperCoreBlockEntity ? (CopperCoreBlockEntity) blockEntity : null;
 	}
 
 	@Override
