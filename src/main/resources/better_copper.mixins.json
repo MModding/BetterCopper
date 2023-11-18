@@ -6,7 +6,6 @@
   "mixins": [
     "AbstractMinecartEntityMixin",
     "EntityMixin",
-    "ItemStackMixin",
     "accessors.AreaHelperAccessor",
     "accessors.EntityAttributesAccessor",
     "accessors.LightningEntityAccessor",

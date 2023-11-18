@@ -20,6 +20,7 @@ public class BetterCopper implements MModdingModInitializer {
 		initializers.add(new Blocks());
 		initializers.add(new BlockEntities());
 		initializers.add(new Items());
+		initializers.add(new GlintPackViews());
 		initializers.add(new EntityAttributes());
 		initializers.add(new ResourceLoaders());
 		return initializers;

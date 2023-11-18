@@ -5,7 +5,9 @@ import com.google.common.collect.Multimap;
 import com.mmodding.better_copper.charge.Charge;
 import com.mmodding.better_copper.charge.ConsumeSource;
 import com.mmodding.better_copper.charge.Energy;
+import com.mmodding.better_copper.init.GlintPackViews;
 import com.mmodding.better_copper.materials.CopperArmorMaterial;
+import com.mmodding.mmodding_lib.library.glint.GlintPackView;
 import com.mmodding.mmodding_lib.library.items.CustomArmorItem;
 import com.mmodding.mmodding_lib.library.utils.TickOperations;
 import net.minecraft.client.item.TooltipContext;
@@ -71,6 +73,12 @@ public class ChargedArmorItem extends CustomArmorItem implements Charge, TickOpe
 		else {
 			return super.getAttributeModifiers(stack, slot);
 		}
+	}
+
+	@Nullable
+	@Override
+	public GlintPackView getGlintPackView() {
+		return GlintPackViews.COPPER_CLINT;
 	}
 
 	@Override
