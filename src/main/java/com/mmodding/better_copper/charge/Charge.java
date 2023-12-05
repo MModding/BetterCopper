@@ -13,11 +13,6 @@ public interface Charge {
 		return stack.getOrCreateNbt().getInt("charge");
 	}
 
-	static boolean isStackCharged(ItemStack stack) {
-		if (stack.getNbt() == null) return false;
-		return stack.getNbt().getInt("charge") != 0;
-	}
-
 	static boolean isCharged(ItemStack stack) {
 		if (stack.getNbt() == null) return false;
 		return stack.getNbt().getInt("charge") != 0;

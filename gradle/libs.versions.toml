@@ -5,7 +5,7 @@ quilt_mappings = "1.19.2+build.22"
 quilt_loader = "0.19.2"
 
 quilted_fabric_api = "4.0.0-beta.18+0.64.0-1.19.2"
-mmodding_lib = "194ecd13cd"
+mmodding_lib = "b4a9a6dfb4"
 cca = "5.0.2"
 
 [libraries]

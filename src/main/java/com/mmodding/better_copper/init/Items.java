@@ -1,6 +1,7 @@
 package com.mmodding.better_copper.init;
 
 import com.mmodding.better_copper.BetterCopper;
+import com.mmodding.better_copper.charge.Charge;
 import com.mmodding.better_copper.items.ChargedArmorItem;
 import com.mmodding.better_copper.items.ChargedSwordItem;
 import com.mmodding.mmodding_lib.library.initializers.ElementsInitializer;
@@ -10,11 +11,11 @@ import net.minecraft.item.ItemGroup;
 
 public class Items implements ElementsInitializer {
 
-	public static final ChargedArmorItem COPPER_HELMET = new ChargedArmorItem(EquipmentSlot.HEAD, new AdvancedItemSettings().group(ItemGroup.COMBAT).glint().glintPack(GlintPackViews.COPPER_CLINT));
-	public static final ChargedArmorItem COPPER_CHESTPLATE = new ChargedArmorItem(EquipmentSlot.CHEST, new AdvancedItemSettings().group(ItemGroup.COMBAT).glint().glintPack(GlintPackViews.COPPER_CLINT));
-	public static final ChargedArmorItem COPPER_LEGGINGS = new ChargedArmorItem(EquipmentSlot.LEGS, new AdvancedItemSettings().group(ItemGroup.COMBAT).glint().glintPack(GlintPackViews.COPPER_CLINT));
-	public static final ChargedArmorItem COPPER_BOOTS = new ChargedArmorItem(EquipmentSlot.FEET, new AdvancedItemSettings().group(ItemGroup.COMBAT).glint().glintPack(GlintPackViews.COPPER_CLINT));
-	public static final ChargedSwordItem COPPER_SWORD = new ChargedSwordItem(new AdvancedItemSettings().group(ItemGroup.COMBAT).glint().glintPack(GlintPackViews.COPPER_CLINT));
+	public static final ChargedArmorItem COPPER_HELMET = new ChargedArmorItem(EquipmentSlot.HEAD, new AdvancedItemSettings().group(ItemGroup.COMBAT).glint(Charge::isCharged).glintPack(GlintPackViews.COPPER_CLINT));
+	public static final ChargedArmorItem COPPER_CHESTPLATE = new ChargedArmorItem(EquipmentSlot.CHEST, new AdvancedItemSettings().group(ItemGroup.COMBAT).glint(Charge::isCharged).glintPack(GlintPackViews.COPPER_CLINT));
+	public static final ChargedArmorItem COPPER_LEGGINGS = new ChargedArmorItem(EquipmentSlot.LEGS, new AdvancedItemSettings().group(ItemGroup.COMBAT).glint(Charge::isCharged).glintPack(GlintPackViews.COPPER_CLINT));
+	public static final ChargedArmorItem COPPER_BOOTS = new ChargedArmorItem(EquipmentSlot.FEET, new AdvancedItemSettings().group(ItemGroup.COMBAT).glint(Charge::isCharged).glintPack(GlintPackViews.COPPER_CLINT));
+	public static final ChargedSwordItem COPPER_SWORD = new ChargedSwordItem(new AdvancedItemSettings().group(ItemGroup.COMBAT).glint(Charge::isCharged).glintPack(GlintPackViews.COPPER_CLINT));
 
 	@Override
 	public void register() {

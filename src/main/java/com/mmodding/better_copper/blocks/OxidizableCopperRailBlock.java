@@ -18,10 +18,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class OxidizableCopperRailBlock extends RailBlock implements Oxidizable, CopperRailElement, BlockRegistrable, BlockWithItem {
 
-	private final Oxidizable.OxidizationLevel oxidizationLevel;
 	private final AtomicBoolean registered = new AtomicBoolean(false);
 
 	private BlockItem item = null;
+
+	private final Oxidizable.OxidizationLevel oxidizationLevel;
 
 	public OxidizableCopperRailBlock(Settings settings, boolean hasItem, ItemGroup itemGroup) {
 		this(OxidizationLevel.UNAFFECTED, settings, hasItem, itemGroup);
@@ -52,27 +53,12 @@ public class OxidizableCopperRailBlock extends RailBlock implements Oxidizable, 
 	}
 
 	@Override
-	public double getVelocityX() {
-		return switch (getDegradationLevel()) {
-			case UNAFFECTED -> 1.2;
-			case EXPOSED -> 1.0;
-			case WEATHERED -> 0.8;
-			case OXIDIZED -> 0.6;
-		};
-	}
-
-	@Override
-	public double getVelocityY() {
-		return 0.0;
-	}
-
-	@Override
-	public double getVelocityZ() {
-		return switch (getDegradationLevel()) {
-			case UNAFFECTED -> 0.7;
-			case EXPOSED -> 0.5;
-			case WEATHERED -> 0.3;
-			case OXIDIZED -> 0.1;
+	public float getVelocityMultiplier() {
+		return switch (this.getDegradationLevel()) {
+			case UNAFFECTED -> 1.2f;
+			case EXPOSED -> 1.0f;
+			case WEATHERED -> 0.8f;
+			case OXIDIZED -> 0.6f;
 		};
 	}
 

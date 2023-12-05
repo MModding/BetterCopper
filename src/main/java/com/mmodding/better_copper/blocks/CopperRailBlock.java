@@ -14,32 +14,23 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CopperRailBlock extends RailBlock implements CopperRailElement, BlockRegistrable, BlockWithItem {
 
 	private final AtomicBoolean registered = new AtomicBoolean(false);
-	private final double velocity;
 
 	private BlockItem item = null;
 
-	public CopperRailBlock(double velocity, Settings settings, boolean hasItem, ItemGroup itemGroup) {
+	private final float velocity;
+
+	public CopperRailBlock(float velocity, Settings settings, boolean hasItem, ItemGroup itemGroup) {
 		this(velocity, settings, hasItem, itemGroup != null ? new QuiltItemSettings().group(itemGroup) : new QuiltItemSettings());
 	}
 
-	public CopperRailBlock(double velocity, Settings settings, boolean hasItem, Item.Settings itemSettings) {
+	public CopperRailBlock(float velocity, Settings settings, boolean hasItem, Item.Settings itemSettings) {
 		super(settings);
 		if (hasItem) this.item = new BlockItem(this, itemSettings);
 		this.velocity = velocity;
 	}
 
 	@Override
-	public double getVelocityX() {
-		return this.velocity;
-	}
-
-	@Override
-	public double getVelocityY() {
-		return 0.0;
-	}
-
-	@Override
-	public double getVelocityZ() {
+	public float getVelocityMultiplier() {
 		return this.velocity;
 	}
 

@@ -23,10 +23,10 @@ public class Blocks implements ElementsInitializer, ClientElementsInitializer {
 	public static final OxidizableCopperRailBlock EXPOSED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.EXPOSED, QuiltBlockSettings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
 	public static final OxidizableCopperRailBlock WEATHERED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.WEATHERED, QuiltBlockSettings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
 	public static final OxidizableCopperRailBlock OXIDIZED_COPPER_RAIL = new OxidizableCopperRailBlock(Oxidizable.OxidizationLevel.OXIDIZED, QuiltBlockSettings.copy(net.minecraft.block.Blocks.RAIL), true, ItemGroup.TRANSPORTATION);
-	public static final CopperRailBlock WAXED_COPPER_RAIL = new CopperRailBlock(1.2, QuiltBlockSettings.copy(COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
-	public static final CopperRailBlock WAXED_EXPOSED_COPPER_RAIL = new CopperRailBlock(1.0, QuiltBlockSettings.copy(EXPOSED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
-	public static final CopperRailBlock WAXED_WEATHERED_COPPER_RAIL = new CopperRailBlock(0.8, QuiltBlockSettings.copy(WEATHERED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
-	public static final CopperRailBlock WAXED_OXIDIZED_COPPER_RAIL = new CopperRailBlock(0.6, QuiltBlockSettings.copy(OXIDIZED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final CopperRailBlock WAXED_COPPER_RAIL = new CopperRailBlock(1.2f, QuiltBlockSettings.copy(COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final CopperRailBlock WAXED_EXPOSED_COPPER_RAIL = new CopperRailBlock(1.0f, QuiltBlockSettings.copy(EXPOSED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final CopperRailBlock WAXED_WEATHERED_COPPER_RAIL = new CopperRailBlock(0.8f, QuiltBlockSettings.copy(WEATHERED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
+	public static final CopperRailBlock WAXED_OXIDIZED_COPPER_RAIL = new CopperRailBlock(0.6f, QuiltBlockSettings.copy(OXIDIZED_COPPER_RAIL), true, ItemGroup.TRANSPORTATION);
 
 	@Override
 	public void register() {
