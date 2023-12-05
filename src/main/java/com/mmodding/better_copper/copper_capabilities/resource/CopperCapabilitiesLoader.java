@@ -51,10 +51,10 @@ public class CopperCapabilitiesLoader implements IdentifiableJsonDataLoader {
 				try {
 					String[] partParts = id.getPath().split("/");
 					JsonObject jsonObject = JsonHelper.asObject(json, "copper_capabilities");
-					CopperCapability.Task task = CopperCapability.Task.fromJson(partParts[2], jsonObject);
+					CopperCapability.Task task = CopperCapability.Task.fromJson(partParts[0], jsonObject);
 					map.put(id, task);
 				} catch (Exception exception) {
-					System.out.print("Parsing error loading custom copper capability " + id + ": " + exception.getMessage());
+					BetterCopper.LOGGER.error("Parsing error loading custom copper capability {}: {}", id, exception.getMessage());
 				}
 			});
 			CopperCapabilitiesManager copperCapabilitiesManager = new CopperCapabilitiesManager();

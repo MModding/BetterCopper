@@ -6,13 +6,17 @@ import com.mmodding.mmodding_lib.library.base.MModdingModInitializer;
 import com.mmodding.mmodding_lib.library.config.Config;
 import com.mmodding.mmodding_lib.library.initializers.ElementsInitializer;
 import com.mmodding.mmodding_lib.library.utils.TextureLocation;
+import com.mojang.logging.LogUtils;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BetterCopper implements MModdingModInitializer {
+
+	public static final Logger LOGGER = LogUtils.getLogger();
 
 	@Override
 	public List<ElementsInitializer> getElementsInitializers() {
