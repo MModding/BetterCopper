@@ -1,7 +1,7 @@
 package com.mmodding.better_copper.copper_capabilities.client.gui;
 
-import com.mmodding.better_copper.copper_capabilities.CopperCapabilityDisplay;
 import com.mmodding.better_copper.copper_capabilities.CopperCapability;
+import com.mmodding.better_copper.copper_capabilities.CopperCapabilityDisplay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.advancement.AdvancementProgress;
 import net.minecraft.client.MinecraftClient;

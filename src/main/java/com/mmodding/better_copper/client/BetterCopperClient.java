@@ -1,10 +1,9 @@
 package com.mmodding.better_copper.client;
 
-import com.mmodding.better_copper.client.init.GlintPacks;
-import com.mmodding.better_copper.client.render.Outliner;
-import com.mmodding.better_copper.init.Blocks;
 import com.mmodding.better_copper.client.init.ClientEvents;
+import com.mmodding.better_copper.client.init.GlintPacks;
 import com.mmodding.better_copper.client.init.KeyBinds;
+import com.mmodding.better_copper.init.Blocks;
 import com.mmodding.mmodding_lib.library.base.AdvancedModContainer;
 import com.mmodding.mmodding_lib.library.base.MModdingClientModInitializer;
 import com.mmodding.mmodding_lib.library.config.Config;
@@ -17,8 +16,6 @@ import java.util.List;
 
 @ClientOnly
 public class BetterCopperClient implements MModdingClientModInitializer {
-
-	public static final Outliner BOX_OUTLINE = new Outliner();
 
 	@Override
 	public List<ClientElementsInitializer> getClientElementsInitializers() {
