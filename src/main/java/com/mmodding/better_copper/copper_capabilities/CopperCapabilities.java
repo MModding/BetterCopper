@@ -56,6 +56,6 @@ public class CopperCapabilities implements EntityComponentInitializer {
 
 	@Override
 	public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-		registry.registerFor(MobEntity.class, COPPER_CAPABILITIES, (mob) -> new CopperCapabilitiesComponent());
+		registry.registerFor(MobEntity.class, COPPER_CAPABILITIES, mob -> new CopperCapabilitiesComponent());
 	}
 }

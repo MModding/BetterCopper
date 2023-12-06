@@ -3,6 +3,9 @@ package com.mmodding.better_copper.copper_capabilities;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.mmodding.better_copper.BetterCopper;
+import com.mmodding.mmodding_lib.library.network.support.NetworkSupport;
+import com.mmodding.mmodding_lib.library.utils.ShouldNotUse;
 import net.minecraft.advancement.AdvancementDisplay;
 import net.minecraft.advancement.AdvancementFrame;
 import net.minecraft.item.ItemStack;
@@ -13,7 +16,7 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
-public class CopperCapabilityDisplay {
+public class CopperCapabilityDisplay implements NetworkSupport {
 
 	private final Text title;
 	private final Text description;
@@ -79,35 +82,6 @@ public class CopperCapabilityDisplay {
 		}
 	}
 
-	public void toPacket(PacketByteBuf buf) {
-		buf.writeText(this.title);
-		buf.writeText(this.description);
-		buf.writeItemStack(this.icon);
-		buf.writeEnumConstant(this.frame);
-		int i = 0;
-		if (this.background != null) {
-			i |= 1;
-		}
-		buf.writeInt(i);
-		if (this.background != null) {
-			buf.writeIdentifier(this.background);
-		}
-		buf.writeFloat(this.x);
-		buf.writeFloat(this.y);
-	}
-
-	public static CopperCapabilityDisplay fromPacket(PacketByteBuf buf) {
-		Text title = buf.readText();
-		Text description = buf.readText();
-		ItemStack itemStack = buf.readItemStack();
-		AdvancementFrame advancementFrame = buf.readEnumConstant(AdvancementFrame.class);
-		int i = buf.readInt();
-		Identifier background = (i & 1) != 0 ? buf.readIdentifier() : null;
-		CopperCapabilityDisplay copperCapabilityDisplay = new CopperCapabilityDisplay(title, description, itemStack, background, advancementFrame);
-		copperCapabilityDisplay.setPos(buf.readFloat(), buf.readFloat());
-		return copperCapabilityDisplay;
-	}
-
 	public JsonElement toJson() {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.add("title", Text.Serializer.toJsonTree(this.title));
@@ -125,8 +99,43 @@ public class CopperCapabilityDisplay {
 		jsonObject.addProperty("item", Registry.ITEM.getId(this.icon.getItem()).toString());
 		if (this.icon.hasNbt()) {
 			assert this.icon.getNbt() != null;
-            jsonObject.addProperty("nbt", this.icon.getNbt().toString());
+			jsonObject.addProperty("nbt", this.icon.getNbt().toString());
 		}
 		return jsonObject;
+	}
+
+	@ShouldNotUse(useInstead = "NetworkSupport#readComplete")
+	public static CopperCapabilityDisplay read(PacketByteBuf buf) {
+		Text title = buf.readText();
+		Text description = buf.readText();
+		ItemStack itemStack = buf.readItemStack();
+		AdvancementFrame advancementFrame = buf.readEnumConstant(AdvancementFrame.class);
+		int i = buf.readInt();
+		Identifier background = (i & 1) != 0 ? buf.readIdentifier() : null;
+		CopperCapabilityDisplay copperCapabilityDisplay = new CopperCapabilityDisplay(title, description, itemStack, background, advancementFrame);
+		copperCapabilityDisplay.setPos(buf.readFloat(), buf.readFloat());
+		return copperCapabilityDisplay;
+	}
+
+	@Override
+	public void write(PacketByteBuf buf) {
+		buf.writeText(this.title);
+		buf.writeText(this.description);
+		buf.writeItemStack(this.icon);
+		buf.writeEnumConstant(this.frame);
+		int i = 0;
+		if (this.background != null) {
+			i |= 1;
+		}
+		buf.writeInt(i);
+		if (this.background != null) {
+			buf.writeIdentifier(this.background);
+		}
+		buf.writeFloat(this.x);
+		buf.writeFloat(this.y);
+	}
+
+	static {
+		NetworkSupport.register(BetterCopper.createId("copper_capability_display"), CopperCapabilityDisplay.class, CopperCapabilityDisplay::read);
 	}
 }

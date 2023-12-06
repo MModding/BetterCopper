@@ -3,6 +3,8 @@ package com.mmodding.better_copper.copper_capabilities;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 import com.mmodding.better_copper.BetterCopper;
+import com.mmodding.mmodding_lib.library.network.support.NetworkSupport;
+import com.mmodding.mmodding_lib.library.utils.ShouldNotUse;
 import net.minecraft.advancement.AdvancementFrame;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
@@ -144,7 +146,8 @@ public class CopperCapability {
 		HOE;
 	}
 
-	public static class Task {
+	public static class Task implements NetworkSupport {
+
 		private @Nullable Identifier parentId;
 		private @Nullable CopperCapability parentObj;
 		private CopperCapability.Type capabilityType;
@@ -212,6 +215,16 @@ public class CopperCapability {
 			return copperCapability;
 		}
 
+		public static CopperCapability.Task fromJson(String capabilityType, JsonObject obj) {
+			CopperCapability.Type type = CopperCapability.Type.valueOf(capabilityType.toUpperCase());
+			Identifier parent = obj.has("parent") ? new Identifier(JsonHelper.getString(obj, "parent")) : null;
+			CopperCapabilityDisplay copperCapabilityDisplay = obj.has("display") ? CopperCapabilityDisplay.fromJson(JsonHelper.getObject(obj, "display")) : null;
+			int level = JsonHelper.getInt(obj, "level");
+			int price = JsonHelper.getInt(obj, "price");
+			int requiredPower = JsonHelper.getInt(obj, "required_power");
+			return new CopperCapability.Task(parent, type, copperCapabilityDisplay, level, price, requiredPower);
+		}
+
 		public JsonObject toJson() {
 			JsonObject jsonObject = new JsonObject();
 			if (this.parentObj != null) {
@@ -219,20 +232,32 @@ public class CopperCapability {
 			} else if (this.parentId != null) {
 				jsonObject.addProperty("parent", this.parentId.toString());
 			}
-
 			if (this.display != null) {
 				jsonObject.add("display", this.display.toJson());
 			}
-
 			jsonObject.addProperty("level", this.level);
 			jsonObject.addProperty("price", this.price);
 			jsonObject.addProperty("required_power", this.requiredPower);
 			return jsonObject;
 		}
 
-		public void toPacket(PacketByteBuf buf) {
+		@ShouldNotUse(useInstead = "NetworkSupport#readComplete")
+		public static CopperCapability.Task read(PacketByteBuf buf) {
+			Identifier parent = buf.readNullable(PacketByteBuf::readIdentifier);
+			CopperCapability.Type type = CopperCapability.Type.valueOf(buf.readString());
+			CopperCapabilityDisplay display = NetworkSupport.readCompleteAsNullable(buf);
+			int level = buf.readInt();
+			int price = buf.readInt();
+			int requiredPower = buf.readInt();
+			return new CopperCapability.Task(parent, type, display, level, price, requiredPower);
+		}
+
+		@Override
+		public void write(PacketByteBuf buf) {
 			buf.writeNullable(this.parentId, PacketByteBuf::writeIdentifier);
-			buf.writeNullable(this.display, (bufx, display) -> display.toPacket(bufx));
+			buf.writeString(this.capabilityType.name());
+			NetworkSupport.writeCompleteAsNullable(this.display, buf);
+			buf.writeNullable(this.display, (current, display) -> display.writeComplete(current));
 			buf.writeVarInt(this.level);
 			buf.writeVarInt(this.price);
 			buf.writeVarInt(this.requiredPower);
@@ -254,24 +279,8 @@ public class CopperCapability {
 				+ "}";
 		}
 
-		public static CopperCapability.Task fromJson(String capabilityType, JsonObject obj) {
-			CopperCapability.Type type = CopperCapability.Type.valueOf(capabilityType.toUpperCase());
-			Identifier parent = obj.has("parent") ? new Identifier(JsonHelper.getString(obj, "parent")) : null;
-			CopperCapabilityDisplay copperCapabilityDisplay = obj.has("display") ? CopperCapabilityDisplay.fromJson(JsonHelper.getObject(obj, "display")) : null;
-			int level = JsonHelper.getInt(obj, "level");
-			int price = JsonHelper.getInt(obj, "price");
-			int requiredPower = JsonHelper.getInt(obj, "required_power");
-			return new CopperCapability.Task(parent, type, copperCapabilityDisplay, level, price, requiredPower);
-		}
-
-		public static CopperCapability.Task fromPacket(String capabilityType, PacketByteBuf buf) {
-			CopperCapability.Type type = CopperCapability.Type.valueOf(capabilityType.toUpperCase());
-			Identifier parent = buf.readNullable(PacketByteBuf::readIdentifier);
-			CopperCapabilityDisplay copperCapabilityDisplay = buf.readNullable(CopperCapabilityDisplay::fromPacket);
-			int level = buf.readInt();
-			int price = buf.readInt();
-			int requiredPower = buf.readInt();
-			return new CopperCapability.Task(parent, type, copperCapabilityDisplay, level, price, requiredPower);
+		static {
+			NetworkSupport.register(BetterCopper.createId("copper_capability_task"), CopperCapability.Task.class, Task::read);
 		}
 	}
 }
