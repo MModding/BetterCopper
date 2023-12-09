@@ -62,9 +62,6 @@ public class CopperCapabilitiesTracker {
 			capabilitySet.forEach(copperCapability -> tasks.put(copperCapability.getIdentifier(), copperCapability.createTask()));
 
 			PacketByteBuf buf = PacketByteBufs.create();
-			System.out.println(identifierSet);
-			System.out.println(tasks);
-			System.out.println(this.dirty);
 			buf.writeCollection(identifierSet, PacketByteBuf::writeIdentifier);
 			buf.writeMap(tasks, PacketByteBuf::writeIdentifier, (current, task) -> task.writeComplete(current));
 			buf.writeBoolean(this.dirty);

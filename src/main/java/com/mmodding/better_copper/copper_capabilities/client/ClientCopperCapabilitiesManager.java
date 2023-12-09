@@ -4,7 +4,6 @@ import com.mmodding.better_copper.BetterCopperPackets;
 import com.mmodding.better_copper.copper_capabilities.CopperCapabilitiesManager;
 import com.mmodding.better_copper.copper_capabilities.CopperCapability;
 import com.mmodding.better_copper.ducks.ClientPlayNetworkHandlerDuckInterface;
-import com.mmodding.mmodding_lib.library.network.support.NetworkSupport;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
@@ -27,8 +26,6 @@ public class ClientCopperCapabilitiesManager {
 	public static void useInstanceIfPresent(Consumer<ClientCopperCapabilitiesManager> action) {
 		if (MinecraftClient.getInstance().getNetworkHandler() != null) {
 			action.accept(ClientCopperCapabilitiesManager.getInstance());
-			NetworkSupport.REGISTRY.forEach((key, value) -> System.out.println(key));
-			System.out.println("Got Executed");
 		}
 	}
 
