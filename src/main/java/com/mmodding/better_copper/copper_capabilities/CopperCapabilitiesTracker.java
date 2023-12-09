@@ -92,10 +92,6 @@ public class CopperCapabilitiesTracker {
 		this.visibleCopperCapabilities.add(copperCapability);
 		this.visibilityUpdates.add(copperCapability);
 
-		if (this.visibleCopperCapabilities.contains(copperCapability) && copperCapability.getParent() != null) {
-			this.updateDisplay(copperCapability.getParent());
-		}
-
 		for (CopperCapability currentCopperCapability : copperCapability.getChildren()) {
 			this.updateDisplay(currentCopperCapability);
 		}

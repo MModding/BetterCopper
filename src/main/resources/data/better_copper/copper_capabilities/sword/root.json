@@ -9,10 +9,10 @@
     "icon": {
       "item": "better_copper:copper_sword"
     },
-    "background": "minecraft:textures/gui/advancements/backgrounds/end.png",
+    "background": "minecraft:textures/block/cut_copper.png",
     "frame": "task"
   },
-  "level": 1,
-  "price": 10,
+  "max_level": 1,
+  "price": 0,
   "required_power": 0
 }

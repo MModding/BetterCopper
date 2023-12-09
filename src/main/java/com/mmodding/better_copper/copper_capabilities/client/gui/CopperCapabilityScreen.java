@@ -190,8 +190,7 @@ public class CopperCapabilityScreen extends Screen implements ClientCopperCapabi
 	}
 
 	@Override
-	public void onRootRemoved(CopperCapability root) {
-	}
+	public void onRootRemoved(CopperCapability root) {}
 
 	@Override
 	public void onDependentAdded(CopperCapability dependent) {
@@ -202,8 +201,7 @@ public class CopperCapabilityScreen extends Screen implements ClientCopperCapabi
 	}
 
 	@Override
-	public void onDependentRemoved(CopperCapability dependent) {
-	}
+	public void onDependentRemoved(CopperCapability dependent) {}
 
 	@Override
 	public void selectTab(@Nullable CopperCapability copperCapability) {

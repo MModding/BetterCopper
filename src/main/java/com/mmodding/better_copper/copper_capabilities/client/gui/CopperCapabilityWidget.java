@@ -123,20 +123,20 @@ public class CopperCapabilityWidget extends DrawableHelper {
 	}
 
 	public void renderWidgets(MatrixStack matrices, int x, int y) {
-		if (this.progress != null && this.progress.isDone()) {
-			float f = this.progress == null ? 0.0F : this.progress.getProgressBarPercentage();
+		// if (this.progress != null && this.progress.isDone()) {
+			// float f = this.progress == null ? 0.0F : this.progress.getProgressBarPercentage();
 			AdvancementObtainedStatus advancementObtainedStatus;
-			if (f >= 1.0F) {
-				advancementObtainedStatus = AdvancementObtainedStatus.OBTAINED;
-			} else {
-				advancementObtainedStatus = AdvancementObtainedStatus.UNOBTAINED;
-			}
+			// if (f >= 1.0F) {
+			// 	advancementObtainedStatus = AdvancementObtainedStatus.OBTAINED;
+			// } else {
+			advancementObtainedStatus = AdvancementObtainedStatus.UNOBTAINED;
+			// }
 
 			RenderSystem.setShader(GameRenderer::getPositionTexShader);
 			RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
 			this.drawTexture(matrices, x + this.x + 3, y + this.y, this.display.getFrame().getTextureV(), 128 + advancementObtainedStatus.getSpriteIndex() * 26, 26, 26);
 			this.client.getItemRenderer().renderInGui(this.display.getIcon(), x + this.x + 8, y + this.y + 5);
-		}
+		// }
 
 		for (CopperCapabilityWidget copperCapabilityWidget : this.children) {
 			copperCapabilityWidget.renderWidgets(matrices, x, y);
@@ -310,15 +310,15 @@ public class CopperCapabilityWidget extends DrawableHelper {
 	}
 
 	public boolean shouldRender(int originX, int originY, int mouseX, int mouseY) {
-		if (this.progress != null && this.progress.isDone()) {
+		// if (this.progress != null && this.progress.isDone()) {
 			int i = originX + this.x;
 			int j = i + 26;
 			int k = originY + this.y;
 			int l = k + 26;
 			return mouseX >= i && mouseX <= j && mouseY >= k && mouseY <= l;
-		} else {
-			return false;
-		}
+		// } else {
+		// 	return false;
+		// }
 	}
 
 	public void addToTree() {
