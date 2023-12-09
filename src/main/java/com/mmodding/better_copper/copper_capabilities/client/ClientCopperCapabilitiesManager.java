@@ -1,67 +1,65 @@
 package com.mmodding.better_copper.copper_capabilities.client;
 
-import com.google.common.collect.Maps;
+import com.mmodding.better_copper.BetterCopperPackets;
 import com.mmodding.better_copper.copper_capabilities.CopperCapabilitiesManager;
 import com.mmodding.better_copper.copper_capabilities.CopperCapability;
-import com.mojang.logging.LogUtils;
-import net.minecraft.advancement.AdvancementProgress;
+import com.mmodding.better_copper.ducks.ClientPlayNetworkHandlerDuckInterface;
+import com.mmodding.mmodding_lib.library.network.support.NetworkSupport;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
-import org.slf4j.Logger;
+import org.quiltmc.qsl.networking.api.PacketByteBufs;
+import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
+import java.util.function.Consumer;
 
 @ClientOnly
 public class ClientCopperCapabilitiesManager {
 
-	private static final Logger LOGGER = LogUtils.getLogger();
-	private final MinecraftClient client;
 	private final CopperCapabilitiesManager manager = new CopperCapabilitiesManager();
-	private final Map<CopperCapability, AdvancementProgress> copperCapabilityProgresses = Maps.newHashMap();
 	private @Nullable ClientCopperCapabilitiesManager.Listener listener;
 	private @Nullable CopperCapability selectedTab;
 
-	public ClientCopperCapabilitiesManager(MinecraftClient client) {
-		this.client = client;
+	public static void useInstanceIfPresent(Consumer<ClientCopperCapabilitiesManager> action) {
+		if (MinecraftClient.getInstance().getNetworkHandler() != null) {
+			action.accept(ClientCopperCapabilitiesManager.getInstance());
+			NetworkSupport.REGISTRY.forEach((key, value) -> System.out.println(key));
+			System.out.println("Got Executed");
+		}
 	}
 
-	/*
-	public void onCapabilities(AdvancementUpdateS2CPacket packet) {
-		if (packet.shouldClearCurrent()) {
+	public static ClientCopperCapabilitiesManager getInstance() {
+		if (MinecraftClient.getInstance().getNetworkHandler() != null) {
+			return ((ClientPlayNetworkHandlerDuckInterface) MinecraftClient.getInstance().getNetworkHandler()).better_copper$getCopperCapabilitiesManager();
+		}
+		else {
+			throw new RuntimeException("Client Network Handler Was Not Initialized");
+		}
+	}
+
+	public void updateCapabilities(Set<Identifier> toRemove, Map<Identifier, CopperCapability.Task> toEarn, boolean shouldClearCurrent) {
+		if (shouldClearCurrent) {
 			this.manager.clear();
-			this.copperCapabilityProgresses.clear();
 		}
-
-		this.manager.removeAll(packet.getAdvancementIdsToRemove());
-		this.manager.load(packet.getAdvancementsToEarn());
-
-		for(Entry<Identifier, AdvancementProgress> entry : packet.getAdvancementsToProgress().entrySet()) {
-			CopperCapability copperCapability = this.manager.get((Identifier) entry.getKey());
-			if (copperCapability != null) {
-				AdvancementProgress advancementProgress = (AdvancementProgress) entry.getValue();
-				advancementProgress.init(copperCapability.getCriteria(), copperCapability.getRequirements());
-				this.advancementProgresses.put(copperCapability, advancementProgress);
-				if (this.listener != null) {
-					this.listener.setProgress(copperCapability, advancementProgress);
-				}
-			} else {
-				LOGGER.warn("Server informed client about progress for unknown capability {}", entry.getKey());
-			}
-		}
+		this.manager.removeAll(toRemove);
+		this.manager.load(toEarn);
 	}
-	*/
 
 	public CopperCapabilitiesManager getManager() {
 		return this.manager;
 	}
 
 	public void selectTab(@Nullable CopperCapability tab, boolean local) {
-		// ClientPlayNetworkHandler clientPlayNetworkHandler = this.client.getNetworkHandler();
-		// if (clientPlayNetworkHandler != null && tab != null && local) {
-		// 		clientPlayNetworkHandler.sendPacket(AdvancementTabC2SPacket.open(tab));
-		// }
+
+		if (tab != null && local) {
+			PacketByteBuf buf = PacketByteBufs.create();
+			buf.writeIdentifier(tab.getIdentifier());
+			ClientPlayNetworking.send(BetterCopperPackets.C2S_OPEN_COPPER_CAPABILITIES_TAB, buf);
+		}
 
 		if (this.selectedTab != tab) {
 			this.selectedTab = tab;
@@ -75,16 +73,12 @@ public class ClientCopperCapabilitiesManager {
 		this.listener = listener;
 		this.manager.setListener(listener);
 		if (listener != null) {
-			for (Entry<CopperCapability, AdvancementProgress> entry : this.copperCapabilityProgresses.entrySet()) {
-				listener.setProgress(entry.getKey(), entry.getValue());
-			}
 			listener.selectTab(this.selectedTab);
 		}
 	}
 
 	@ClientOnly
 	public interface Listener extends CopperCapabilitiesManager.Listener {
-		void setProgress(CopperCapability copperCapability, AdvancementProgress progress);
 
 		void selectTab(@Nullable CopperCapability copperCapability);
 	}

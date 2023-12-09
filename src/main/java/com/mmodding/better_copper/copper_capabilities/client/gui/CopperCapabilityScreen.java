@@ -1,20 +1,23 @@
 package com.mmodding.better_copper.copper_capabilities.client.gui;
 
 import com.google.common.collect.Maps;
+import com.mmodding.better_copper.BetterCopperPackets;
 import com.mmodding.better_copper.copper_capabilities.CopperCapability;
 import com.mmodding.better_copper.copper_capabilities.client.ClientCopperCapabilitiesManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.advancement.AdvancementProgress;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.ChatNarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.AdvancementTabC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.quiltmc.qsl.networking.api.PacketByteBufs;
+import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 
 import java.util.Map;
 
@@ -24,41 +27,37 @@ public class CopperCapabilityScreen extends Screen implements ClientCopperCapabi
 	private static final Identifier WINDOW_TEXTURE = new Identifier("textures/gui/advancements/window.png");
 	private static final Identifier TABS_TEXTURE = new Identifier("textures/gui/advancements/tabs.png");
 	private static final Text CAPABILITIES_TEXT = Text.translatable("gui.copper_capabilities");
-	private static final Text EMPTY_TEXT = Text.translatable("copper_capabilities.empty");
-	private static final Text TIP_TEXT = Text.translatable("copper_capabilities.tip");
+	private static final Text EMPTY_TEXT = Text.translatable("copper_capabilities.better_copper.empty");
+	private static final Text TIP_TEXT = Text.translatable("copper_capabilities.better_copper.tip");
 
-	// private final ClientCopperCapabilitiesManager copperCapabilitiesHandler;
+	private final ClientCopperCapabilitiesManager copperCapabilitiesHandler;
 	private final Map<CopperCapability, CopperCapabilityTab> tabs = Maps.newLinkedHashMap();
 
 	private @Nullable CopperCapabilityTab selectedTab;
 	private boolean movingTab;
 
-	public CopperCapabilityScreen(/*ClientCopperCapabilitiesManager copperCapabilitiesHandler*/) {
+	public CopperCapabilityScreen(ClientCopperCapabilitiesManager copperCapabilitiesHandler) {
 		super(ChatNarratorManager.NO_TITLE);
-		// this.copperCapabilitiesHandler = copperCapabilitiesHandler;
+		this.copperCapabilitiesHandler = copperCapabilitiesHandler;
 	}
 
 	@Override
 	protected void init() {
 		this.tabs.clear();
 		this.selectedTab = null;
-		/*this.copperCapabilitiesHandler.setListener(this);
+		this.copperCapabilitiesHandler.setListener(this);
 		if (this.selectedTab == null && !this.tabs.isEmpty()) {
 			this.copperCapabilitiesHandler.selectTab(this.tabs.values().iterator().next().getRoot(), true);
 		} else {
 			this.copperCapabilitiesHandler.selectTab(this.selectedTab == null ? null : this.selectedTab.getRoot(), true);
 		}
-		*/
 	}
 
 	@Override
 	public void removed() {
-		// this.copperCapabilitiesHandler.setListener(null);
+		this.copperCapabilitiesHandler.setListener(null);
         assert this.client != null;
-        ClientPlayNetworkHandler clientPlayNetworkHandler = this.client.getNetworkHandler();
-		if (clientPlayNetworkHandler != null) {
-			clientPlayNetworkHandler.sendPacket(AdvancementTabC2SPacket.close());
-		}
+		ClientPlayNetworking.send(BetterCopperPackets.C2S_CLOSE_COPPER_CAPABILITIES_TAB, PacketByteBufs.empty());
 	}
 
 	@Override
@@ -205,14 +204,6 @@ public class CopperCapabilityScreen extends Screen implements ClientCopperCapabi
 
 	@Override
 	public void onDependentRemoved(CopperCapability dependent) {}
-
-	@Override
-	public void setProgress(CopperCapability copperCapability, AdvancementProgress progress) {
-		CopperCapabilityWidget copperCapabilityWidget = this.getCopperCapabilityWidget(copperCapability);
-		if (copperCapabilityWidget != null) {
-			copperCapabilityWidget.setProgress(progress);
-		}
-	}
 
 	@Override
 	public void selectTab(@Nullable CopperCapability copperCapability) {

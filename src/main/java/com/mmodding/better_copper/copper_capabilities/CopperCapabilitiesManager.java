@@ -52,12 +52,12 @@ public class CopperCapabilitiesManager {
 		}
 	}
 
-	public void load(Map<Identifier, CopperCapability.Task> taskMap) {
-		Map<Identifier, CopperCapability.Task> taskMap2 = Maps.newHashMap(taskMap);
+	public void load(Map<Identifier, CopperCapability.Task> tasks) {
+		Map<Identifier, CopperCapability.Task> copiedTasks = Maps.newHashMap(tasks);
 
-		while (!taskMap2.isEmpty()) {
+		while (!copiedTasks.isEmpty()) {
 			boolean bl = false;
-			Iterator<Entry<Identifier, CopperCapability.Task>> iterator = taskMap2.entrySet().iterator();
+			Iterator<Entry<Identifier, CopperCapability.Task>> iterator = copiedTasks.entrySet().iterator();
 
 			while (iterator.hasNext()) {
 				Entry<Identifier, CopperCapability.Task> entry = iterator.next();
@@ -83,7 +83,7 @@ public class CopperCapabilitiesManager {
 			}
 
 			if (!bl) {
-				for (Entry<Identifier, CopperCapability.Task> entry : taskMap2.entrySet()) {
+				for (Entry<Identifier, CopperCapability.Task> entry : copiedTasks.entrySet()) {
 					LOGGER.error("Couldn't load capability {}: {}", entry.getKey(), entry.getValue());
 				}
 				break;

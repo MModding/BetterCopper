@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBind;
 import org.lwjgl.glfw.GLFW;
 
-public class KeyBinds implements ClientElementsInitializer {
+public class BetterCopperKeyBinds implements ClientElementsInitializer {
 
 	public static final KeyBind COPPER_CAPABILITY_KEY = new KeyBind("key.copper_capabilities", GLFW.GLFW_KEY_B, KeyBind.GAMEPLAY_CATEGORY);
 

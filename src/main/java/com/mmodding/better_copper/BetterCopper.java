@@ -21,12 +21,13 @@ public class BetterCopper implements MModdingModInitializer {
 	@Override
 	public List<ElementsInitializer> getElementsInitializers() {
 		List<ElementsInitializer> initializers = new ArrayList<>();
-		initializers.add(new Blocks());
-		initializers.add(new BlockEntities());
-		initializers.add(new Items());
-		initializers.add(new GlintPackViews());
-		initializers.add(new EntityAttributes());
-		initializers.add(new ResourceLoaders());
+		initializers.add(new BetterCopperBlocks());
+		initializers.add(new BetterCopperBlockEntities());
+		initializers.add(new BetterCopperItems());
+		initializers.add(new BetterCopperGlintPackViews());
+		initializers.add(new BetterCopperEntityAttributes());
+		initializers.add(new BetterCopperResourceLoaders());
+		initializers.add(new BetterCopperPacketReceivers());
 		return initializers;
 	}
 

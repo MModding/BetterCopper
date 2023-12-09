@@ -244,20 +244,19 @@ public class CopperCapability {
 		@ShouldNotUse(useInstead = "NetworkSupport#readComplete")
 		public static CopperCapability.Task read(PacketByteBuf buf) {
 			Identifier parent = buf.readNullable(PacketByteBuf::readIdentifier);
-			CopperCapability.Type type = CopperCapability.Type.valueOf(buf.readString());
+			CopperCapability.Type type = buf.readEnumConstant(CopperCapability.Type.class);
 			CopperCapabilityDisplay display = NetworkSupport.readCompleteAsNullable(buf);
-			int level = buf.readInt();
-			int price = buf.readInt();
-			int requiredPower = buf.readInt();
+			int level = buf.readVarInt();
+			int price = buf.readVarInt();
+			int requiredPower = buf.readVarInt();
 			return new CopperCapability.Task(parent, type, display, level, price, requiredPower);
 		}
 
 		@Override
 		public void write(PacketByteBuf buf) {
 			buf.writeNullable(this.parentId, PacketByteBuf::writeIdentifier);
-			buf.writeString(this.capabilityType.name());
+			buf.writeEnumConstant(this.capabilityType);
 			NetworkSupport.writeCompleteAsNullable(this.display, buf);
-			buf.writeNullable(this.display, (current, display) -> display.writeComplete(current));
 			buf.writeVarInt(this.level);
 			buf.writeVarInt(this.price);
 			buf.writeVarInt(this.requiredPower);

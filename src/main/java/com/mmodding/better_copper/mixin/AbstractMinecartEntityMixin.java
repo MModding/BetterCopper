@@ -1,6 +1,6 @@
 package com.mmodding.better_copper.mixin;
 
-import com.mmodding.better_copper.ducks.CopperRailElement;
+import com.mmodding.better_copper.blocks.CopperRailElement;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import org.spongepowered.asm.mixin.Mixin;

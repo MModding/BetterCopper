@@ -1,7 +1,7 @@
 package com.mmodding.better_copper.magneticfield;
 
 import com.mmodding.better_copper.Utils;
-import com.mmodding.better_copper.init.Blocks;
+import com.mmodding.better_copper.init.BetterCopperBlocks;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -23,8 +23,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MagneticField extends WorldBorder {
 
 	public MagneticField(World world, BlockPos blockPos) {
-		Optional<LoopAreaHelper> loopX = Utils.LAH.getNewLoop(world, blockPos, Direction.Axis.X, Blocks.NETHERITE_COATED_GOLD_BLOCK);
-		Optional<LoopAreaHelper> loopZ = Utils.LAH.getNewLoop(world, blockPos, Direction.Axis.Z, Blocks.NETHERITE_COATED_GOLD_BLOCK);
+		Optional<LoopAreaHelper> loopX = Utils.LAH.getNewLoop(world, blockPos, Direction.Axis.X, BetterCopperBlocks.NETHERITE_COATED_GOLD_BLOCK);
+		Optional<LoopAreaHelper> loopZ = Utils.LAH.getNewLoop(world, blockPos, Direction.Axis.Z, BetterCopperBlocks.NETHERITE_COATED_GOLD_BLOCK);
 		if (loopX.isPresent()) {
 			init(loopX.get(), Direction.Axis.X);
 		} else loopZ.ifPresent(loopAreaHelperZ -> init(loopAreaHelperZ, Direction.Axis.Z));

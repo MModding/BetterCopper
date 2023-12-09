@@ -108,13 +108,11 @@ public class CopperCapabilityDisplay implements NetworkSupport {
 	public static CopperCapabilityDisplay read(PacketByteBuf buf) {
 		Text title = buf.readText();
 		Text description = buf.readText();
-		ItemStack itemStack = buf.readItemStack();
-		AdvancementFrame advancementFrame = buf.readEnumConstant(AdvancementFrame.class);
-		int i = buf.readInt();
-		Identifier background = (i & 1) != 0 ? buf.readIdentifier() : null;
-		CopperCapabilityDisplay copperCapabilityDisplay = new CopperCapabilityDisplay(title, description, itemStack, background, advancementFrame);
-		copperCapabilityDisplay.setPos(buf.readFloat(), buf.readFloat());
-		return copperCapabilityDisplay;
+		ItemStack icon = buf.readItemStack();
+		AdvancementFrame frame = buf.readEnumConstant(AdvancementFrame.class);
+		CopperCapabilityDisplay display = new CopperCapabilityDisplay(title, description, icon, buf.readNullable(PacketByteBuf::readIdentifier), frame);
+		display.setPos(buf.readFloat(), buf.readFloat());
+		return display;
 	}
 
 	@Override
@@ -123,14 +121,7 @@ public class CopperCapabilityDisplay implements NetworkSupport {
 		buf.writeText(this.description);
 		buf.writeItemStack(this.icon);
 		buf.writeEnumConstant(this.frame);
-		int i = 0;
-		if (this.background != null) {
-			i |= 1;
-		}
-		buf.writeInt(i);
-		if (this.background != null) {
-			buf.writeIdentifier(this.background);
-		}
+		buf.writeNullable(this.background, PacketByteBuf::writeIdentifier);
 		buf.writeFloat(this.x);
 		buf.writeFloat(this.y);
 	}

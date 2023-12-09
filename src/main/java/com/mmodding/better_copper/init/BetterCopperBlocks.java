@@ -8,7 +8,7 @@ import net.minecraft.block.Oxidizable;
 import net.minecraft.item.ItemGroup;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
-public class Blocks implements ElementsInitializer, ClientElementsInitializer {
+public class BetterCopperBlocks implements ElementsInitializer, ClientElementsInitializer {
 
 	public static final OxidizableCopperCoreBlock COPPER_CORE = new OxidizableCopperCoreBlock(QuiltBlockSettings.copy(net.minecraft.block.Blocks.COPPER_BLOCK), true, ItemGroup.BUILDING_BLOCKS);
 	public static final OxidizableCopperCoreBlock EXPOSED_COPPER_CORE = new OxidizableCopperCoreBlock(Oxidizable.OxidizationLevel.EXPOSED, QuiltBlockSettings.copy(net.minecraft.block.Blocks.EXPOSED_COPPER), true, ItemGroup.BUILDING_BLOCKS);

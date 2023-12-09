@@ -1,4 +1,4 @@
-package com.mmodding.better_copper.ducks;
+package com.mmodding.better_copper.blocks;
 
 public interface CopperRailElement {
 

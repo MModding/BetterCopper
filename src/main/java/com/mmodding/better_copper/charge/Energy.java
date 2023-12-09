@@ -1,7 +1,7 @@
 package com.mmodding.better_copper.charge;
 
 import com.mmodding.better_copper.blocks.entities.CopperCoreBlockEntity;
-import com.mmodding.better_copper.ducks.BetterCopperTags;
+import com.mmodding.better_copper.init.BetterCopperTags;
 import com.mmodding.mmodding_lib.library.tags.MModdingBlockTags;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.particle.ParticleTypes;

@@ -2,7 +2,7 @@ package com.mmodding.better_copper.blocks.entities;
 
 import com.mmodding.better_copper.charge.Energy;
 import com.mmodding.better_copper.charge.GenerationSource;
-import com.mmodding.better_copper.init.BlockEntities;
+import com.mmodding.better_copper.init.BetterCopperBlockEntities;
 import com.mmodding.mmodding_lib.library.tags.MModdingBlockTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -32,7 +32,7 @@ public class CopperCoreBlockEntity extends BlockEntity implements GameEventListe
 	private int energy;
 
 	public CopperCoreBlockEntity(BlockPos blockPos, BlockState blockState) {
-		super(BlockEntities.COPPER_CORE, blockPos, blockState);
+		super(BetterCopperBlockEntities.COPPER_CORE, blockPos, blockState);
 	}
 
 	@Override

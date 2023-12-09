@@ -2,7 +2,7 @@ package com.mmodding.better_copper.mixin.generation;
 
 import com.mmodding.better_copper.charge.Energy;
 import com.mmodding.better_copper.charge.GenerationSource;
-import com.mmodding.better_copper.init.Blocks;
+import com.mmodding.better_copper.init.BetterCopperBlocks;
 import com.mmodding.better_copper.mixin.EntityMixin;
 import com.mmodding.mmodding_lib.library.utils.TickOperations;
 import net.minecraft.block.BlockState;
@@ -25,7 +25,7 @@ public abstract class FallingBlockEntityMixin extends EntityMixin implements Tic
 
 	@Inject(method = "tick", at = @At("HEAD"))
 	private void injectTick(CallbackInfo ci) {
-		if (this.block.getBlock() == Blocks.NETHERITE_COATED_GOLD_BLOCK) {
+		if (this.block.getBlock() == BetterCopperBlocks.NETHERITE_COATED_GOLD_BLOCK) {
 			this.checkTickForOperation(20, () -> Energy.addEnergyToPowerBlock(
 					this.world, this.getBlockPos(), GenerationSource.FALLING, this.getBlockPos().up()
 			));

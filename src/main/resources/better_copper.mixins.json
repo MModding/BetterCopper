@@ -6,6 +6,8 @@
   "mixins": [
     "AbstractMinecartEntityMixin",
     "EntityMixin",
+    "PlayerManagerMixin",
+    "ServerPlayerEntityMixin",
     "accessors.AreaHelperAccessor",
     "accessors.EntityAttributesAccessor",
     "accessors.LightningEntityAccessor",
@@ -25,6 +27,7 @@
     "observing.OpenSmithingTableMixin"
   ],
   "client": [
+    "ClientPlayNetworkHandlerMixin",
     "WorldRendererMixin",
     "accessors.RenderLayerAccessor",
     "accessors.RenderPhaseAccessor"

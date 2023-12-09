@@ -1,6 +1,5 @@
 package com.mmodding.better_copper.blocks;
 
-import com.mmodding.better_copper.ducks.CopperRailElement;
 import com.mmodding.mmodding_lib.library.blocks.BlockRegistrable;
 import com.mmodding.mmodding_lib.library.blocks.BlockWithItem;
 import net.minecraft.block.RailBlock;

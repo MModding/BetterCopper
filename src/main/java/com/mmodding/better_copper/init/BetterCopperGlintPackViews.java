@@ -6,7 +6,7 @@ import com.mmodding.mmodding_lib.library.glint.DynamicGlintPackView;
 import com.mmodding.mmodding_lib.library.glint.GlintPackView;
 import com.mmodding.mmodding_lib.library.initializers.ElementsInitializer;
 
-public class GlintPackViews implements ElementsInitializer {
+public class BetterCopperGlintPackViews implements ElementsInitializer {
 
 	public static final GlintPackView COPPER_CLINT = new DynamicGlintPackView(stack -> Charge.isCharged(stack) ? BetterCopper.createId("copper_clint") : BetterCopper.createId("null"));
 

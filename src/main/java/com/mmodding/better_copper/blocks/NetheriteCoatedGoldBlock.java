@@ -1,6 +1,6 @@
 package com.mmodding.better_copper.blocks;
 
-import com.mmodding.better_copper.ducks.WorldAccessAccess;
+import com.mmodding.better_copper.ducks.WorldAccessDuckInterface;
 import com.mmodding.better_copper.magneticfield.MagneticField;
 import com.mmodding.mmodding_lib.library.blocks.CustomFallingBlock;
 import net.minecraft.block.AbstractBlock;
@@ -40,7 +40,7 @@ public class NetheriteCoatedGoldBlock extends CustomFallingBlock {
 	@Override
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
 		super.onBlockAdded(state, world, pos, oldState, notify);
-		world.getBlockTickScheduler().scheduleTick(((WorldAccessAccess) world).better_copper$callCreateTick(pos, this, 2));
+		world.getBlockTickScheduler().scheduleTick(((WorldAccessDuckInterface) world).better_copper$callCreateTick(pos, this, 2));
 	}
 
 	@Override

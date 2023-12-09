@@ -2,7 +2,7 @@ package com.mmodding.better_copper.blocks;
 
 import com.mmodding.better_copper.blocks.entities.CopperCoreBlockEntity;
 import com.mmodding.better_copper.charge.Charge;
-import com.mmodding.better_copper.ducks.BetterCopperTags;
+import com.mmodding.better_copper.init.BetterCopperTags;
 import com.mmodding.mmodding_lib.library.blocks.BlockRegistrable;
 import com.mmodding.mmodding_lib.library.blocks.BlockWithItem;
 import com.mmodding.mmodding_lib.library.blocks.CustomBlockWithEntity;
