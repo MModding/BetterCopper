@@ -1,17 +1,15 @@
 package com.mmodding.better_copper.copper_capabilities.client.gui;
 
 import com.google.common.collect.Maps;
+import com.mmodding.better_copper.BetterCopper;
 import com.mmodding.better_copper.BetterCopperPackets;
 import com.mmodding.better_copper.copper_capabilities.CopperCapability;
 import com.mmodding.better_copper.copper_capabilities.client.ClientCopperCapabilitiesManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.ChatNarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.c2s.play.AdvancementTabC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -24,7 +22,7 @@ import java.util.Map;
 @ClientOnly
 public class CopperCapabilityScreen extends Screen implements ClientCopperCapabilitiesManager.Listener {
 
-	private static final Identifier WINDOW_TEXTURE = new Identifier("textures/gui/advancements/window.png");
+	private static final Identifier WINDOW_TEXTURE = BetterCopper.createId("textures/gui/copper_capabilities/window.png");
 	private static final Identifier TABS_TEXTURE = new Identifier("textures/gui/advancements/tabs.png");
 	private static final Text CAPABILITIES_TEXT = Text.translatable("gui.copper_capabilities");
 	private static final Text EMPTY_TEXT = Text.translatable("copper_capabilities.better_copper.empty");
@@ -56,7 +54,7 @@ public class CopperCapabilityScreen extends Screen implements ClientCopperCapabi
 	@Override
 	public void removed() {
 		this.copperCapabilitiesHandler.setListener(null);
-        assert this.client != null;
+		assert this.client != null;
 		ClientPlayNetworking.send(BetterCopperPackets.C2S_CLOSE_COPPER_CAPABILITIES_TAB, PacketByteBufs.empty());
 	}
 
@@ -68,7 +66,7 @@ public class CopperCapabilityScreen extends Screen implements ClientCopperCapabi
 
 			for (CopperCapabilityTab copperCapabilityTab : this.tabs.values()) {
 				if (copperCapabilityTab.isClickOnTab(i, j, mouseX, mouseY)) {
-					// this.copperCapabilitiesHandler.selectTab(copperCapabilityTab.getRoot(), true);
+					this.copperCapabilitiesHandler.selectTab(copperCapabilityTab.getRoot(), true);
 					break;
 				}
 			}
@@ -79,8 +77,8 @@ public class CopperCapabilityScreen extends Screen implements ClientCopperCapabi
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        assert this.client != null;
-        if (this.client.options.advancementsKey.matchesKey(keyCode, scanCode)) {
+		assert this.client != null;
+		if (this.client.options.advancementsKey.matchesKey(keyCode, scanCode)) {
 			this.client.setScreen(null);
 			this.client.mouse.lockCursor();
 			return true;
@@ -192,7 +190,8 @@ public class CopperCapabilityScreen extends Screen implements ClientCopperCapabi
 	}
 
 	@Override
-	public void onRootRemoved(CopperCapability root) {}
+	public void onRootRemoved(CopperCapability root) {
+	}
 
 	@Override
 	public void onDependentAdded(CopperCapability dependent) {
@@ -203,7 +202,8 @@ public class CopperCapabilityScreen extends Screen implements ClientCopperCapabi
 	}
 
 	@Override
-	public void onDependentRemoved(CopperCapability dependent) {}
+	public void onDependentRemoved(CopperCapability dependent) {
+	}
 
 	@Override
 	public void selectTab(@Nullable CopperCapability copperCapability) {

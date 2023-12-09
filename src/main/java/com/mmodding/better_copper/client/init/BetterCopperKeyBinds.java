@@ -7,7 +7,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class BetterCopperKeyBinds implements ClientElementsInitializer {
 
-	public static final KeyBind COPPER_CAPABILITY_KEY = new KeyBind("key.copper_capabilities", GLFW.GLFW_KEY_B, KeyBind.GAMEPLAY_CATEGORY);
+	public static final KeyBind COPPER_CAPABILITY_KEY = new KeyBind("key.copper_capabilities", GLFW.GLFW_KEY_C, KeyBind.MISC_CATEGORY);
 
 	@Override
 	public void registerClient() {
