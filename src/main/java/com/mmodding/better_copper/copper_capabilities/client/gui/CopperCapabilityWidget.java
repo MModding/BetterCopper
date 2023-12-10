@@ -7,7 +7,6 @@ import net.minecraft.advancement.AdvancementProgress;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextHandler;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.screen.advancement.AdvancementObtainedStatus;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.*;
@@ -124,18 +123,18 @@ public class CopperCapabilityWidget extends DrawableHelper {
 
 	public void renderWidgets(MatrixStack matrices, int x, int y) {
 		// if (this.progress != null && this.progress.isDone()) {
-			// float f = this.progress == null ? 0.0F : this.progress.getProgressBarPercentage();
-			AdvancementObtainedStatus advancementObtainedStatus;
-			// if (f >= 1.0F) {
-			// 	advancementObtainedStatus = AdvancementObtainedStatus.OBTAINED;
-			// } else {
-			advancementObtainedStatus = AdvancementObtainedStatus.UNOBTAINED;
-			// }
+		// float f = this.progress == null ? 0.0F : this.progress.getProgressBarPercentage();
+		CopperCapabilityStatus copperCapabilityStatus;
+		// if (f >= 1.0F) {
+		// 	copperCapabilityStatus = CopperCapabilityStatus.CLEARED;
+		// } else {
+		copperCapabilityStatus = CopperCapabilityStatus.OXIDIZED;
+		// }
 
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
-			RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
-			this.drawTexture(matrices, x + this.x + 3, y + this.y, this.display.getFrame().getTextureV(), 128 + advancementObtainedStatus.getSpriteIndex() * 26, 26, 26);
-			this.client.getItemRenderer().renderInGui(this.display.getIcon(), x + this.x + 8, y + this.y + 5);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
+		this.drawTexture(matrices, x + this.x + 3, y + this.y, this.display.getFrame().getTextureV(), 128 + copperCapabilityStatus.getSpriteIndex() * 26, 26, 26);
+		this.client.getItemRenderer().renderInGui(this.display.getIcon(), x + this.x + 8, y + this.y + 5);
 		// }
 
 		for (CopperCapabilityWidget copperCapabilityWidget : this.children) {
@@ -162,28 +161,28 @@ public class CopperCapabilityWidget extends DrawableHelper {
 		boolean bl2 = 113 - originY - this.y - 26 <= 6 + this.description.size() * 9;
 		float f = this.progress == null ? 0.0F : this.progress.getProgressBarPercentage();
 		int j = MathHelper.floor(f * (float) this.width);
-		AdvancementObtainedStatus advancementObtainedStatus;
-		AdvancementObtainedStatus advancementObtainedStatus2;
-		AdvancementObtainedStatus advancementObtainedStatus3;
+		CopperCapabilityStatus copperCapabilityStatus;
+		CopperCapabilityStatus copperCapabilityStatus2;
+		CopperCapabilityStatus copperCapabilityStatus3;
 		if (f >= 1.0F) {
 			j = this.width / 2;
-			advancementObtainedStatus = AdvancementObtainedStatus.OBTAINED;
-			advancementObtainedStatus2 = AdvancementObtainedStatus.OBTAINED;
-			advancementObtainedStatus3 = AdvancementObtainedStatus.OBTAINED;
+			copperCapabilityStatus = CopperCapabilityStatus.CLEARED;
+			copperCapabilityStatus2 = CopperCapabilityStatus.CLEARED;
+			copperCapabilityStatus3 = CopperCapabilityStatus.CLEARED;
 		} else if (j < 2) {
 			j = this.width / 2;
-			advancementObtainedStatus = AdvancementObtainedStatus.UNOBTAINED;
-			advancementObtainedStatus2 = AdvancementObtainedStatus.UNOBTAINED;
-			advancementObtainedStatus3 = AdvancementObtainedStatus.UNOBTAINED;
+			copperCapabilityStatus = CopperCapabilityStatus.OXIDIZED;
+			copperCapabilityStatus2 = CopperCapabilityStatus.OXIDIZED;
+			copperCapabilityStatus3 = CopperCapabilityStatus.OXIDIZED;
 		} else if (j > this.width - 2) {
 			j = this.width / 2;
-			advancementObtainedStatus = AdvancementObtainedStatus.OBTAINED;
-			advancementObtainedStatus2 = AdvancementObtainedStatus.OBTAINED;
-			advancementObtainedStatus3 = AdvancementObtainedStatus.UNOBTAINED;
+			copperCapabilityStatus = CopperCapabilityStatus.CLEARED;
+			copperCapabilityStatus2 = CopperCapabilityStatus.CLEARED;
+			copperCapabilityStatus3 = CopperCapabilityStatus.OXIDIZED;
 		} else {
-			advancementObtainedStatus = AdvancementObtainedStatus.OBTAINED;
-			advancementObtainedStatus2 = AdvancementObtainedStatus.UNOBTAINED;
-			advancementObtainedStatus3 = AdvancementObtainedStatus.UNOBTAINED;
+			copperCapabilityStatus = CopperCapabilityStatus.CLEARED;
+			copperCapabilityStatus2 = CopperCapabilityStatus.OXIDIZED;
+			copperCapabilityStatus3 = CopperCapabilityStatus.OXIDIZED;
 		}
 
 		int k = this.width - j;
@@ -208,10 +207,10 @@ public class CopperCapabilityWidget extends DrawableHelper {
 			}
 		}
 
-		this.drawTexture(matrices, m, l, 0, advancementObtainedStatus.getSpriteIndex() * 26, j, 26);
-		this.drawTexture(matrices, m + j, l, 200 - k, advancementObtainedStatus2.getSpriteIndex() * 26, k, 26);
+		this.drawTexture(matrices, m, l, 0, copperCapabilityStatus.getSpriteIndex() * 26, j, 26);
+		this.drawTexture(matrices, m + j, l, 200 - k, copperCapabilityStatus2.getSpriteIndex() * 26, k, 26);
 		this.drawTexture(
-			matrices, originX + this.x + 3, originY + this.y, this.display.getFrame().getTextureV(), 128 + advancementObtainedStatus3.getSpriteIndex() * 26, 26, 26
+			matrices, originX + this.x + 3, originY + this.y, this.display.getFrame().getTextureV(), 128 + copperCapabilityStatus3.getSpriteIndex() * 26, 26, 26
 		);
 		if (bl) {
 			this.client.textRenderer.drawWithShadow(matrices, this.title, (float) (m + 5), (float) (originY + this.y + 9), -1);
@@ -311,11 +310,11 @@ public class CopperCapabilityWidget extends DrawableHelper {
 
 	public boolean shouldRender(int originX, int originY, int mouseX, int mouseY) {
 		// if (this.progress != null && this.progress.isDone()) {
-			int i = originX + this.x;
-			int j = i + 26;
-			int k = originY + this.y;
-			int l = k + 26;
-			return mouseX >= i && mouseX <= j && mouseY >= k && mouseY <= l;
+		int i = originX + this.x;
+		int j = i + 26;
+		int k = originY + this.y;
+		int l = k + 26;
+		return mouseX >= i && mouseX <= j && mouseY >= k && mouseY <= l;
 		// } else {
 		// 	return false;
 		// }

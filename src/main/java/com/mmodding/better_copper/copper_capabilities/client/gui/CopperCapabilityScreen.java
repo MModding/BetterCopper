@@ -23,7 +23,7 @@ import java.util.Map;
 public class CopperCapabilityScreen extends Screen implements ClientCopperCapabilitiesManager.Listener {
 
 	private static final Identifier WINDOW_TEXTURE = BetterCopper.createId("textures/gui/copper_capabilities/window.png");
-	private static final Identifier TABS_TEXTURE = new Identifier("textures/gui/advancements/tabs.png");
+	private static final Identifier TABS_TEXTURE = BetterCopper.createId("textures/gui/copper_capabilities/tabs.png");
 	private static final Text CAPABILITIES_TEXT = Text.translatable("gui.copper_capabilities");
 	private static final Text EMPTY_TEXT = Text.translatable("copper_capabilities.better_copper.empty");
 	private static final Text TIP_TEXT = Text.translatable("copper_capabilities.better_copper.tip");
