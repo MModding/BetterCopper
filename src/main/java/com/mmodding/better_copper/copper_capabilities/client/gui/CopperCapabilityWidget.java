@@ -2,8 +2,8 @@ package com.mmodding.better_copper.copper_capabilities.client.gui;
 
 import com.mmodding.better_copper.copper_capabilities.CopperCapability;
 import com.mmodding.better_copper.copper_capabilities.CopperCapabilityDisplay;
+import com.mmodding.better_copper.copper_capabilities.CopperCapabilityProgress;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.advancement.AdvancementProgress;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextHandler;
 import net.minecraft.client.gui.DrawableHelper;
@@ -35,7 +35,7 @@ public class CopperCapabilityWidget extends DrawableHelper {
 	private final List<CopperCapabilityWidget> children = new ArrayList<>();
 
 	private @Nullable CopperCapabilityWidget parent;
-	private @Nullable AdvancementProgress progress;
+	private CopperCapabilityProgress progress;
 	private final int x;
 	private final int y;
 
@@ -122,20 +122,12 @@ public class CopperCapabilityWidget extends DrawableHelper {
 	}
 
 	public void renderWidgets(MatrixStack matrices, int x, int y) {
-		// if (this.progress != null && this.progress.isDone()) {
-		// float f = this.progress == null ? 0.0F : this.progress.getProgressBarPercentage();
-		CopperCapabilityStatus copperCapabilityStatus;
-		// if (f >= 1.0F) {
-		// 	copperCapabilityStatus = CopperCapabilityStatus.CLEARED;
-		// } else {
-		copperCapabilityStatus = CopperCapabilityStatus.OXIDIZED;
-		// }
+		CopperCapabilityStatus copperCapabilityStatus = progress.getStatus();
 
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
-		this.drawTexture(matrices, x + this.x + 3, y + this.y, this.display.getFrame().getTextureV(), 128 + copperCapabilityStatus.getSpriteIndex() * 26, 26, 26);
+		this.drawTexture(matrices, x + this.x + 3, y + this.y, this.display.getFrame().getTextureV(), 128 + copperCapabilityStatus.ordinal() * 26, 26, 26);
 		this.client.getItemRenderer().renderInGui(this.display.getIcon(), x + this.x + 8, y + this.y + 5);
-		// }
 
 		for (CopperCapabilityWidget copperCapabilityWidget : this.children) {
 			copperCapabilityWidget.renderWidgets(matrices, x, y);
@@ -146,7 +138,7 @@ public class CopperCapabilityWidget extends DrawableHelper {
 		return this.width;
 	}
 
-	public void setProgress(AdvancementProgress progress) {
+	public void setProgress(CopperCapabilityProgress progress) {
 		this.progress = progress;
 	}
 
@@ -156,10 +148,10 @@ public class CopperCapabilityWidget extends DrawableHelper {
 
 	public void drawTooltip(MatrixStack matrices, int originX, int originY, float alpha, int x, int y) {
 		boolean bl = x + originX + this.x + this.width + 26 >= this.tab.getScreen().width;
-		String string = this.progress == null ? null : this.progress.getProgressBarFraction();
-		int i = string == null ? 0 : this.client.textRenderer.getWidth(string);
+		String string = this.progress.getProgressFraction();
+		int i = this.client.textRenderer.getWidth(string);
 		boolean bl2 = 113 - originY - this.y - 26 <= 6 + this.description.size() * 9;
-		float f = this.progress == null ? 0.0F : this.progress.getProgressBarPercentage();
+		float f = this.progress.getProgressPercentage();
 		int j = MathHelper.floor(f * (float) this.width);
 		CopperCapabilityStatus copperCapabilityStatus;
 		CopperCapabilityStatus copperCapabilityStatus2;
@@ -207,21 +199,17 @@ public class CopperCapabilityWidget extends DrawableHelper {
 			}
 		}
 
-		this.drawTexture(matrices, m, l, 0, copperCapabilityStatus.getSpriteIndex() * 26, j, 26);
-		this.drawTexture(matrices, m + j, l, 200 - k, copperCapabilityStatus2.getSpriteIndex() * 26, k, 26);
+		this.drawTexture(matrices, m, l, 0, copperCapabilityStatus.ordinal() * 26, j, 26);
+		this.drawTexture(matrices, m + j, l, 200 - k, copperCapabilityStatus2.ordinal() * 26, k, 26);
 		this.drawTexture(
-			matrices, originX + this.x + 3, originY + this.y, this.display.getFrame().getTextureV(), 128 + copperCapabilityStatus3.getSpriteIndex() * 26, 26, 26
+			matrices, originX + this.x + 3, originY + this.y, this.display.getFrame().getTextureV(), 128 + copperCapabilityStatus3.ordinal() * 26, 26, 26
 		);
 		if (bl) {
 			this.client.textRenderer.drawWithShadow(matrices, this.title, (float) (m + 5), (float) (originY + this.y + 9), -1);
-			if (string != null) {
-				this.client.textRenderer.drawWithShadow(matrices, string, (float) (originX + this.x - i), (float) (originY + this.y + 9), -1);
-			}
+			this.client.textRenderer.drawWithShadow(matrices, string, (float) (originX + this.x - i), (float) (originY + this.y + 9), -1);
 		} else {
 			this.client.textRenderer.drawWithShadow(matrices, this.title, (float) (originX + this.x + 32), (float) (originY + this.y + 9), -1);
-			if (string != null) {
-				this.client.textRenderer.drawWithShadow(matrices, string, (float) (originX + this.x + this.width - i - 5), (float) (originY + this.y + 9), -1);
-			}
+			this.client.textRenderer.drawWithShadow(matrices, string, (float) (originX + this.x + this.width - i - 5), (float) (originY + this.y + 9), -1);
 		}
 
 		if (bl2) {

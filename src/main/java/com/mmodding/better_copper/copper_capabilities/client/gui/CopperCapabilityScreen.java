@@ -3,7 +3,9 @@ package com.mmodding.better_copper.copper_capabilities.client.gui;
 import com.google.common.collect.Maps;
 import com.mmodding.better_copper.BetterCopper;
 import com.mmodding.better_copper.BetterCopperPackets;
+import com.mmodding.better_copper.client.init.BetterCopperKeyBinds;
 import com.mmodding.better_copper.copper_capabilities.CopperCapability;
+import com.mmodding.better_copper.copper_capabilities.CopperCapabilityProgress;
 import com.mmodding.better_copper.copper_capabilities.client.ClientCopperCapabilitiesManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.Screen;
@@ -78,7 +80,7 @@ public class CopperCapabilityScreen extends Screen implements ClientCopperCapabi
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		assert this.client != null;
-		if (this.client.options.advancementsKey.matchesKey(keyCode, scanCode)) {
+		if (BetterCopperKeyBinds.COPPER_CAPABILITY_KEY.matchesKey(keyCode, scanCode)) {
 			this.client.setScreen(null);
 			this.client.mouse.lockCursor();
 			return true;
@@ -202,6 +204,14 @@ public class CopperCapabilityScreen extends Screen implements ClientCopperCapabi
 
 	@Override
 	public void onDependentRemoved(CopperCapability dependent) {}
+
+	@Override
+	public void setProgress(CopperCapability copperCapability, CopperCapabilityProgress progress) {
+		CopperCapabilityWidget copperCapabilityWidget = this.getCopperCapabilityWidget(copperCapability);
+		if (copperCapabilityWidget != null) {
+			copperCapabilityWidget.setProgress(progress);
+		}
+	}
 
 	@Override
 	public void selectTab(@Nullable CopperCapability copperCapability) {

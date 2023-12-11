@@ -3,6 +3,7 @@ package com.mmodding.better_copper.copper_capabilities.client;
 import com.mmodding.better_copper.BetterCopperPackets;
 import com.mmodding.better_copper.copper_capabilities.CopperCapabilitiesManager;
 import com.mmodding.better_copper.copper_capabilities.CopperCapability;
+import com.mmodding.better_copper.copper_capabilities.CopperCapabilityProgress;
 import com.mmodding.better_copper.ducks.ClientPlayNetworkHandlerDuckInterface;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
@@ -32,8 +33,7 @@ public class ClientCopperCapabilitiesManager {
 	public static ClientCopperCapabilitiesManager getInstance() {
 		if (MinecraftClient.getInstance().getNetworkHandler() != null) {
 			return ((ClientPlayNetworkHandlerDuckInterface) MinecraftClient.getInstance().getNetworkHandler()).better_copper$getCopperCapabilitiesManager();
-		}
-		else {
+		} else {
 			throw new RuntimeException("Client Network Handler Was Not Initialized");
 		}
 	}
@@ -76,6 +76,7 @@ public class ClientCopperCapabilitiesManager {
 
 	@ClientOnly
 	public interface Listener extends CopperCapabilitiesManager.Listener {
+		void setProgress(CopperCapability copperCapability, CopperCapabilityProgress progress);
 
 		void selectTab(@Nullable CopperCapability copperCapability);
 	}
